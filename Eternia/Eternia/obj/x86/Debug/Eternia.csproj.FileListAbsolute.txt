@@ -1,0 +1,6 @@
+c:\users\tommi\documents\visual studio 2010\Projects\Eternia\Eternia\Eternia\bin\x86\Debug\Eternia.exe
+c:\users\tommi\documents\visual studio 2010\Projects\Eternia\Eternia\Eternia\bin\x86\Debug\Eternia.pdb
+c:\users\tommi\documents\visual studio 2010\Projects\Eternia\Eternia\Eternia\obj\x86\Debug\ResolveAssemblyReference.cache
+c:\users\tommi\documents\visual studio 2010\Projects\Eternia\Eternia\Eternia\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+c:\users\tommi\documents\visual studio 2010\Projects\Eternia\Eternia\Eternia\obj\x86\Debug\Eternia.exe
+c:\users\tommi\documents\visual studio 2010\Projects\Eternia\Eternia\Eternia\obj\x86\Debug\Eternia.pdb
