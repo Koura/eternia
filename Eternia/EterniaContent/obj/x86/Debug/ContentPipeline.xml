@@ -7,15 +7,15 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>c:\users\tommi\documents\visual studio 2010\Projects\Eternia\Eternia\EterniaContent\</RootDirectory>
-      <LoggerRootDirectory>c:\users\tommi\documents\visual studio 2010\Projects\Eternia\Eternia\Eternia\</LoggerRootDirectory>
-      <IntermediateDirectory>c:\users\tommi\documents\visual studio 2010\Projects\Eternia\Eternia\EterniaContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>c:\users\tommi\documents\visual studio 2010\Projects\Eternia\Eternia\Eternia\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>H:\eternia\eternia\Eternia\EterniaContent\</RootDirectory>
+      <LoggerRootDirectory>H:\eternia\eternia\Eternia\Eternia\</LoggerRootDirectory>
+      <IntermediateDirectory>H:\eternia\eternia\Eternia\EterniaContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>H:\eternia\eternia\Eternia\Eternia\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2011-10-05T12:34:20.7099609+03:00</Value>
+        <Value>2011-09-02T10:54:56.7497267+03:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>

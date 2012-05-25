@@ -18,6 +18,8 @@ namespace Eternia
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Party party;
+        Hero hero;
 
         private const bool fullScreen = true;
         private const string gameTitle = "Last Dreams of Eternia";
@@ -41,8 +43,11 @@ namespace Eternia
             graphics.PreferredBackBufferHeight = 600;
             graphics.IsFullScreen = fullScreen;
             graphics.ApplyChanges();
-
+            party = new Party();
+            party.addCompany(hero);
+            
             Window.Title = gameTitle;
+
 
             IsMouseVisible = true;
             base.Initialize();
