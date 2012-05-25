@@ -33,12 +33,16 @@ namespace Eternia
 
         public void pushScreen(Screen screen)
         {
+            currentScreen.Enabled = false;
+            currentScreen.Visible = false;
             screens.Push(screen);
         }
 
         public void popScreen()
         {
             screens.Pop();
+            currentScreen.Enabled = true;
+            currentScreen.Visible = true;
         }
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
@@ -58,12 +62,25 @@ namespace Eternia
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-
+            foreach (Screen screen in screens)
+            {
+                if (screen.Enabled)
+                {
+                    screen.Update(gameTime);
+                }
+            }
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
+            foreach (Screen screen in screens)
+            {
+                if (screen.Visible)
+                {
+                    screen.Draw(gameTime);
+                }
+            }
             base.Draw(gameTime);
         }
 

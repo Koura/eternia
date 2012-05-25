@@ -21,7 +21,7 @@ namespace Eternia
         Party party;
         Hero hero;
 
-        private const bool fullScreen = true;
+        private bool fullScreen = true;
         private const string gameTitle = "Last Dreams of Eternia";
 
         public Eternia()
@@ -44,7 +44,7 @@ namespace Eternia
             graphics.IsFullScreen = fullScreen;
             graphics.ApplyChanges();
             party = new Party();
-            party.addCompany(hero);
+            //party.addCompany(hero);
             
             Window.Title = gameTitle;
 
