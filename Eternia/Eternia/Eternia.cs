@@ -21,7 +21,6 @@ namespace Eternia
         Party party;
         Hero hero;
 
-        private bool fullScreen = true;
         private const string gameTitle = "Last Dreams of Eternia";
 
         public Eternia()
@@ -41,7 +40,7 @@ namespace Eternia
             // TODO: Add your initialization logic here
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
-            graphics.IsFullScreen = fullScreen;
+            graphics.IsFullScreen = true;
             graphics.ApplyChanges();
             party = new Party();
             //party.addCompany(hero);
