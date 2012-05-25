@@ -37,12 +37,6 @@ namespace Eternia
             set { inventory = value; }
         }
 
-        public List<Hero> Heroes
-        {
-            get { return heroes; }
-            set { heroes = value; }
-        }
-
         public void addCompany(Hero hero)
         {
             heroes.Add(hero);

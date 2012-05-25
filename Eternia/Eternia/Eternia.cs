@@ -43,8 +43,6 @@ namespace Eternia
             graphics.PreferredBackBufferHeight = 600;
             graphics.IsFullScreen = fullScreen;
             graphics.ApplyChanges();
-            party = new Party();
-            party.addCompany(hero);
             
             Window.Title = gameTitle;
 
