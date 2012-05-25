@@ -34,9 +34,10 @@ namespace Eternia
 
         public Being() {}
 
-        public Being(float maxHealth, float armor, float damage, float experience, Dictionary<string, float> vulnerability, float speed )
+        public Being(Vector3 position,float maxHealth, float armor, float damage, float experience, Dictionary<string, float> vulnerability, float speed )
 
         {
+            this.position = position;
             this.maxHealth = maxHealth;
             this.currentHealth = maxHealth;
             this.armor = armor;

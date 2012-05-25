@@ -87,9 +87,10 @@ namespace Eternia
             get { return level; }
             set { level = value; }
         }
+        public List<Observer> observers;
 
         public Hero(Vector3 position, String name, float maxMana, float strength, float contitution, float endurance, float intelligence, float maxHealth, float armor, float damage, float experience,Dictionary<String, float> vulnerability, String elementType, String damageType, float speed)
-            : base(maxHealth, armor, damage, experience,vulnerability, speed)
+            : base(position, maxHealth, armor, damage, experience,vulnerability, speed)
         {
             this.position = position;
             this.name = name;
@@ -100,6 +101,17 @@ namespace Eternia
             this.endurance = endurance;
             this.intelligence = intelligence;
             this.equipment = new List<Equipment>();
+        }
+
+        public void addObersever(Observer observer) {
+            this.observers.Add(observer);
+        }
+        public void notifyObservers()
+        {
+            foreach (Observer o in observers)
+            {
+                o.update();
+            }
         }
 
     }
