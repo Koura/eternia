@@ -18,8 +18,6 @@ namespace Eternia
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Party party;
-        Hero hero;
 
         private const bool fullScreen = true;
         private const string gameTitle = "Last Dreams of Eternia";

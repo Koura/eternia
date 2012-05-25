@@ -10,3 +10,9 @@ H:\eternia\eternia\Eternia\Eternia\obj\x86\Debug\ResolveAssemblyReference.cache
 H:\eternia\eternia\Eternia\Eternia\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 H:\eternia\eternia\Eternia\Eternia\obj\x86\Debug\Eternia.exe
 H:\eternia\eternia\Eternia\Eternia\obj\x86\Debug\Eternia.pdb
+H:\eternia\Eternia\Eternia\obj\x86\Debug\ResolveAssemblyReference.cache
+H:\eternia\Eternia\Eternia\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+H:\eternia\Eternia\Eternia\obj\x86\Debug\Eternia.exe
+H:\eternia\Eternia\Eternia\obj\x86\Debug\Eternia.pdb
+H:\eternia\Eternia\Eternia\bin\x86\Debug\Eternia.exe
+H:\eternia\Eternia\Eternia\bin\x86\Debug\Eternia.pdb
