@@ -3,20 +3,36 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eternia", "Eternia\Eternia\Eternia.csproj", "{C1CFDFE8-0D7F-486B-9A4E-FF63B8541C59}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "EterniaContent", "Eternia\EterniaContent\EterniaContent.contentproj", "{597983D7-73D1-487E-B814-AB284F86F6DE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3DE11A68-F5ED-4D59-B74A-CA2C2A0CAAC5}"
+	ProjectSection(SolutionItems) = preProject
+		Eternia.vsmdi = Eternia.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
 EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Eternia.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C1CFDFE8-0D7F-486B-9A4E-FF63B8541C59}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{C1CFDFE8-0D7F-486B-9A4E-FF63B8541C59}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{C1CFDFE8-0D7F-486B-9A4E-FF63B8541C59}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{C1CFDFE8-0D7F-486B-9A4E-FF63B8541C59}.Debug|x86.ActiveCfg = Debug|x86
 		{C1CFDFE8-0D7F-486B-9A4E-FF63B8541C59}.Debug|x86.Build.0 = Debug|x86
+		{C1CFDFE8-0D7F-486B-9A4E-FF63B8541C59}.Release|Any CPU.ActiveCfg = Release|x86
+		{C1CFDFE8-0D7F-486B-9A4E-FF63B8541C59}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{C1CFDFE8-0D7F-486B-9A4E-FF63B8541C59}.Release|Mixed Platforms.Build.0 = Release|x86
 		{C1CFDFE8-0D7F-486B-9A4E-FF63B8541C59}.Release|x86.ActiveCfg = Release|x86
 		{C1CFDFE8-0D7F-486B-9A4E-FF63B8541C59}.Release|x86.Build.0 = Release|x86
-		{597983D7-73D1-487E-B814-AB284F86F6DE}.Debug|x86.ActiveCfg = Debug|x86
-		{597983D7-73D1-487E-B814-AB284F86F6DE}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
