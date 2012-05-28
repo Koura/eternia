@@ -17,10 +17,21 @@ namespace Eternia
     public class Eternia : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+<<<<<<< HEAD
+        GraphicsDevice device;
+
         Party party;
         Hero hero;
 
+        ScreenManager view;
+=======
+        SpriteBatch spriteBatch;
+
+<<<<<<< HEAD
+        private const bool fullScreen = true;
+=======
+>>>>>>> 72a766bf19350ac1f05b6af07e7cb8bf1ec756c7
+>>>>>>> 4301a5c91b07449642683421eba177df335f7215
         private const string gameTitle = "Last Dreams of Eternia";
 
         public Eternia()
@@ -42,9 +53,14 @@ namespace Eternia
             graphics.PreferredBackBufferHeight = 600;
             graphics.IsFullScreen = true;
             graphics.ApplyChanges();
+<<<<<<< HEAD
             party = new Party();
             //party.addCompany(hero);
+
+            view = new ScreenManager(this);
+=======
             
+>>>>>>> 4301a5c91b07449642683421eba177df335f7215
             Window.Title = gameTitle;
 
 
@@ -59,7 +75,7 @@ namespace Eternia
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            device = GraphicsDevice;
 
             // TODO: use this.Content to load your game content here
         }
@@ -85,7 +101,8 @@ namespace Eternia
                 this.Exit();
 
             // TODO: Add your update logic here
-
+            view.Update(gameTime);
+            
             base.Update(gameTime);
         }
 
@@ -95,9 +112,14 @@ namespace Eternia
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            RasterizerState rs = new RasterizerState();
+            rs.CullMode = CullMode.None;
+            device.RasterizerState = rs;
+            device.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
 
             // TODO: Add your drawing code here
+
+            view.Draw(gameTime);
 
             base.Draw(gameTime);
         }
