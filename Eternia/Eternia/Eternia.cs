@@ -17,21 +17,16 @@ namespace Eternia
     public class Eternia : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
-<<<<<<< HEAD
+
         GraphicsDevice device;
 
         Party party;
         Hero hero;
 
         ScreenManager view;
-=======
+
         SpriteBatch spriteBatch;
 
-<<<<<<< HEAD
-        private const bool fullScreen = true;
-=======
->>>>>>> 72a766bf19350ac1f05b6af07e7cb8bf1ec756c7
->>>>>>> 4301a5c91b07449642683421eba177df335f7215
         private const string gameTitle = "Last Dreams of Eternia";
 
         public Eternia()
@@ -53,14 +48,10 @@ namespace Eternia
             graphics.PreferredBackBufferHeight = 600;
             graphics.IsFullScreen = true;
             graphics.ApplyChanges();
-<<<<<<< HEAD
             party = new Party();
             //party.addCompany(hero);
 
             view = new ScreenManager(this);
-=======
-            
->>>>>>> 4301a5c91b07449642683421eba177df335f7215
             Window.Title = gameTitle;
 
 

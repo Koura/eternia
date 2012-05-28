@@ -16,3 +16,9 @@ H:\eternia\Eternia\Eternia\obj\x86\Debug\Eternia.exe
 H:\eternia\Eternia\Eternia\obj\x86\Debug\Eternia.pdb
 H:\eternia\Eternia\Eternia\bin\x86\Debug\Eternia.exe
 H:\eternia\Eternia\Eternia\bin\x86\Debug\Eternia.pdb
+H:\testernia\Eternia\Eternia\obj\x86\Debug\ResolveAssemblyReference.cache
+H:\testernia\Eternia\Eternia\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+H:\testernia\Eternia\Eternia\obj\x86\Debug\Eternia.exe
+H:\testernia\Eternia\Eternia\obj\x86\Debug\Eternia.pdb
+H:\testernia\Eternia\Eternia\bin\x86\Debug\Eternia.exe
+H:\testernia\Eternia\Eternia\bin\x86\Debug\Eternia.pdb
