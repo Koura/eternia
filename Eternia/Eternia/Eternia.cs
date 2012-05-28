@@ -49,7 +49,6 @@ namespace Eternia
             //party.addCompany(hero);
 
             view = new ScreenManager(this);
-            MainMenu temp = new MainMenu(this);
             view.pushScreen(new MainMenu(this));
             Window.Title = gameTitle;
 

@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EterniaContent", "Eternia\EterniaContent\EterniaContent.contentproj", "{597983D7-73D1-487E-B814-AB284F86F6DE}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Eternia.vsmdi
@@ -33,6 +35,12 @@ Global
 		{C1CFDFE8-0D7F-486B-9A4E-FF63B8541C59}.Release|Mixed Platforms.Build.0 = Release|x86
 		{C1CFDFE8-0D7F-486B-9A4E-FF63B8541C59}.Release|x86.ActiveCfg = Release|x86
 		{C1CFDFE8-0D7F-486B-9A4E-FF63B8541C59}.Release|x86.Build.0 = Release|x86
+		{597983D7-73D1-487E-B814-AB284F86F6DE}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{597983D7-73D1-487E-B814-AB284F86F6DE}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{597983D7-73D1-487E-B814-AB284F86F6DE}.Debug|x86.ActiveCfg = Debug|x86
+		{597983D7-73D1-487E-B814-AB284F86F6DE}.Release|Any CPU.ActiveCfg = Release|x86
+		{597983D7-73D1-487E-B814-AB284F86F6DE}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{597983D7-73D1-487E-B814-AB284F86F6DE}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
