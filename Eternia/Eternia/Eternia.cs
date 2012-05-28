@@ -22,10 +22,7 @@ namespace Eternia
 
         Party party;
         Hero hero;
-
         ScreenManager view;
-
-        SpriteBatch spriteBatch;
 
         private const string gameTitle = "Last Dreams of Eternia";
 
@@ -46,12 +43,14 @@ namespace Eternia
             // TODO: Add your initialization logic here
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
             graphics.ApplyChanges();
             party = new Party();
             //party.addCompany(hero);
 
             view = new ScreenManager(this);
+            MainMenu temp = new MainMenu(this);
+            view.pushScreen(new MainMenu(this));
             Window.Title = gameTitle;
 
 
@@ -89,10 +88,8 @@ namespace Eternia
         {
             // Allows the game to exit
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                this.Exit();
-
+                this.Exit();            
             // TODO: Add your update logic here
-            view.Update(gameTime);
             
             base.Update(gameTime);
         }
@@ -109,8 +106,6 @@ namespace Eternia
             device.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
 
             // TODO: Add your drawing code here
-
-            view.Draw(gameTime);
 
             base.Draw(gameTime);
         }
