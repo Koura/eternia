@@ -47,7 +47,7 @@ namespace Eternia
         {
             currentScreen.Enabled = false;
             currentScreen.Visible = false;
-            Game.Components.Remove(currentScreen);
+            game.Components.Remove(currentScreen);
             screens.Pop();
             if (screens.Count != 0)
             {
