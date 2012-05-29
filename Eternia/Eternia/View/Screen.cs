@@ -52,6 +52,10 @@ namespace Eternia
         /// Allows the game component to update itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+
+        protected abstract void ProcessInput();
+        
+
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here

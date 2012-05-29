@@ -49,9 +49,15 @@ namespace Eternia
         {
 
         }
-        // Do we need both of these?
+
+        protected override void ProcessInput()
+        {
+
+        }
+
         public override void Update(GameTime gameTime)
         {
+            ProcessInput();
             base.Update(gameTime);
         }
 
