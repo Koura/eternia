@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="View\MainMenu.cs" />
     <Compile Include="Observer.cs" />
+    <Compile Include="View\MenuOption.cs" />
     <Compile Include="ZeWorld\Being.cs" />
     <Compile Include="ZeWorld\Enemy.cs" />
     <Compile Include="ZeWorld\EnemyBoss.cs" />
