@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logic\GameState.cs" />
     <Compile Include="View\MainMenu.cs" />
     <Compile Include="Observer.cs" />
     <Compile Include="View\MenuOption.cs" />

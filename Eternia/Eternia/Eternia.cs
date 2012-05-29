@@ -20,8 +20,6 @@ namespace Eternia
 
         GraphicsDevice device;
 
-        Party party;
-        Hero hero;
         ScreenManager view;
 
         private const string gameTitle = "Last Dreams of Eternia";
@@ -45,8 +43,6 @@ namespace Eternia
             graphics.PreferredBackBufferHeight = 600;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
-            party = new Party();
-            //party.addCompany(hero);
 
             view = new ScreenManager(this);
             view.pushScreen(new MainMenu(this));

@@ -17,13 +17,6 @@ namespace Eternia
     /// </summary>
     public class Hero : Being
     {
-        private Vector3 position;
-
-        public Vector3 Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
         private String name;
 
         public String Name
@@ -89,23 +82,34 @@ namespace Eternia
         }
         public List<Observer> observers;
 
-        public Hero(Vector3 position, String name, float maxMana, float strength, float contitution, float endurance, float intelligence, float maxHealth, float armor, float damage, float experience,Dictionary<String, float> vulnerability, String elementType, String damageType, float speed)
-            : base(position, maxHealth, armor, damage, experience,vulnerability, speed)
+        public Hero(String name)
+            : base()
         {
-            this.position = position;
             this.name = name;
-            this.maxMana = maxMana;
+            this.maxMana = 50;
             this.currentMana = this.maxMana;
-            this.strength = strength;
-            this.contitution = contitution;
-            this.endurance = endurance;
-            this.intelligence = intelligence;
+            this.strength = 10;
+            this.contitution = 10;
+            this.endurance = 10;
+            this.intelligence = 10;
             this.equipment = new List<Equipment>();
+            VulnerabilityCalc();
+        }
+
+        private void VulnerabilityCalc()
+        {
+            vulnerability.Add("physical", (1.0f - ((Armor / 10) / 100)));
+            vulnerability.Add("magic", (1.0f - ((MagicResist / 10) / 100)));
+            vulnerability.Add("fire", 1.0f - ((endurance/5)/100));
+            vulnerability.Add("ice", 1.0f - ((endurance / 5) / 100));
+            vulnerability.Add("lightning", 1.0f - ((endurance / 5) / 100));
+            vulnerability.Add("wind", 1.0f - ((endurance / 5) / 100));
         }
 
         public void addObersever(Observer observer) {
             this.observers.Add(observer);
         }
+
         public void notifyObservers()
         {
             foreach (Observer o in observers)

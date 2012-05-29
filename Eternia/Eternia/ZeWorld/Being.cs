@@ -18,11 +18,57 @@ namespace Eternia
     public  abstract class Being
     {
         private Vector3 position;
+
+        public Vector3 Position
+        {
+            get { return position; }
+            set { position = value; }
+        }
         private float maxHealth;
+
+        public float MaxHealth
+        {
+            get { return maxHealth; }
+            set { maxHealth = value; }
+        }
         private float currentHealth;
+
+        public float CurrentHealth
+        {
+            get { return currentHealth; }
+            set { currentHealth = value; }
+        }
         private float armor;
+
+        public float Armor
+        {
+            get { return armor; }
+            set { armor = value; }
+        }
+
+        private float magicResist;
+
+        public float MagicResist
+        {
+            get { return magicResist; }
+            set { magicResist = value; }
+        }
+
         private float damage;
+
+        public float Damage
+        {
+            get { return damage; }
+            set { damage = value; }
+        }
+
         private float experience;
+
+        public float Experience
+        {
+            get { return experience; }
+            set { experience = value; }
+        }
         
         // ice, water, lightning, wind, physical, magic and values
         public Dictionary<string, float> vulnerability;
@@ -32,33 +78,21 @@ namespace Eternia
 
         private float speed { get; set; }
 
-        public Being() {}
-
-        public Being(Vector3 position,float maxHealth, float armor, float damage, float experience, Dictionary<string, float> vulnerability, float speed )
+        public Being()
 
         {
-            this.position = position;
-            this.maxHealth = maxHealth;
+            this.position = new Vector3(0,0,0);
+            this.maxHealth = 100;
             this.currentHealth = maxHealth;
-            this.armor = armor;
-            this.damage = damage;
-            this.experience = experience;
-            this.vulnerability = vulnerability;
-            this.elementType = "physical";
-            this.damageType = null;
-            this.speed = speed;
+            this.armor = 0;
+            this.damage = 20;
+            this.experience = 0;
+            this.vulnerability = new Dictionary<string,float>();
+            this.elementType = null;
+            this.damageType = "physical";
+            this.speed = 30;
+            this.magicResist = 0;
             
-        }
-
-        public Being(float maxHealth, float armor, float damage, Dictionary<string, float> vulnerability)
-        {
-            this.maxHealth = maxHealth;
-            this.currentHealth = maxHealth;
-            this.armor = armor;
-            this.damage = damage;
-            this.vulnerability = vulnerability;
-            this.elementType = "physical";
-            this.damageType = null;
         }
     }
 }
