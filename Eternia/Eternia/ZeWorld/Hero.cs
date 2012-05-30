@@ -87,7 +87,7 @@ namespace Eternia
             get { return level; }
             set { level = value; }
         }
-        public List<Observer> observers;
+        public List<IObserver> observers;
 
         public Hero(Vector3 position, String name, float maxMana, float strength, float contitution, float endurance, float intelligence, float maxHealth, float armor, float damage, float experience,Dictionary<String, float> vulnerability, String elementType, String damageType, float speed)
             : base(position, maxHealth, armor, damage, experience,vulnerability, speed)
@@ -103,12 +103,12 @@ namespace Eternia
             this.equipment = new List<Equipment>();
         }
 
-        public void addObersever(Observer observer) {
+        public void addObersever(IObserver observer) {
             this.observers.Add(observer);
         }
         public void notifyObservers()
         {
-            foreach (Observer o in observers)
+            foreach (IObserver o in observers)
             {
                 o.update();
             }
