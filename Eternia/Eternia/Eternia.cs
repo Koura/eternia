@@ -44,7 +44,6 @@ namespace Eternia
             graphics.PreferredBackBufferHeight = 600;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
-            party = new Party();
 
             // AudioManager is a Iobserver. Give a Isubject as parameter in constructor. 
             audio = new AudioManager();

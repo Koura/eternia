@@ -15,12 +15,12 @@ namespace Eternia
     public class AudioManager :Microsoft.Xna.Framework.Game, IObserver
     {
         private ISubject observerState;
-        private String mockState;
         private Dictionary<String, SoundEffect> soundEffects;
         private Dictionary<String, Song> music;
         private Song currentlyPlaying;
-        public AudioManager()
+        public AudioManager(GameState gameState)
         {
+            this.observerState = gameState;
             soundEffects = new Dictionary<string, SoundEffect>();
             music = new Dictionary<string, Song>();
         }
