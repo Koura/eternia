@@ -17,6 +17,7 @@ namespace Eternia
     /// </summary>
     public abstract class Screen : Microsoft.Xna.Framework.DrawableGameComponent
     {
+        //interface[] djs
         protected SpriteFont textFont;
         protected SpriteBatch spriteBatch;
         protected Game game;
