@@ -63,6 +63,7 @@ namespace Eternia
 
             if (music.TryGetValue(this.state.getState(), out song))
             {
+<<<<<<< HEAD
                     MediaPlayer.Play(song);
                     currentlyPlaying = song;
             }
@@ -71,6 +72,24 @@ namespace Eternia
                 MediaPlayer.Stop();
             }
 
+=======
+                if (song.Equals(this.currentlyPlaying))
+                    return;
+            }
+            else if (song != null)
+            {
+                MediaPlayer.Play(song);
+            }
+            else
+                MediaPlayer.Stop();
+
+                           
+            // get state from this ISubject (gameState?)
+            // subject -> getState()
+            // if state changed, change music.
+            // get corresponding state music.
+            //playSong(new state)
+>>>>>>> 28a2987a645934d17ca688e419a2d3b05e97b5de
            
         }
     }

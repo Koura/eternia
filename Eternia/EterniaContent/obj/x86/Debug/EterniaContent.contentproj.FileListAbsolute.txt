@@ -1,2 +1,0 @@
-c:\users\tommi\documents\visual studio 2010\Projects\Eternia\Eternia\EterniaContent\obj\x86\Debug\ResolveAssemblyReference.cache
-H:\eternia\Eternia\EterniaContent\obj\x86\Debug\ResolveAssemblyReference.cache

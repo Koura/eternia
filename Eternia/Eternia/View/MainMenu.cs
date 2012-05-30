@@ -78,6 +78,9 @@ namespace Eternia
             //send message to interface
         }
 
+        /*
+         * Can we just leave this like so? Does the gamestate/screenmanager handle things so that only the topmost screen gets to update?
+         */
         public override void Update(GameTime gameTime)
         {
             ProcessInput();
