@@ -58,7 +58,7 @@ namespace Eternia
         {  
             foreach (Keys k in Keyboard.GetState().GetPressedKeys())
             {
-                switch (k) { 
+                switch (k) {
                     case Keys.Up:
                         Console.WriteLine("AAAAAARGH");
                         break;
@@ -95,7 +95,9 @@ namespace Eternia
         {
             spriteBatch.Begin();
 
+
             spriteBatch.Draw(menuarrow, new Rectangle(game.GraphicsDevice.Viewport.Width/3+10,game.GraphicsDevice.Viewport.Height/2-61,menuarrow.Width/16, menuarrow.Height/16), Color.White);
+
             foreach (MenuOption option in menuoptions)
             {
                 spriteBatch.DrawString(option.Font, option.Text, option.Position, option.Colour,

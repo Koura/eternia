@@ -67,7 +67,9 @@ namespace Eternia
             // Create a new SpriteBatch, which can be used to draw textures.
             device = GraphicsDevice;
             Song menuSong = Content.Load<Song>(@"audios\Kalimba");
+            SoundEffect rollEffect = Content.Load<SoundEffect>(@"audios\roll");
             audio.addNewSong("MainMenu", menuSong);
+            audio.addNewSoundEffect("roll", rollEffect); 
             audio.playSong(this.gameState.getState());
             // TODO: use this.Content to load your game content here
         }
@@ -89,7 +91,11 @@ namespace Eternia
         protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            if (Keyboard.GetState().IsKeyDown(Keys.R))
+                audio.playSoundEffect("roll");
+
         }
+        
 
         /// <summary>
         /// This is called when the game should draw itself.

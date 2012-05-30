@@ -70,8 +70,16 @@ namespace Eternia
             {
                 MediaPlayer.Stop();
             }
+        }
+        public void playSoundEffect(String effectName)
+        {
+            SoundEffect effect = null;
 
-           
+            if(soundEffects.TryGetValue(effectName, out effect))
+            {
+                SoundEffectInstance effectInstance = effect.CreateInstance();
+                effectInstance.Play();
+            }
         }
     }
 }
