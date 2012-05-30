@@ -19,7 +19,7 @@ namespace Eternia
         GraphicsDeviceManager graphics;
 
         GraphicsDevice device;
-
+        GameState gameState;
         ScreenManager view;
         AudioManager audio;
 
@@ -29,6 +29,7 @@ namespace Eternia
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
         }
 
         /// <summary>
@@ -44,10 +45,13 @@ namespace Eternia
             graphics.PreferredBackBufferHeight = 600;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
-
             // AudioManager is a Iobserver. Give a Isubject as parameter in constructor. 
-            audio = new AudioManager();
-            
+            this.gameState = new GameState(this);
+            this.gameState.NewGame();
+            this.audio = new AudioManager(this.gameState);
+
+            this.audio.update();
+            this.gameState.attachObserver(audio);
             view = new ScreenManager(this);
             view.pushScreen(new MainMenu(this));
             
@@ -89,13 +93,13 @@ namespace Eternia
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                this.Exit();            
-            // TODO: Add your update logic here
             if (Keyboard.GetState().IsKeyDown(Keys.M))
-                audio.update();
-            base.Update(gameTime);
+                base.Update(gameTime);
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+                gameState.setState("derp");
+
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+                gameState.setState("MainMenu");
         }
 
         /// <summary>

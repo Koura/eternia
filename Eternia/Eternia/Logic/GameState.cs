@@ -15,17 +15,11 @@ namespace Eternia
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class GameState : Microsoft.Xna.Framework.GameComponent, ISubject
+    public class GameState : Microsoft.Xna.Framework.GameComponent, ISubject, IGameState
     {
 
         private Party party;
         private String state;
-
-        public String State
-        {
-            get { return state; }
-            set { state = value; }
-        }
         private String status;
         private List<IObserver> observers;
 
@@ -34,7 +28,7 @@ namespace Eternia
         public GameState(Game game)
             : base(game)
         {
-            // TODO: Construct any child components here
+            observers = new List<IObserver>();
         }
 
         /// <summary>
@@ -51,7 +45,7 @@ namespace Eternia
         public void NewGame()
         {
             party = new Party();
-            State = "world";
+            state = "World";
             status = "outdoors";
             safeZone = false;
         }
@@ -62,7 +56,7 @@ namespace Eternia
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-
+            notify();
             base.Update(gameTime);
         }
         public void attachObserver(IObserver observer)
@@ -80,6 +74,15 @@ namespace Eternia
             foreach(IObserver observer in observers) {
                 observer.update();
             }
+        }
+        public String getState()
+        {
+            return this.state;
+        }
+        public void setState(string state)
+        {
+            this.state = state;
+            notify();
         }
     }
 }
