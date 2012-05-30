@@ -1,0 +1,9 @@
+*.cache
+*.cachefile
+*.suo
+*.bak
+*.user
+Eternia/Eternia/bin/
+Eternia/Eternia/obj/
+Eternia/EterniaContent/bin/
+Eternia/EterniaContent/obj/
