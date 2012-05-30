@@ -45,11 +45,7 @@ namespace Eternia
         public void NewGame()
         {
             party = new Party();
-<<<<<<< HEAD
             state = "MainMenu";
-=======
-            state = "World";
->>>>>>> 28a2987a645934d17ca688e419a2d3b05e97b5de
             status = "outdoors";
             safeZone = false;
         }
@@ -60,11 +56,6 @@ namespace Eternia
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-<<<<<<< HEAD
-            
-=======
-            notify();
->>>>>>> 28a2987a645934d17ca688e419a2d3b05e97b5de
             base.Update(gameTime);
         }
         public void attachObserver(IObserver observer)

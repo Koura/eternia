@@ -99,7 +99,6 @@ namespace Eternia
         {
             if (Keyboard.GetState().IsKeyDown(Keys.M))
                 base.Update(gameTime);
-<<<<<<< HEAD
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 gameState.setState("derp");
@@ -111,14 +110,6 @@ namespace Eternia
             {
                 gameState.setState("MainMenu");
             }
-                
-=======
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-                gameState.setState("derp");
-
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-                gameState.setState("MainMenu");
->>>>>>> 28a2987a645934d17ca688e419a2d3b05e97b5de
         }
 
         /// <summary>
