@@ -27,4 +27,13 @@ H:\eternia\Eternia\Eternia\bin\x86\Debug\Content\images\menuarrow.png
 C:\Users\Tommi\Documents\Visual Studio 2010\Projects\eternia\Eternia\Eternia\bin\x86\Debug\Content\images\menuarrow.xnb
 C:\Users\Tommi\Documents\Visual Studio 2010\Projects\eternia\Eternia\Eternia\bin\x86\Debug\Content\images\menuarrow.png
 C:\Users\Tommi\Documents\Visual Studio 2010\Projects\eternia\Eternia\Eternia\bin\x86\Debug\Content\fonts\menufont.xnb
+H:\eternia\eternia\Eternia\Eternia\bin\x86\Debug\Content\images\menuarrow.xnb
+H:\eternia\eternia\Eternia\Eternia\bin\x86\Debug\Content\fonts\menufont.xnb
+H:\eternia\eternia\Eternia\Eternia\bin\x86\Debug\Content\images\menuarrow.png
+H:\eternia\eternia\Eternia\Eternia\bin\x86\Debug\Content\audios\Dusty1.xnb
+H:\eternia\eternia\Eternia\Eternia\bin\x86\Debug\Content\audios\Kalimba.xnb
+H:\eternia\eternia\Eternia\Eternia\bin\x86\Debug\Content\audios\Kalimba.wma
+H:\eternia\Eternia\Eternia\bin\x86\Debug\Content\audios\Dusty1.xnb
+H:\eternia\Eternia\Eternia\bin\x86\Debug\Content\audios\Kalimba.xnb
+H:\eternia\Eternia\Eternia\bin\x86\Debug\Content\audios\Kalimba.wma
 H:\eternia\Eternia\Eternia\bin\x86\Debug\Content\fonts\menufont.xnb

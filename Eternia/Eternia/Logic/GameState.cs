@@ -18,7 +18,11 @@ namespace Eternia
     public class GameState : Microsoft.Xna.Framework.GameComponent
     {
 
-        Party party;
+        private Party party;
+        private String state;
+        private String status;
+
+        private Boolean safeZone;
 
         public GameState(Game game)
             : base(game)
@@ -40,6 +44,9 @@ namespace Eternia
         public void NewGame()
         {
             party = new Party();
+            state = "world";
+            status = "outdoors";
+            safeZone = false;
         }
         /// <summary>
         /// Allows the game component to update itself.

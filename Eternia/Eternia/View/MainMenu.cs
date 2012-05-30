@@ -67,6 +67,9 @@ namespace Eternia
                     case Keys.X:
                         Game.Exit();
                         break;
+                    /*case Keys.M:
+                        audio.update();
+                        break;*/
                     default:
                         Console.WriteLine(k);
                         break;

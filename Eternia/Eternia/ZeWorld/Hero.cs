@@ -80,7 +80,7 @@ namespace Eternia
             get { return level; }
             set { level = value; }
         }
-        public List<Observer> observers;
+        public List<IObserver> observers;
 
         public Hero(String name)
             : base()
@@ -106,13 +106,13 @@ namespace Eternia
             vulnerability.Add("wind", 1.0f - ((endurance / 5) / 100));
         }
 
-        public void addObersever(Observer observer) {
+        public void addObersever(IObserver observer) {
             this.observers.Add(observer);
         }
 
         public void notifyObservers()
         {
-            foreach (Observer o in observers)
+            foreach (IObserver o in observers)
             {
                 o.update();
             }

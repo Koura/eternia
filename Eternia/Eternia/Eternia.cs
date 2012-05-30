@@ -21,6 +21,7 @@ namespace Eternia
         GraphicsDevice device;
 
         ScreenManager view;
+        AudioManager audio;
 
         private const string gameTitle = "Last Dreams of Eternia";
 
@@ -43,9 +44,13 @@ namespace Eternia
             graphics.PreferredBackBufferHeight = 600;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
-
+            
+            // AudioManager is a Iobserver. Give a Isubject as parameter in constructor. 
+            audio = new AudioManager();
+            
             view = new ScreenManager(this);
             view.pushScreen(new MainMenu(this));
+            
             Window.Title = gameTitle;
 
 
@@ -61,7 +66,10 @@ namespace Eternia
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             device = GraphicsDevice;
-
+            Song menuSong = Content.Load<Song>(@"audios\Kalimba");
+            audio.addNewSong("MainMenu", menuSong);
+            audio.playSong("MainMenu");
+            
             // TODO: use this.Content to load your game content here
         }
 
@@ -81,6 +89,8 @@ namespace Eternia
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.M))
+              { audio.update(); Console.WriteLine("MUSAAAAA!"); }
             base.Update(gameTime);
         }
 

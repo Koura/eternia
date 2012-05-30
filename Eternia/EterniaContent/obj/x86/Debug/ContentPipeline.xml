@@ -19,6 +19,25 @@
       <Output>H:\eternia\Eternia\Eternia\bin\x86\Debug\Content\fonts\menufont.xnb</Output>
       <Time>2012-05-29T12:47:57+03:00</Time>
     </Item>
+    <Item>
+      <Source>audios\Dusty1.wav</Source>
+      <Name>audios\Dusty1</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>H:\eternia\Eternia\Eternia\bin\x86\Debug\Content\audios\Dusty1.xnb</Output>
+      <Time>2012-05-30T13:15:04.724538+03:00</Time>
+    </Item>
+    <Item>
+      <Source>audios\Kalimba.mp3</Source>
+      <Name>audios\Kalimba</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+      <Options>None</Options>
+      <Output>H:\eternia\Eternia\Eternia\bin\x86\Debug\Content\audios\Kalimba.xnb</Output>
+      <Extra>H:\eternia\Eternia\Eternia\bin\x86\Debug\Content\audios\Kalimba.wma</Extra>
+      <Time>2012-05-30T13:15:06.401362+03:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

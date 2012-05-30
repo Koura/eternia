@@ -107,9 +107,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="audio\AudioManager.cs" />
+    <Compile Include="ISubject.cs" />
     <Compile Include="Logic\GameState.cs" />
     <Compile Include="View\MainMenu.cs" />
-    <Compile Include="Observer.cs" />
+    <Compile Include="IObserver.cs" />
     <Compile Include="View\MenuOption.cs" />
     <Compile Include="ZeWorld\Being.cs" />
     <Compile Include="ZeWorld\Enemy.cs" />
