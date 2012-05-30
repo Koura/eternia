@@ -14,7 +14,7 @@ namespace Eternia
 {
     abstract class Enemy : Being
     {
-        public Enemy(Vector3 position, float maxHealth, float armor, float damage, Dictionary<string, float> vulnerability) : base(maxHealth, armor, damage,vulnerability)
+        public Enemy(Vector3 position, float maxHealth, float armor, float damage, Dictionary<string, float> vulnerability) : base()
         {
 
         }

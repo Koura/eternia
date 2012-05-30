@@ -20,8 +20,6 @@ namespace Eternia
 
         GraphicsDevice device;
 
-        Party party;
-        Hero hero;
         ScreenManager view;
         AudioManager audio;
 

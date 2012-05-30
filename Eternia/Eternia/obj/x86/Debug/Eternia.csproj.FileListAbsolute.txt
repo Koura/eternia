@@ -23,14 +23,17 @@ H:\testernia\Eternia\Eternia\obj\x86\Debug\Eternia.pdb
 H:\testernia\Eternia\Eternia\bin\x86\Debug\Eternia.exe
 H:\testernia\Eternia\Eternia\bin\x86\Debug\Eternia.pdb
 H:\eternia\Eternia\Eternia\bin\x86\Debug\Content\images\menuarrow.xnb
-H:\eternia\Eternia\Eternia\bin\x86\Debug\Content\images\arrow.xnb
 H:\eternia\Eternia\Eternia\bin\x86\Debug\Content\images\menuarrow.png
 C:\Users\Tommi\Documents\Visual Studio 2010\Projects\eternia\Eternia\Eternia\bin\x86\Debug\Content\images\menuarrow.xnb
 C:\Users\Tommi\Documents\Visual Studio 2010\Projects\eternia\Eternia\Eternia\bin\x86\Debug\Content\images\menuarrow.png
 C:\Users\Tommi\Documents\Visual Studio 2010\Projects\eternia\Eternia\Eternia\bin\x86\Debug\Content\fonts\menufont.xnb
+<<<<<<< HEAD
 H:\eternia\eternia\Eternia\Eternia\bin\x86\Debug\Content\images\menuarrow.xnb
 H:\eternia\eternia\Eternia\Eternia\bin\x86\Debug\Content\fonts\menufont.xnb
 H:\eternia\eternia\Eternia\Eternia\bin\x86\Debug\Content\images\menuarrow.png
 H:\eternia\eternia\Eternia\Eternia\bin\x86\Debug\Content\audios\Dusty1.xnb
 H:\eternia\eternia\Eternia\Eternia\bin\x86\Debug\Content\audios\Kalimba.xnb
 H:\eternia\eternia\Eternia\Eternia\bin\x86\Debug\Content\audios\Kalimba.wma
+=======
+H:\eternia\Eternia\Eternia\bin\x86\Debug\Content\fonts\menufont.xnb
+>>>>>>> ee1c7d36706c0f22d8168290a239d277d0825397

@@ -7,8 +7,13 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
+<<<<<<< HEAD
       <Output>H:\eternia\eternia\Eternia\Eternia\bin\x86\Debug\Content\images\menuarrow.xnb</Output>
       <Time>2012-05-29T12:52:31.928874+03:00</Time>
+=======
+      <Output>H:\eternia\Eternia\Eternia\bin\x86\Debug\Content\images\menuarrow.xnb</Output>
+      <Time>2012-05-29T12:44:46.179943+03:00</Time>
+>>>>>>> ee1c7d36706c0f22d8168290a239d277d0825397
     </Item>
     <Item>
       <Source>fonts\menufont.spritefont</Source>
@@ -16,6 +21,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
+<<<<<<< HEAD
       <Output>H:\eternia\eternia\Eternia\Eternia\bin\x86\Debug\Content\fonts\menufont.xnb</Output>
       <Time>2012-05-29T12:52:31.904633+03:00</Time>
     </Item>
@@ -37,6 +43,10 @@
       <Output>H:\eternia\eternia\Eternia\Eternia\bin\x86\Debug\Content\audios\Kalimba.xnb</Output>
       <Extra>H:\eternia\eternia\Eternia\Eternia\bin\x86\Debug\Content\audios\Kalimba.wma</Extra>
       <Time>2012-05-29T14:57:06.4071929+03:00</Time>
+=======
+      <Output>H:\eternia\Eternia\Eternia\bin\x86\Debug\Content\fonts\menufont.xnb</Output>
+      <Time>2012-05-29T12:44:46.15537+03:00</Time>
+>>>>>>> ee1c7d36706c0f22d8168290a239d277d0825397
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -44,6 +54,7 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
+<<<<<<< HEAD
       <RootDirectory>H:\eternia\eternia\Eternia\EterniaContent\</RootDirectory>
       <LoggerRootDirectory>H:\eternia\eternia\Eternia\Eternia\</LoggerRootDirectory>
       <IntermediateDirectory>H:\eternia\eternia\Eternia\EterniaContent\obj\x86\Debug\</IntermediateDirectory>
@@ -77,6 +88,41 @@
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
         <Value>2011-05-19T20:38:51.1040444+03:00</Value>
+=======
+      <RootDirectory>H:\eternia\Eternia\EterniaContent\</RootDirectory>
+      <LoggerRootDirectory>H:\eternia\Eternia\Eternia\</LoggerRootDirectory>
+      <IntermediateDirectory>H:\eternia\Eternia\EterniaContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>H:\eternia\Eternia\Eternia\bin\x86\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2010-08-23T13:41:18+03:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
+        <Value>2010-08-23T13:41:18+03:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2010-08-23T13:41:18+03:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2010-08-23T13:41:18+03:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2010-08-23T13:41:18+03:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2010-08-23T13:41:18+03:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2011-11-17T15:07:58.7085127+02:00</Value>
+>>>>>>> ee1c7d36706c0f22d8168290a239d277d0825397
       </Assembly>
     </Assemblies>
   </Asset>

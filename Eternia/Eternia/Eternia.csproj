@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="audio\AudioManager.cs" />
     <Compile Include="ISubject.cs" />
+    <Compile Include="Logic\GameState.cs" />
     <Compile Include="View\MainMenu.cs" />
     <Compile Include="IObserver.cs" />
     <Compile Include="View\MenuOption.cs" />

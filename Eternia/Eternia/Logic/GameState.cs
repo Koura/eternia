@@ -15,16 +15,18 @@ namespace Eternia
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public abstract class Screen : Microsoft.Xna.Framework.DrawableGameComponent
+    public class GameState : Microsoft.Xna.Framework.GameComponent
     {
-        protected SpriteFont textFont;
-        protected SpriteBatch spriteBatch;
-        protected Game game;
 
-         public Screen(Game game)
+        private Party party;
+        private String state;
+        private String status;
+
+        private Boolean safeZone;
+
+        public GameState(Game game)
             : base(game)
         {
-            this.game = game;
             // TODO: Construct any child components here
         }
 
@@ -32,40 +34,29 @@ namespace Eternia
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
-        /// 
-         
         public override void Initialize()
         {
             // TODO: Add your initialization code here
+
             base.Initialize();
         }
 
-        protected override void LoadContent()
-         {
-             spriteBatch = new SpriteBatch(game.GraphicsDevice);
-         }
-
-        protected override void UnloadContent()
+        public void NewGame()
         {
+            party = new Party();
+            state = "world";
+            status = "outdoors";
+            safeZone = false;
         }
         /// <summary>
         /// Allows the game component to update itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-
-        protected abstract void ProcessInput();
-        
-
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
 
             base.Update(gameTime);
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime);
         }
     }
 }
