@@ -53,6 +53,7 @@ namespace Eternia
             if (music.TryGetValue(state, out song))
             {
                 MediaPlayer.Play(song);
+                
                 this.currentlyPlaying = song;
             }
             

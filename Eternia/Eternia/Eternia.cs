@@ -68,8 +68,10 @@ namespace Eternia
             device = GraphicsDevice;
             Song menuSong = Content.Load<Song>(@"audios\Kalimba");
             SoundEffect rollEffect = Content.Load<SoundEffect>(@"audios\roll");
+            SoundEffect laughEffect = Content.Load<SoundEffect>(@"audios\laugh");
             audio.addNewSong("MainMenu", menuSong);
-            audio.addNewSoundEffect("roll", rollEffect); 
+            audio.addNewSoundEffect("roll", rollEffect);
+            audio.addNewSoundEffect("laugh", laughEffect); 
             audio.playSong(this.gameState.getState());
             // TODO: use this.Content to load your game content here
         }
@@ -93,6 +95,8 @@ namespace Eternia
             base.Update(gameTime);
             if (Keyboard.GetState().IsKeyDown(Keys.R))
                 audio.playSoundEffect("roll");
+            if (Keyboard.GetState().IsKeyDown(Keys.Q))
+                audio.playSoundEffect("laugh");
 
         }
         
