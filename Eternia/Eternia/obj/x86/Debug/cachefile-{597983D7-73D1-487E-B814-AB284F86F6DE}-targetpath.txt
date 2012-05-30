@@ -1,6 +1,0 @@
-Content\images\menuarrow.xnb
-Content\fonts\menufont.xnb
-Content\audios\Dusty1.xnb
-Content\audios\Kalimba.xnb
-Content\audios\Kalimba.wma
-Content\images\menuarrow.png
