@@ -15,7 +15,7 @@ namespace Eternia
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class GameState : Microsoft.Xna.Framework.GameComponent, ISubject, IGameState
+    public class GameState : ISubject, IGameState
     {
 
         private Party party;
@@ -25,9 +25,9 @@ namespace Eternia
 
         private Boolean safeZone;
 
-        public GameState(Game game)
-            : base(game)
+        public GameState()
         {
+            state = "MainMenu";
             observers = new List<IObserver>();
         }
 
@@ -35,12 +35,6 @@ namespace Eternia
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
-        public override void Initialize()
-        {
-            // TODO: Add your initialization code here
-
-            base.Initialize();
-        }
 
         public void NewGame()
         {
@@ -53,11 +47,6 @@ namespace Eternia
         /// Allows the game component to update itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public override void Update(GameTime gameTime)
-        {
-            // TODO: Add your update code here
-            base.Update(gameTime);
-        }
         public void attachObserver(IObserver observer)
         {
             observers.Add(observer);

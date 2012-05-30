@@ -46,23 +46,15 @@ namespace Eternia
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
             // AudioManager is a Iobserver. Give a Isubject as parameter in constructor. 
-            this.gameState = new GameState(this);
-<<<<<<< HEAD
+            this.gameState = new GameState();
+            //this.gameState.NewGame();
             this.audio = new AudioManager(this.gameState);
-=======
-            this.gameState.NewGame();
-            this.audio = new AudioManager(this.gameState);
-
-            this.audio.update();
->>>>>>> 28a2987a645934d17ca688e419a2d3b05e97b5de
             this.gameState.attachObserver(audio);
             view = new ScreenManager(this);
             view.pushScreen(new MainMenu(this));
             
             Window.Title = gameTitle;
 
-
-            IsMouseVisible = true;
             base.Initialize();
         }
 
@@ -76,7 +68,6 @@ namespace Eternia
             device = GraphicsDevice;
             Song menuSong = Content.Load<Song>(@"audios\Kalimba");
             audio.addNewSong("MainMenu", menuSong);
-            this.gameState.NewGame();
             audio.playSong(this.gameState.getState());
             // TODO: use this.Content to load your game content here
         }
@@ -97,19 +88,7 @@ namespace Eternia
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.M))
-                base.Update(gameTime);
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                gameState.setState("derp");
-            }
-
-
-
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                gameState.setState("MainMenu");
-            }
+            base.Update(gameTime);
         }
 
         /// <summary>

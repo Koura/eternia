@@ -43,6 +43,10 @@ namespace Eternia
             base.LoadContent();
             menuarrow = game.Content.Load<Texture2D>("images/menuarrow");
             font = game.Content.Load<SpriteFont>("fonts/menufont");
+            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2-40), "New Game", font, Color.White));
+            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2), "Load Game", font, Color.White));
+            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 40), "Options", font, Color.White));
+            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 80), "Exit Game", font, Color.White));
         }
 
         protected override void UnloadContent()
@@ -91,12 +95,12 @@ namespace Eternia
         {
             spriteBatch.Begin();
 
-            /*spriteBatch.Draw(menuarrow, new Rectangle(game.GraphicsDevice.Viewport.Width/3+10,game.GraphicsDevice.Viewport.Height/3-21,menuarrow.Width/16, menuarrow.Height/16), Color.White);
+            spriteBatch.Draw(menuarrow, new Rectangle(game.GraphicsDevice.Viewport.Width/3+10,game.GraphicsDevice.Viewport.Height/2-61,menuarrow.Width/16, menuarrow.Height/16), Color.White);
             foreach (MenuOption option in menuoptions)
             {
                 spriteBatch.DrawString(option.Font, option.Text, option.Position, option.Colour,
                 option.Rotation, option.Size / 2, option.Scale, SpriteEffects.None, 0);
-            }*/
+            }
             
             spriteBatch.End();
             base.Draw(gameTime);
