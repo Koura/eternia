@@ -19,7 +19,7 @@ namespace Eternia
         GraphicsDeviceManager graphics;
 
         GraphicsDevice device;
-
+        GameState gameState;
         ScreenManager view;
         AudioManager audio;
 
@@ -29,6 +29,7 @@ namespace Eternia
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
         }
 
         /// <summary>
@@ -44,10 +45,10 @@ namespace Eternia
             graphics.PreferredBackBufferHeight = 600;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
-
             // AudioManager is a Iobserver. Give a Isubject as parameter in constructor. 
-            audio = new AudioManager();
-            
+            this.gameState = new GameState(this);
+            this.audio = new AudioManager(this.gameState);
+            this.gameState.attachObserver(audio);
             view = new ScreenManager(this);
             view.pushScreen(new MainMenu(this));
             
@@ -68,8 +69,8 @@ namespace Eternia
             device = GraphicsDevice;
             Song menuSong = Content.Load<Song>(@"audios\Kalimba");
             audio.addNewSong("MainMenu", menuSong);
-            audio.playSong("MainMenu");
-            
+            this.gameState.NewGame();
+            audio.playSong(this.gameState.getState());
             // TODO: use this.Content to load your game content here
         }
 
@@ -89,13 +90,20 @@ namespace Eternia
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                this.Exit();            
-            // TODO: Add your update logic here
             if (Keyboard.GetState().IsKeyDown(Keys.M))
-                audio.update();
-            base.Update(gameTime);
+                base.Update(gameTime);
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                gameState.setState("derp");
+            }
+
+
+
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                gameState.setState("MainMenu");
+            }
+                
         }
 
         /// <summary>

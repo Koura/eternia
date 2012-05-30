@@ -14,13 +14,13 @@ namespace Eternia
 {
     public class AudioManager :Microsoft.Xna.Framework.Game, IObserver
     {
-        private ISubject observerState;
+        private IGameState state;
         private Dictionary<String, SoundEffect> soundEffects;
         private Dictionary<String, Song> music;
         private Song currentlyPlaying;
-        public AudioManager(GameState gameState)
+        public AudioManager(IGameState gameState)
         {
-            this.observerState = gameState;
+            this.state = gameState;
             soundEffects = new Dictionary<string, SoundEffect>();
             music = new Dictionary<string, Song>();
         }
@@ -53,17 +53,24 @@ namespace Eternia
             if (music.TryGetValue(state, out song))
             {
                 MediaPlayer.Play(song);
+                this.currentlyPlaying = song;
             }
             
         }
         public void update()
         {
-            
-            // get state from this ISubject (gameState?)
-            // subject -> getState()
-            // if state changed, change music.
-            // get corresponding state music.
-            //playSong(new state)
+            Song song = null;
+
+            if (music.TryGetValue(this.state.getState(), out song))
+            {
+                    MediaPlayer.Play(song);
+                    currentlyPlaying = song;
+            }
+            else
+            {
+                MediaPlayer.Stop();
+            }
+
            
         }
     }

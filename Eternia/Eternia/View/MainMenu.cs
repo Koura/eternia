@@ -22,10 +22,13 @@ namespace Eternia
         SpriteFont font;
         private List<MenuOption> menuoptions = new List<MenuOption>();
 
+        
+
         public MainMenu(Game game)
             : base(game)
         {         
-            // Do we actually need this constructor?
+            // send message "menu"
+            // dj.playdatfunkysong("menu"); somewhere else?
         }
 
         public override void Initialize()
@@ -40,9 +43,6 @@ namespace Eternia
             base.LoadContent();
             menuarrow = game.Content.Load<Texture2D>("images/menuarrow");
             font = game.Content.Load<SpriteFont>("fonts/menufont");
-            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/3), "New Game", font, Color.WhiteSmoke));
-            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, (game.GraphicsDevice.Viewport.Height /3) +40), "Options", font, Color.WhiteSmoke));
-            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, (game.GraphicsDevice.Viewport.Height / 3) + 80), "Quit", font, Color.WhiteSmoke));
         }
 
         protected override void UnloadContent()
@@ -51,8 +51,31 @@ namespace Eternia
         }
 
         protected override void ProcessInput()
-        {
-
+        {  
+            foreach (Keys k in Keyboard.GetState().GetPressedKeys())
+            {
+                switch (k) { 
+                    case Keys.Up:
+                        Console.WriteLine("AAAAAARGH");
+                        break;
+                    case Keys.Down:
+                        Console.WriteLine("ZALGOOOOO");
+                        break;
+                    case Keys.Escape:
+                        Console.WriteLine("OH NOESSS");
+                        break;
+                    case Keys.X:
+                        Game.Exit();
+                        break;
+                    /*case Keys.M:
+                        audio.update();
+                        break;*/
+                    default:
+                        Console.WriteLine(k);
+                        break;
+                }
+            }
+            //send message to interface
         }
 
         public override void Update(GameTime gameTime)
@@ -65,12 +88,13 @@ namespace Eternia
         {
             spriteBatch.Begin();
 
-            spriteBatch.Draw(menuarrow, new Rectangle(game.GraphicsDevice.Viewport.Width/3+10,game.GraphicsDevice.Viewport.Height/3-21,menuarrow.Width/16, menuarrow.Height/16), Color.White);
+            /*spriteBatch.Draw(menuarrow, new Rectangle(game.GraphicsDevice.Viewport.Width/3+10,game.GraphicsDevice.Viewport.Height/3-21,menuarrow.Width/16, menuarrow.Height/16), Color.White);
             foreach (MenuOption option in menuoptions)
             {
                 spriteBatch.DrawString(option.Font, option.Text, option.Position, option.Colour,
                 option.Rotation, option.Size / 2, option.Scale, SpriteEffects.None, 0);
-            }
+            }*/
+            
             spriteBatch.End();
             base.Draw(gameTime);
         }
