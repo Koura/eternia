@@ -14,15 +14,15 @@ namespace Eternia
 {
     class EnemyFactory
     {
-        public static EnemyBoss createBoss(Vector3 position, float maxHealth, float armor, float damage, Dictionary<string, float> vulnerability)
+        public static EnemyBoss createBoss(String name,Vector3 position, float maxHealth, float armor, float damage)
         {
-            return new EnemyBoss(position, maxHealth, armor, damage, vulnerability);
+            return new EnemyBoss(name,position, maxHealth, armor, damage);
         }
-        public static EnemySoldier createSoldier(Vector3 position, float maxHealth, float armor, float damage, Dictionary<string, float> vulnerability)
+        public static EnemySoldier createSoldier(String name,Vector3 position, float maxHealth, float armor, float damage)
         {
-            return new EnemySoldier(position, maxHealth, armor, damage, vulnerability);
+            return new EnemySoldier(name,position, maxHealth, armor, damage);
         }
-
+       
 
     }
 }

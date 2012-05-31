@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Eternia.View;
 
 
 namespace Eternia
@@ -19,8 +20,19 @@ namespace Eternia
     {
        
         Texture2D menuarrow;
+        int arrowXpos;
+        int arrowYpos;
+        
+        int arrowOffset;
+        float[] optionsYpos;
         SpriteFont font;
         private List<MenuOption> menuoptions = new List<MenuOption>();
+
+        internal List<MenuOption> Menuoptions
+        {
+            get { return menuoptions; }
+            set { menuoptions = value; }
+        }
 
         
 
@@ -35,6 +47,16 @@ namespace Eternia
 
         {
             // Do our MainMenu component creation magicks here
+            
+            arrowXpos = game.GraphicsDevice.Viewport.Width/3+1;
+            ArrowOnOption = 0;
+            optionsYpos = new float[4];
+            arrowYpos = (int)optionsYpos[ArrowOnOption];
+            optionsYpos[0] = game.GraphicsDevice.Viewport.Height / 2 - 40;
+            optionsYpos[1] = game.GraphicsDevice.Viewport.Height / 2;
+            optionsYpos[2] = game.GraphicsDevice.Viewport.Height / 2 + 40;
+            optionsYpos[3] = game.GraphicsDevice.Viewport.Height / 2 + 80;
+            arrowOffset = -20;
             base.Initialize();
         }
 
@@ -43,10 +65,10 @@ namespace Eternia
             base.LoadContent();
             menuarrow = game.Content.Load<Texture2D>("images/menuarrow");
             font = game.Content.Load<SpriteFont>("fonts/menufont");
-            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2-40), "New Game", font, Color.White));
-            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2), "Load Game", font, Color.White));
-            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 40), "Options", font, Color.White));
-            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 80), "Exit Game", font, Color.White));
+            Menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, optionsYpos[0]), "New Game", font, Color.White));
+            Menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, optionsYpos[1]), "Load Game", font, Color.White));
+            Menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, optionsYpos[2]), "Options", font, Color.White));
+            Menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, optionsYpos[3]), "Exit Game", font, Color.White));
         }
 
         protected override void UnloadContent()
@@ -54,40 +76,13 @@ namespace Eternia
 
         }
 
-        protected override void ProcessInput()
-        {  
-            foreach (Keys k in Keyboard.GetState().GetPressedKeys())
-            {
-                switch (k) {
-                    case Keys.Up:
-                        Console.WriteLine("AAAAAARGH");
-                        break;
-                    case Keys.Down:
-                        Console.WriteLine("ZALGOOOOO");
-                        break;
-                    case Keys.Escape:
-                        Console.WriteLine("OH NOESSS");
-                        break;
-                    case Keys.X:
-                        Game.Exit();
-                        break;
-                    /*case Keys.M:
-                        audio.update();
-                        break;*/
-                    default:
-                        Console.WriteLine(k);
-                        break;
-                }
-            }
-            //send message to interface
-        }
+       
 
         /*
          * Can we just leave this like so? Does the gamestate/screenmanager handle things so that only the topmost screen gets to update?
          */
         public override void Update(GameTime gameTime)
         {
-            ProcessInput();
             base.Update(gameTime);
         }
 
@@ -96,9 +91,9 @@ namespace Eternia
             spriteBatch.Begin();
 
 
-            spriteBatch.Draw(menuarrow, new Rectangle(game.GraphicsDevice.Viewport.Width/3+10,game.GraphicsDevice.Viewport.Height/2-61,menuarrow.Width/16, menuarrow.Height/16), Color.White);
+            spriteBatch.Draw(menuarrow, new Rectangle(arrowXpos,(int)optionsYpos[ArrowOnOption]+ arrowOffset,menuarrow.Width/16, menuarrow.Height/16), Color.White);
 
-            foreach (MenuOption option in menuoptions)
+            foreach (MenuOption option in Menuoptions)
             {
                 spriteBatch.DrawString(option.Font, option.Text, option.Position, option.Colour,
                 option.Rotation, option.Size / 2, option.Scale, SpriteEffects.None, 0);

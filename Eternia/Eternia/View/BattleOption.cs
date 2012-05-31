@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -9,21 +8,29 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Eternia.View;
 
-namespace Eternia
+
+namespace Eternia.View
 {
-    class MenuOption: IOption
+    /// <summary>
+    /// This is a game component that implements IUpdateable.
+    /// </summary>
+    public class BattleOption : IOption
     {
+        public BattleOption(Game game)
+            
+        {
+            // TODO: Construct any child components here
+        }
         private Color colour;
 
         public Color Colour
         {
-            get { return colour;  }
+            get { return colour; }
             set { colour = value; }
         }
         private Vector2 position;
-        
+
         public Vector2 Position
         {
             get { return position; }
@@ -65,18 +72,6 @@ namespace Eternia
         {
             get { return size; }
             set { size = value; }
-        }
-
-        public MenuOption(Vector2 position,string text,SpriteFont font,Color colour)
-        {
-            Position = position;
-            Text = text;
-            Font = font;
-            Colour = colour;
-
-            Scale = 1.0f;
-            Rotation = 0.0f;           
-            Size = font.MeasureString(Text);
         }
     }
 }

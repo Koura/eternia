@@ -21,6 +21,13 @@ namespace Eternia
         protected SpriteFont textFont;
         protected SpriteBatch spriteBatch;
         protected Game game;
+        private int arrowOnOption;
+
+        public int ArrowOnOption
+        {
+            get { return arrowOnOption; }
+            set { arrowOnOption = value; }
+        }
 
          public Screen(Game game)
             : base(game)
@@ -54,8 +61,6 @@ namespace Eternia
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
 
-        protected abstract void ProcessInput();
-        
 
         public override void Update(GameTime gameTime)
         {

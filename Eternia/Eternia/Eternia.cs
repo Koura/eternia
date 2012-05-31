@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Eternia.View;
+using Eternia.Logic;
 
 namespace Eternia
 {
@@ -17,12 +19,13 @@ namespace Eternia
     public class Eternia : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
-
         GraphicsDevice device;
         GameState gameState;
         ScreenManager view;
         AudioManager audio;
-
+        IinputManager inputManager;
+        Party party;
+        
         private const string gameTitle = "Last Dreams of Eternia";
 
         public Eternia()
@@ -52,6 +55,9 @@ namespace Eternia
             this.gameState.attachObserver(audio);
             view = new ScreenManager(this);
             view.pushScreen(new MainMenu(this));
+            inputManager = new InputManager(this, gameState);
+            party = new Party();
+            party.addCompany(new Hero("Taistelu-Jaska"));
             
             Window.Title = gameTitle;
 
@@ -92,12 +98,52 @@ namespace Eternia
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-            if (Keyboard.GetState().IsKeyDown(Keys.R))
-                audio.playSoundEffect("roll");
-            if (Keyboard.GetState().IsKeyDown(Keys.Q))
-                audio.playSoundEffect("laugh");
+            String option = checkPlayerOption(gameTime);
+            option = processPlayerOption(option);
 
+            if (option.Equals("Battle"))
+            {
+                initNewBattle();
+                option = "";
+
+            }
+            base.Update(gameTime);
+
+        }
+
+        private String checkPlayerOption(GameTime gameTime)
+        {
+            inputManager.ProcessInput(gameTime);
+             Screen screen = view.currentScreen;
+             screen.ArrowOnOption = inputManager.ArrowOnOption;
+            String option = inputManager.PlayerOption;
+            return option;
+            
+            
+        }
+
+        private String processPlayerOption(string option)
+        {
+            switch(option)
+            {
+                case "newGame":
+                    {
+                        inputManager.PlayerOption = "";
+                        return "Battle";
+                    }
+                default :
+                    return "";
+                    
+            }
+        }
+
+        private void initNewBattle()
+        {
+            BattleMenu battleMenu = new BattleMenu(this);
+            view.pushScreen(battleMenu);
+            gameState.setState("Battle");
+            Battle battle = new Battle(party.Heroes);
+            Console.WriteLine("initializing new Battle");
         }
         
 
@@ -113,6 +159,8 @@ namespace Eternia
             device.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
 
             // TODO: Add your drawing code here
+            Screen screen = view.currentScreen;
+            screen.Draw(gameTime);
 
             base.Draw(gameTime);
         }

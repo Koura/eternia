@@ -109,8 +109,14 @@
   <ItemGroup>
     <Compile Include="audio\AudioManager.cs" />
     <Compile Include="ISubject.cs" />
+    <Compile Include="Logic\Battle.cs" />
     <Compile Include="Logic\GameState.cs" />
     <Compile Include="Logic\IGameState.cs" />
+    <Compile Include="View\BattleMenu.cs" />
+    <Compile Include="View\BattleOption.cs" />
+    <Compile Include="View\IinputManager.cs" />
+    <Compile Include="View\InputManager.cs" />
+    <Compile Include="View\IOption.cs" />
     <Compile Include="View\MainMenu.cs" />
     <Compile Include="IObserver.cs" />
     <Compile Include="View\MenuOption.cs" />
@@ -119,7 +125,7 @@
     <Compile Include="ZeWorld\EnemyBoss.cs" />
     <Compile Include="ZeWorld\EnemyFactory.cs" />
     <Compile Include="ZeWorld\EnemySoldier.cs" />
-    <Compile Include="ZeWorld\Equipment.cs" />
+    <Compile Include="ZeWorld\IEquipment.cs" />
     <Compile Include="ZeWorld\Hero.cs" />
     <Compile Include="Party.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -127,6 +133,7 @@
     <Compile Include="Eternia.cs" />
     <Compile Include="View\Screen.cs" />
     <Compile Include="View\ScreenManager.cs" />
+    <Compile Include="ZeWorld\Iitem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
