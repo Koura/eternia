@@ -104,7 +104,7 @@ namespace Eternia
             spriteBatch.Begin();
             spriteBatch.Draw(background, new Rectangle(0, 0, 800, 600), Color.SteelBlue);
             spriteBatch.Draw(title, new Rectangle(10,0, title.Width, title.Height), Color.White);
-            //spriteBatch.Draw(menuarrow, arrowposi, Color.White);
+            spriteBatch.Draw(menuarrow, arrowposi, Color.White);
             
             foreach (MenuOption option in menuoptions)
             {
