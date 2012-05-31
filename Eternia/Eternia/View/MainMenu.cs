@@ -17,8 +17,10 @@ namespace Eternia
     /// </summary>
     public class MainMenu : Screen
     {
-       
+        Rectangle arrowposi;
         Texture2D menuarrow;
+        Texture2D background;
+        Texture2D title;
         SpriteFont font;
         private List<MenuOption> menuoptions = new List<MenuOption>();
 
@@ -42,11 +44,14 @@ namespace Eternia
         {
             base.LoadContent();
             menuarrow = game.Content.Load<Texture2D>("images/menuarrow");
+            background = game.Content.Load<Texture2D>("images/background");
             font = game.Content.Load<SpriteFont>("fonts/menufont");
+            title = game.Content.Load<Texture2D>("images/menutxt");
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2-40), "New Game", font, Color.White));
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2), "Load Game", font, Color.White));
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 40), "Options", font, Color.White));
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 80), "Exit Game", font, Color.White));
+            arrowposi = new Rectangle(game.GraphicsDevice.Viewport.Width / 3 + 10, game.GraphicsDevice.Viewport.Height / 2 - 61, menuarrow.Width / 16, menuarrow.Height / 16);
         }
 
         protected override void UnloadContent()
@@ -60,20 +65,23 @@ namespace Eternia
             {
                 switch (k) {
                     case Keys.Up:
-                        Console.WriteLine("AAAAAARGH");
+                        if (arrowposi.Y > game.GraphicsDevice.Viewport.Height / 2 - 40)
+                        {
+                            arrowposi.Y -= 40;
+                        }
                         break;
                     case Keys.Down:
-                        Console.WriteLine("ZALGOOOOO");
+                        if (arrowposi.Y <= game.GraphicsDevice.Viewport.Height / 2 + 40)
+                        {
+                            arrowposi.Y += 40;
+                        }
                         break;
                     case Keys.Escape:
                         Console.WriteLine("OH NOESSS");
                         break;
                     case Keys.X:
                         Game.Exit();
-                        break;
-                    /*case Keys.M:
-                        audio.update();
-                        break;*/
+                        break;          
                     default:
                         Console.WriteLine(k);
                         break;
@@ -94,16 +102,15 @@ namespace Eternia
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-
-
-            spriteBatch.Draw(menuarrow, new Rectangle(game.GraphicsDevice.Viewport.Width/3+10,game.GraphicsDevice.Viewport.Height/2-61,menuarrow.Width/16, menuarrow.Height/16), Color.White);
-
+            spriteBatch.Draw(background, new Rectangle(0, 0, 800, 600), Color.SteelBlue);
+            spriteBatch.Draw(title, new Rectangle(10,0, title.Width, title.Height), Color.White);
+            //spriteBatch.Draw(menuarrow, arrowposi, Color.White);
+            
             foreach (MenuOption option in menuoptions)
             {
                 spriteBatch.DrawString(option.Font, option.Text, option.Position, option.Colour,
                 option.Rotation, option.Size / 2, option.Scale, SpriteEffects.None, 0);
-            }
-            
+            }           
             spriteBatch.End();
             base.Draw(gameTime);
         }

@@ -66,7 +66,7 @@ namespace Eternia
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             device = GraphicsDevice;
-            Song menuSong = Content.Load<Song>(@"audios\Kalimba");
+            Song menuSong = Content.Load<Song>(@"audios\maintheme");
             SoundEffect rollEffect = Content.Load<SoundEffect>(@"audios\roll");
             SoundEffect laughEffect = Content.Load<SoundEffect>(@"audios\laugh");
             audio.addNewSong("MainMenu", menuSong);
