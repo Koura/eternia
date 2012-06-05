@@ -12,20 +12,9 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Eternia.View
 {
-    interface IinputManager
+    interface IinputManager : IObserver
     {
          void ProcessInput(GameTime gameTime);
-
-          String PlayerOption
-         {
-             get;
-             set;
-         }
-
-          int ArrowOnOption
-         {
-             get;
-             set;
-         }
+          
     }
 }

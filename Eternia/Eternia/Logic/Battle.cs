@@ -8,46 +8,55 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Eternia.View;
 
 namespace Eternia.Logic
 {
-    class Battle
+    class Battle : ISubject
     {
-        List<Enemy> enemies;
+        
+        private List<IObserver> observers;
 
-        internal List<Enemy> Enemies
+        private List<Being> fighters;
+
+        public List<Being> Fighters
         {
-            get { return enemies; }
-            set { enemies = value; }
+            get;
+            set;
         }
-        List<Hero> heroes;
-
-        public List<Hero> Heroes
-        {
-            get { return heroes; }
-            set { heroes = value; }
-        }
-
         
         float maxBar;
         /*
          * this is timebar for each hero and enemy. Their timeBar will grow in turns untill it reaches the maxbar level
          * - then it will be set to zero and it will start to ingrease again untill fight is over.
          */
-        Dictionary<String, float> timeBar;
+        private Dictionary<String, float> timeBar;
 
-        public Battle(List<Hero> heroes)
+        public Dictionary<String, float> TimeBar
         {
-            this.heroes = heroes;
+            get;
+            set;
+        }
+
+        public Battle()
+        {
+            observers = new List<IObserver>();
             timeBar = new Dictionary<string, float>();
-            foreach (Hero h in this.heroes)
+            fighters = new List<Being>();
+            maxBar = 200;
+        }
+        public void setUpHeroes(List<Hero> heroes)
+        {
+            foreach (Hero h in heroes)
             {
-                timeBar.Add(h.Name, 0);
+                fighters.Add(h);
+                timeBar.Add(h.Name, 50);
             }
         }
 
         public void setUpBattle() {
-            setEnemies();
+            //setEnemies();
+            
 
         }
 
@@ -60,9 +69,6 @@ namespace Eternia.Logic
 
             // amount of enemies
             int enemyCount = randomizer.Next(1,4);
-            
-            Enemies = new List<Enemy>();
-
             for (int i = 1; i <= enemyCount; i++)
             {
                 double next = randomizer.NextDouble();
@@ -70,18 +76,41 @@ namespace Eternia.Logic
                 if (next < 0.31)
                 {
                     Enemy enemy = EnemyFactory.createBoss("Ravenous Bugblatter Beast Of Traal " + i, new Vector3(10, 10, 10), 100, 0, 30);
-                    enemies.Add(enemy);
+                    fighters.Add(enemy);
                     timeBar.Add(enemy.Name, 0);
                 }
                 else
                 {
                     Enemy enemy = EnemyFactory.createSoldier("Bugblatter " + i, new Vector3(10, 100, 10), 100, 0, 50);
-                    enemies.Add(enemy);
+                    fighters.Add(enemy);
                     timeBar.Add(enemy.Name, 0);
                 }
             }
             
         }
-        
+
+
+        public void attachObserver(IObserver observer)
+        {
+            observers.Add(observer);
+        }
+
+        public void detachObserver(IObserver observer)
+        {
+            observers.Remove(observer);
+        }
+
+        public void notify()
+        {
+            foreach (IObserver item in observers)
+            {
+                item.update();
+            }
+        }
+
+        internal void fight()
+        {
+            notify();
+        }
     }
 }

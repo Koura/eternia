@@ -10,21 +10,33 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Eternia.View;
+using Eternia.Logic;
 
 namespace Eternia.View
 {
-    class BattleMenu : Screen
+    class BattleMenu : Screen, IObserver
     {
+        IGameState gameState;
         Texture2D menuarrow;
+        Texture2D battlePanel;
+        Texture2D timeBars;
         int arrowXpos;
         int arrowYpos;
-
+        Battle battle;
         int arrowXoffset;
         int arrowYoffset;
         float[] optionsXpos;
         float optionY;
         SpriteFont font;
         private List<MenuOption> menuoptions = new List<MenuOption>();
+        private float timeBarValue;
+        private bool fightIsOn;
+
+        public bool FightIsOn
+        {
+            get;
+            set;
+        }
 
         internal List<MenuOption> Menuoptions
         {
@@ -32,10 +44,11 @@ namespace Eternia.View
             set { menuoptions = value; }
         }
 
-        public BattleMenu(Game game)
+        public BattleMenu(Game game,GameState gameState, Battle battle)
             : base(game)
         {
-
+            this.battle = battle;
+            this.gameState = gameState;
         }
 
         public override void Initialize()
@@ -53,6 +66,7 @@ namespace Eternia.View
             optionsXpos[3] = game.GraphicsDevice.Viewport.Width / 5 + 550;
             arrowXoffset = -100;
             arrowYoffset = -20;
+            fightIsOn = true;
             base.Initialize();
             base.Initialize();
         }
@@ -63,10 +77,12 @@ namespace Eternia.View
             base.LoadContent();
             menuarrow = game.Content.Load<Texture2D>("images/menuarrow");
             font = game.Content.Load<SpriteFont>("fonts/menufont");
-            menuoptions.Add(new MenuOption(new Vector2(optionsXpos[0], optionY), "Attack", font, Color.White));
-            menuoptions.Add(new MenuOption(new Vector2(optionsXpos[1], optionY), "Magic", font, Color.White));
-            menuoptions.Add(new MenuOption(new Vector2(optionsXpos[2], optionY), "Skills", font, Color.White));
-            menuoptions.Add(new MenuOption(new Vector2(optionsXpos[3], optionY), "Items", font, Color.White));
+            battlePanel = game.Content.Load<Texture2D>("images/battleImg1");
+            timeBars = game.Content.Load<Texture2D>("images/timeBar");
+            menuoptions.Add(new MenuOption(new Vector2(optionsXpos[0], optionY), "Attack", font, Color.Black));
+            menuoptions.Add(new MenuOption(new Vector2(optionsXpos[1], optionY), "Magic", font, Color.Black));
+            menuoptions.Add(new MenuOption(new Vector2(optionsXpos[2], optionY), "Skills", font, Color.Black));
+            menuoptions.Add(new MenuOption(new Vector2(optionsXpos[3], optionY), "Items", font, Color.Black));
         }
 
         protected override void UnloadContent()
@@ -76,20 +92,45 @@ namespace Eternia.View
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-
-
-            spriteBatch.Draw(menuarrow, new Rectangle((int)optionsXpos[ArrowOnOption] + arrowXoffset,arrowYpos +arrowYoffset , menuarrow.Width / 16, menuarrow.Height / 16), Color.White);
-
-            foreach (MenuOption option in Menuoptions)
-            {
-                spriteBatch.DrawString(option.Font, option.Text, option.Position, option.Colour,
-                option.Rotation, option.Size / 2, option.Scale, SpriteEffects.None, 0);
-            }
+            
+            spriteBatch.Draw(battlePanel, new Rectangle(0,0, battlePanel.Width, battlePanel.Height), Color.White);
+            drawMenuOptions();
+            
+            if(fightIsOn)
+                drawTimeBars();
+            //spriteBatch.Draw(menuarrow, new Rectangle((int)optionsXpos[ArrowOnOption] + arrowXoffset, arrowYpos + arrowYoffset, menuarrow.Width / 16, menuarrow.Height / 16), Color.White);
+            
 
             spriteBatch.End();
             base.Draw(gameTime);
         }
 
+        private void drawTimeBars()
+        {
+            spriteBatch.Draw(timeBars, new Rectangle(150, 50, timeBars.Width, timeBars.Height), Color.White);
+        }
 
+        private void drawMenuOptions()
+        {
+            MenuOption chosenOption = menuoptions.ElementAt(ArrowOnOption);
+
+            foreach (MenuOption option in Menuoptions)
+            {
+                option.Colour = Color.Tomato;
+            }
+            chosenOption.Colour = Color.Black;
+            foreach (MenuOption option in Menuoptions)
+            {
+                spriteBatch.DrawString(option.Font, option.Text, option.Position, option.Colour,
+                option.Rotation, option.Size / 2, option.Scale, SpriteEffects.None, 0);
+            }
+        }
+
+
+
+        public void update()
+        {
+            
+        }
     }
 }

@@ -21,6 +21,7 @@ namespace Eternia
         protected SpriteFont textFont;
         protected SpriteBatch spriteBatch;
         protected Game game;
+        private IGameState gameState;
         private int arrowOnOption;
 
         public int ArrowOnOption

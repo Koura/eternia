@@ -54,8 +54,9 @@ namespace Eternia
             this.audio = new AudioManager(this.gameState);
             this.gameState.attachObserver(audio);
             view = new ScreenManager(this);
-            view.pushScreen(new MainMenu(this));
-            inputManager = new InputManager(this, gameState);
+            view.pushScreen(new MainMenu(this, this.gameState));
+            inputManager = new InputManager(this, this.gameState);
+            this.gameState.attachObserver(inputManager);
             party = new Party();
             party.addCompany(new Hero("Taistelu-Jaska"));
             
@@ -98,52 +99,24 @@ namespace Eternia
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            String option = checkPlayerOption(gameTime);
-            option = processPlayerOption(option);
-
-            if (option.Equals("Battle"))
-            {
-                initNewBattle();
-                option = "";
-
-            }
-            base.Update(gameTime);
-
-        }
-
-        private String checkPlayerOption(GameTime gameTime)
-        {
             inputManager.ProcessInput(gameTime);
-             Screen screen = view.currentScreen;
-             screen.ArrowOnOption = inputManager.ArrowOnOption;
-            String option = inputManager.PlayerOption;
-            return option;
-            
-            
-        }
-
-        private String processPlayerOption(string option)
-        {
-            switch(option)
-            {
-                case "newGame":
-                    {
-                        inputManager.PlayerOption = "";
-                        return "Battle";
-                    }
-                default :
-                    return "";
-                    
-            }
+            Console.WriteLine("Eternia  - Arrow on option: " + gameState.getArrowOnOptionState());
+            base.Update(gameTime);
         }
 
         private void initNewBattle()
         {
-            BattleMenu battleMenu = new BattleMenu(this);
+            Battle battle = new Battle();
+            
+            BattleMenu battleMenu = new BattleMenu(this, this.gameState,battle);
+            battle.attachObserver(battleMenu);
+            battle.setUpHeroes(party.Heroes);
+            battle.setUpBattle();
+            battle.fight();
+            battleMenu.FightIsOn = true;
             view.pushScreen(battleMenu);
             gameState.setState("Battle");
-            Battle battle = new Battle(party.Heroes);
-            Console.WriteLine("initializing new Battle");
+
         }
         
 

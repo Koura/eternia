@@ -16,9 +16,9 @@ namespace Eternia
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class MainMenu : Screen
+    public class MainMenu : Screen, IObserver
     {
-       
+        IGameState gameState;
         Texture2D menuarrow;
         int arrowXpos;
         int arrowYpos;
@@ -36,11 +36,10 @@ namespace Eternia
 
         
 
-        public MainMenu(Game game)
+        public MainMenu(Game game, IGameState gameState)
             : base(game)
-        {         
-            // send message "menu"
-            // dj.playdatfunkysong("menu"); somewhere else?
+        {
+            this.gameState = gameState;
         }
 
         public override void Initialize()
@@ -83,6 +82,7 @@ namespace Eternia
          */
         public override void Update(GameTime gameTime)
         {
+            ArrowOnOption = gameState.getArrowOnOptionState();
             base.Update(gameTime);
         }
 
@@ -91,7 +91,7 @@ namespace Eternia
             spriteBatch.Begin();
 
 
-            spriteBatch.Draw(menuarrow, new Rectangle(arrowXpos,(int)optionsYpos[ArrowOnOption]+ arrowOffset,menuarrow.Width/16, menuarrow.Height/16), Color.White);
+            spriteBatch.Draw(menuarrow, new Rectangle(arrowXpos,(int)optionsYpos[ArrowOnOption] + arrowOffset,menuarrow.Width/16, menuarrow.Height/16), Color.White);
 
             foreach (MenuOption option in Menuoptions)
             {
@@ -101,6 +101,11 @@ namespace Eternia
             
             spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        public void update()
+        {
+            throw new NotImplementedException();
         }
     }
 }

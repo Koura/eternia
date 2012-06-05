@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Eternia.View;
 
 
 namespace Eternia
@@ -17,12 +18,12 @@ namespace Eternia
     /// </summary>
     public class GameState : ISubject, IGameState
     {
+        private int arrowOnOption;
 
-        private Party party;
+        
         private String state;
         private String status;
         private List<IObserver> observers;
-
         private Boolean safeZone;
 
         public GameState()
@@ -38,7 +39,6 @@ namespace Eternia
 
         public void NewGame()
         {
-            party = new Party();
             state = "MainMenu";
             status = "outdoors";
             safeZone = false;
@@ -71,6 +71,26 @@ namespace Eternia
         {
             this.state = state;
             notify();
+        }
+
+
+
+
+        public int getArrowOnOptionState()
+        {
+            return arrowOnOption;
+        }
+
+
+        public void setArrowOnOptionState(int arrowOnOption)
+        {
+            this.arrowOnOption = arrowOnOption;
+        }
+
+
+        int IGameState.setArrowOnOptionState(int arrowOnOption)
+        {
+            return this.arrowOnOption;
         }
     }
 }
