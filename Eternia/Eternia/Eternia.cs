@@ -52,7 +52,6 @@ namespace Eternia
             this.gameState.attachObserver(audio);
             view = new ScreenManager(this);
             view.pushScreen(new MainMenu(this));
-            
             Window.Title = gameTitle;
 
             base.Initialize();
@@ -67,9 +66,11 @@ namespace Eternia
             // Create a new SpriteBatch, which can be used to draw textures.
             device = GraphicsDevice;
             Song menuSong = Content.Load<Song>(@"audios\maintheme");
+            Song battle1 = Content.Load<Song>(@"audios\battletheme1");
             SoundEffect rollEffect = Content.Load<SoundEffect>(@"audios\roll");
             SoundEffect laughEffect = Content.Load<SoundEffect>(@"audios\laugh");
             audio.addNewSong("MainMenu", menuSong);
+            audio.addNewSong("Battle1", battle1);
             audio.addNewSoundEffect("roll", rollEffect);
             audio.addNewSoundEffect("laugh", laughEffect); 
             audio.playSong(this.gameState.getState());
@@ -92,9 +93,10 @@ namespace Eternia
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            InputManager.instance().interpretInput(gameTime);
             base.Update(gameTime);
             if (Keyboard.GetState().IsKeyDown(Keys.R))
-                audio.playSoundEffect("roll");
+                this.gameState.setState("Battle1");
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
                 audio.playSoundEffect("laugh");
 

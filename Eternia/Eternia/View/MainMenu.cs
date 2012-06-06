@@ -22,6 +22,7 @@ namespace Eternia
         Texture2D background;
         Texture2D title;
         SpriteFont font;
+      
         private List<MenuOption> menuoptions = new List<MenuOption>();
 
         
@@ -51,6 +52,7 @@ namespace Eternia
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2), "Load Game", font, Color.White));
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 40), "Options", font, Color.White));
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 80), "Exit Game", font, Color.White));
+            menuoptions.Add(new MenuOption(new Vector2(50,50), InputManager.instance().getTime(), font, Color.White));
             arrowposi = new Rectangle(game.GraphicsDevice.Viewport.Width / 3 + 10, game.GraphicsDevice.Viewport.Height / 2 - 61, menuarrow.Width / 16, menuarrow.Height / 16);
         }
 
@@ -60,31 +62,22 @@ namespace Eternia
         }
 
         protected override void ProcessInput()
-        {  
-            foreach (Keys k in Keyboard.GetState().GetPressedKeys())
+        {
+            long kb = InputManager.instance().getKeyboard();
+            if ((kb & 1 << 0) > 0)
             {
-                switch (k) {
-                    case Keys.Up:
-                        if (arrowposi.Y > game.GraphicsDevice.Viewport.Height / 2 - 40)
-                        {
-                            arrowposi.Y -= 40;
-                        }
-                        break;
-                    case Keys.Down:
-                        if (arrowposi.Y <= game.GraphicsDevice.Viewport.Height / 2 + 40)
-                        {
-                            arrowposi.Y += 40;
-                        }
-                        break;
-                    case Keys.Escape:
-                        Console.WriteLine("OH NOESSS");
-                        break;
-                    case Keys.X:
-                        Game.Exit();
-                        break;          
-                    default:
-                        Console.WriteLine(k);
-                        break;
+                if (arrowposi.Y > game.GraphicsDevice.Viewport.Height / 2 - 40 && InputManager.instance().getMove())
+                {
+                    arrowposi.Y -= 40;
+                    InputManager.instance().falsify();
+                }
+            }
+            if ((kb & 1 << 1) > 0)
+            {
+                if (arrowposi.Y <= game.GraphicsDevice.Viewport.Height / 2 + 40 && InputManager.instance().getMove())
+                {
+                    arrowposi.Y += 40;
+                    InputManager.instance().falsify();
                 }
             }
             //send message to interface
@@ -96,6 +89,7 @@ namespace Eternia
         public override void Update(GameTime gameTime)
         {
             ProcessInput();
+            menuoptions.Last().Text = InputManager.instance().getTime();
             base.Update(gameTime);
         }
 
