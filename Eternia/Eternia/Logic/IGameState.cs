@@ -5,9 +5,11 @@ namespace Eternia
     {
         string getState();
 
+        void setState(String state);
+
         int getArrowOnOptionState();
 
-        int setArrowOnOptionState(int arrowOnOption);
+        void setArrowOnOptionState(int arrowOnOption);
 
 
     }

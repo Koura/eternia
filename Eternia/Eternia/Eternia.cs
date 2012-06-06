@@ -25,6 +25,7 @@ namespace Eternia
         AudioManager audio;
         IinputManager inputManager;
         Party party;
+        Battle battle;
         
         private const string gameTitle = "Last Dreams of Eternia";
 
@@ -100,22 +101,33 @@ namespace Eternia
         protected override void Update(GameTime gameTime)
         {
             inputManager.ProcessInput(gameTime);
-            Console.WriteLine("Eternia  - Arrow on option: " + gameState.getArrowOnOptionState());
+            switch (gameState.getState())
+            {
+                case "NewBattle":
+                    {
+                        initNewBattle();
+                        break;
+                    }
+                case "Battle":
+                    {
+
+                        battle.fight();
+                        break;
+                    }
+            }
+
             base.Update(gameTime);
         }
 
         private void initNewBattle()
         {
-            Battle battle = new Battle();
-            
+            battle = new Battle();
+            gameState.setState("Battle");
             BattleMenu battleMenu = new BattleMenu(this, this.gameState,battle);
             battle.attachObserver(battleMenu);
             battle.setUpHeroes(party.Heroes);
             battle.setUpBattle();
-            battle.fight();
-            battleMenu.FightIsOn = true;
             view.pushScreen(battleMenu);
-            gameState.setState("Battle");
 
         }
         

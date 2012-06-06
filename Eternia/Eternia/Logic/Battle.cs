@@ -14,18 +14,47 @@ namespace Eternia.Logic
 {
     class Battle : ISubject
     {
-        
         private List<IObserver> observers;
-
         private List<Being> fighters;
 
         public List<Being> Fighters
         {
-            get;
-            set;
+            get { return fighters; }
+            set { }
         }
+        bool waitingAction;
         
         float maxBar;
+
+        public float MaxBar
+        {
+            get { return maxBar; }
+            set { maxBar = value; }
+        }
+        public void addTimeBarValues() 
+        {
+            if (waitingAction)
+                return;
+            foreach (Being b in fighters)
+            {
+                float currentValue;
+                if (timeBar.TryGetValue(b.Name, out currentValue))
+                {     
+                    currentValue = currentValue + b.Speed / 50;
+                    
+                    if (currentValue >= maxBar)
+                    {
+                        currentValue = 0;                        
+                        waitingAction = true;
+                    }
+                    TimeBar[b.Name] = currentValue;
+                                            
+                }
+
+                
+            }
+        }
+
         /*
          * this is timebar for each hero and enemy. Their timeBar will grow in turns untill it reaches the maxbar level
          * - then it will be set to zero and it will start to ingrease again untill fight is over.
@@ -34,8 +63,7 @@ namespace Eternia.Logic
 
         public Dictionary<String, float> TimeBar
         {
-            get;
-            set;
+            get { return timeBar; }
         }
 
         public Battle()
@@ -44,18 +72,19 @@ namespace Eternia.Logic
             timeBar = new Dictionary<string, float>();
             fighters = new List<Being>();
             maxBar = 200;
+            waitingAction = false;
         }
         public void setUpHeroes(List<Hero> heroes)
         {
             foreach (Hero h in heroes)
             {
                 fighters.Add(h);
-                timeBar.Add(h.Name, 50);
+                timeBar.Add(h.Name, 0);
             }
         }
 
         public void setUpBattle() {
-            //setEnemies();
+            setEnemies();
             
 
         }
@@ -76,12 +105,14 @@ namespace Eternia.Logic
                 if (next < 0.31)
                 {
                     Enemy enemy = EnemyFactory.createBoss("Ravenous Bugblatter Beast Of Traal " + i, new Vector3(10, 10, 10), 100, 0, 30);
+                    enemy.Speed = randomizer.Next(30, 50);
                     fighters.Add(enemy);
                     timeBar.Add(enemy.Name, 0);
                 }
                 else
                 {
                     Enemy enemy = EnemyFactory.createSoldier("Bugblatter " + i, new Vector3(10, 100, 10), 100, 0, 50);
+                    enemy.Speed = randomizer.Next(10, 30);
                     fighters.Add(enemy);
                     timeBar.Add(enemy.Name, 0);
                 }
@@ -110,6 +141,7 @@ namespace Eternia.Logic
 
         internal void fight()
         {
+            addTimeBarValues();
             notify();
         }
     }

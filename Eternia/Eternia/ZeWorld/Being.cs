@@ -85,7 +85,13 @@ namespace Eternia
         private String elementType;
         private String damageType;
 
-        private float speed { get; set; }
+        private float speed;
+
+        public float Speed 
+        {
+            get { return speed; }
+            set { speed = value; }
+        }
 
         public Being(String name)
 

@@ -110,6 +110,7 @@
     <Compile Include="audio\AudioManager.cs" />
     <Compile Include="ISubject.cs" />
     <Compile Include="Logic\Battle.cs" />
+    <Compile Include="Logic\BattleScene.cs" />
     <Compile Include="Logic\GameState.cs" />
     <Compile Include="Logic\IGameState.cs" />
     <Compile Include="View\BattleMenu.cs" />

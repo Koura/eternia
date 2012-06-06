@@ -19,8 +19,6 @@ namespace Eternia
     public class GameState : ISubject, IGameState
     {
         private int arrowOnOption;
-
-        
         private String state;
         private String status;
         private List<IObserver> observers;
@@ -85,12 +83,6 @@ namespace Eternia
         public void setArrowOnOptionState(int arrowOnOption)
         {
             this.arrowOnOption = arrowOnOption;
-        }
-
-
-        int IGameState.setArrowOnOptionState(int arrowOnOption)
-        {
-            return this.arrowOnOption;
         }
     }
 }

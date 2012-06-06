@@ -63,16 +63,27 @@ namespace Eternia.View
                             updateKeyLeft();
                             break;
                         }
+                    case Keys.Enter:
+                        {
+                            checkChosenOptionInBattle();
+                            break;
+                        }
                         
                 }
             }
+            gameState.setArrowOnOptionState(arrowOnOption);
+        }
+
+        private void checkChosenOptionInBattle()
+        {
+            gameState.setArrowOnOptionState(arrowOnOption);
+            Console.WriteLine("player is about to chose: "+ gameState.getArrowOnOptionState());
         }
 
         private void updateKeyLeft()
         {
             if (arrowOnOption == 0)
                 return;
-
             arrowOnOption -= 1;
         }
 
@@ -80,7 +91,6 @@ namespace Eternia.View
         {
             if (arrowOnOption == 3)
                 return;
-
            arrowOnOption += 1;
         }
 
@@ -116,7 +126,7 @@ namespace Eternia.View
                     case Keys.Enter:
                         {
                             // check witch option is currently on
-                            checkChosenOptionInMainMenuOnEnterPressed();
+                            checkChosenOptionInMainMenu();
                             break;
                         }
 
@@ -131,13 +141,12 @@ namespace Eternia.View
             }
             
             gameState.setArrowOnOptionState(arrowOnOption);
-            Console.WriteLine("InputManager  - Arrow on option: " + arrowOnOption);
         }
-        private void checkChosenOptionInMainMenuOnEnterPressed()
+        private void checkChosenOptionInMainMenu()
         {
             gameState.setArrowOnOptionState(arrowOnOption);
-            //option 1 is new game
-            
+            //option 1 is new battle
+            gameState.setState("NewBattle");
         }
 
         private void updateArrowDown()
@@ -168,7 +177,7 @@ namespace Eternia.View
 
         public void update()
         {
-            throw new NotImplementedException();
+            gameState.getState();
         }
     }
 }

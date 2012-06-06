@@ -16,20 +16,29 @@ namespace Eternia.View
 {
     class BattleMenu : Screen, IObserver
     {
+        Model model;
+        Matrix[] transforms;
         IGameState gameState;
         Texture2D menuarrow;
         Texture2D battlePanel;
-        Texture2D timeBars;
+        Texture2D timeBarTexture;
         int arrowXpos;
         int arrowYpos;
         Battle battle;
         int arrowXoffset;
-        int arrowYoffset;
         float[] optionsXpos;
         float optionY;
         SpriteFont font;
+        SpriteFont fightersNamesFont;
         private List<MenuOption> menuoptions = new List<MenuOption>();
         private float timeBarValue;
+
+        public float TimeBarValue
+        {
+            get { return timeBarValue; }
+            set { timeBarValue = value; }
+        }
+
         private bool fightIsOn;
 
         public bool FightIsOn
@@ -53,7 +62,6 @@ namespace Eternia.View
 
         public override void Initialize()
         {
-           
             arrowXpos = game.GraphicsDevice.Viewport.Width / 5 + 100 + arrowXoffset;
             ArrowOnOption = 0;
             optionsXpos = new float[4];
@@ -65,9 +73,7 @@ namespace Eternia.View
             optionsXpos[2] = game.GraphicsDevice.Viewport.Width / 5 + 400;
             optionsXpos[3] = game.GraphicsDevice.Viewport.Width / 5 + 550;
             arrowXoffset = -100;
-            arrowYoffset = -20;
             fightIsOn = true;
-            base.Initialize();
             base.Initialize();
         }
         
@@ -77,12 +83,16 @@ namespace Eternia.View
             base.LoadContent();
             menuarrow = game.Content.Load<Texture2D>("images/menuarrow");
             font = game.Content.Load<SpriteFont>("fonts/menufont");
+            fightersNamesFont = game.Content.Load<SpriteFont>("fonts/battleFighters");
             battlePanel = game.Content.Load<Texture2D>("images/battleImg1");
-            timeBars = game.Content.Load<Texture2D>("images/timeBar");
+            timeBarTexture = game.Content.Load<Texture2D>("images/timeBar");
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[0], optionY), "Attack", font, Color.Black));
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[1], optionY), "Magic", font, Color.Black));
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[2], optionY), "Skills", font, Color.Black));
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[3], optionY), "Items", font, Color.Black));
+            model = game.Content.Load<Model>("models/floor");
+            transforms = new Matrix[model.Bones.Count];
+            model.CopyAbsoluteBoneTransformsTo(transforms);
         }
 
         protected override void UnloadContent()
@@ -91,28 +101,72 @@ namespace Eternia.View
         }
         public override void Draw(GameTime gameTime)
         {
+            Matrix view = Matrix.CreateLookAt(new Vector3(200, 90, 10), new Vector3(0, 50, 10), Vector3.Up);
+            Matrix projection = Matrix.CreateScale(1.0f) * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), GraphicsDevice.Viewport.AspectRatio, 0.1f, 10000.0f);
+            Matrix baseWorld =  Matrix.CreateRotationY(MathHelper.ToRadians(180));
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                Matrix localWorld = transforms[mesh.ParentBone.Index] * baseWorld;
+                foreach (ModelMeshPart part in mesh.MeshParts)
+                {
+                    BasicEffect effect = (BasicEffect)part.Effect;
+                    effect.World = localWorld;
+                    effect.View = view;
+                    effect.Projection = projection;
+                    effect.EnableDefaultLighting();
+                    mesh.Draw();
+                }
+
+            }
+
             spriteBatch.Begin();
             
             spriteBatch.Draw(battlePanel, new Rectangle(0,0, battlePanel.Width, battlePanel.Height), Color.White);
             drawMenuOptions();
             
             if(fightIsOn)
-                drawTimeBars();
-            //spriteBatch.Draw(menuarrow, new Rectangle((int)optionsXpos[ArrowOnOption] + arrowXoffset, arrowYpos + arrowYoffset, menuarrow.Width / 16, menuarrow.Height / 16), Color.White);
-            
+                drawTimeBars(gameTime);
 
             spriteBatch.End();
             base.Draw(gameTime);
         }
 
-        private void drawTimeBars()
+        private void drawTimeBars(GameTime gameTime)
         {
-            spriteBatch.Draw(timeBars, new Rectangle(150, 50, timeBars.Width, timeBars.Height), Color.White);
+            int x = 150;
+            int y = 5;
+            int index = 0;
+            foreach (Being b in battle.Fighters)
+            {                
+                int calcY = y + index * 20;
+                float timeBarLength;
+                battle.TimeBar.TryGetValue(b.Name,out timeBarLength);
+                
+                spriteBatch.Draw(timeBarTexture, new Rectangle(x, calcY, timeBarTexture.Width + 2, timeBarTexture.Height / 2 + 2), Color.Red);
+                spriteBatch.Draw(timeBarTexture, new Rectangle(x, calcY, (int)timeBarLength, timeBarTexture.Height / 2), Color.White);
+                if (timeBarLength == 0.0)
+                {
+                    drawPlayerToTakeActionNext(x, calcY);
+                }
+                drawfighterNames(x, calcY, b);
+                index++;
+            }
+            
+        }
+
+        private void drawPlayerToTakeActionNext(int x, int calcY)
+        {
+            spriteBatch.DrawString(fightersNamesFont, "Your turn!", new Vector2(x + 210, calcY), Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
+        }
+
+        private void drawfighterNames(int x, int calcY, Being being)
+        {
+            spriteBatch.DrawString(fightersNamesFont, being.Name, new Vector2(x, calcY), Color.White, 0, new Vector2(0,0),0.5f, SpriteEffects.None,0);
         }
 
         private void drawMenuOptions()
         {
-            MenuOption chosenOption = menuoptions.ElementAt(ArrowOnOption);
+            MenuOption chosenOption = menuoptions.ElementAt(gameState.getArrowOnOptionState());
 
             foreach (MenuOption option in Menuoptions)
             {
@@ -128,9 +182,18 @@ namespace Eternia.View
 
 
 
-        public void update()
+        public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
             
         }
+
+        
+
+        // IObserver interface update
+        public void update()
+        {
+        }
+
     }
 }
