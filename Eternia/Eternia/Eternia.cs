@@ -20,10 +20,19 @@ namespace Eternia
     {
         GraphicsDeviceManager graphics;
         GraphicsDevice device;
+        Camera camera;
+
+        public Camera Camera
+        {
+            get { return camera; }
+            set { camera = value; }
+        }
         GameState gameState;
         ScreenManager view;
         AudioManager audio;
-        IinputManager inputManager;
+        IinputManager mainMenuinputManager;
+        IinputManager battleMenuManager;
+        ModelManager modelManager;
         Party party;
         Battle battle;
         
@@ -49,6 +58,9 @@ namespace Eternia
             graphics.PreferredBackBufferHeight = 600;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
+            Camera = new Camera(this, new Vector3(0, 40 ,20), new Vector3(0, 0,0), Vector3.Up);
+            modelManager = new ModelManager(this);
+            Components.Add(modelManager);
             // AudioManager is a Iobserver. Give a Isubject as parameter in constructor. 
             this.gameState = new GameState();
             //this.gameState.NewGame();
@@ -56,8 +68,9 @@ namespace Eternia
             this.gameState.attachObserver(audio);
             view = new ScreenManager(this);
             view.pushScreen(new MainMenu(this, this.gameState));
-            inputManager = new InputManager(this, this.gameState);
-            this.gameState.attachObserver(inputManager);
+            mainMenuinputManager = new MainMenuInputManager(this, this.gameState);
+            battleMenuManager = new BattleMenuInputManager(this, this.gameState);
+            this.gameState.attachObserver(mainMenuinputManager);
             party = new Party();
             party.addCompany(new Hero("Taistelu-Jaska"));
             
@@ -100,23 +113,40 @@ namespace Eternia
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            inputManager.ProcessInput(gameTime);
-            switch (gameState.getState())
+            if (gameState.getState().Equals("MainMenu"))
             {
-                case "NewBattle":
-                    {
-                        initNewBattle();
-                        break;
-                    }
-                case "Battle":
-                    {
 
-                        battle.fight();
-                        break;
-                    }
+                processInputForMainMenu(gameTime);
             }
-
+            
+            if (gameState.getState().Equals("NewBattle"))
+            {
+                initNewBattle();
+            }
+            if (gameState.getState().Equals("Battle"))
+            {
+                fight(gameTime);
+            }
             base.Update(gameTime);
+        }
+
+        private void fight(GameTime gameTime)
+        {
+            // Player's turn to take action
+            if (battle.herosTurn())
+            {
+                battleMenuManager.ProcessInput(gameTime);
+                if (battleMenuManager.EnterPressed)
+                {
+
+                }
+            }
+            battle.fight();
+        }
+
+        private void processInputForMainMenu(GameTime gameTime)
+        {
+            mainMenuinputManager.ProcessInput(gameTime);
         }
 
         private void initNewBattle()
@@ -127,6 +157,7 @@ namespace Eternia
             battle.attachObserver(battleMenu);
             battle.setUpHeroes(party.Heroes);
             battle.setUpBattle();
+            modelManager.setAllModelsAlive();
             view.pushScreen(battleMenu);
 
         }

@@ -16,8 +16,7 @@ namespace Eternia.View
 {
     class BattleMenu : Screen, IObserver
     {
-        Model model;
-        Matrix[] transforms;
+        
         IGameState gameState;
         Texture2D menuarrow;
         Texture2D battlePanel;
@@ -90,9 +89,6 @@ namespace Eternia.View
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[1], optionY), "Magic", font, Color.Black));
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[2], optionY), "Skills", font, Color.Black));
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[3], optionY), "Items", font, Color.Black));
-            model = game.Content.Load<Model>("models/floor");
-            transforms = new Matrix[model.Bones.Count];
-            model.CopyAbsoluteBoneTransformsTo(transforms);
         }
 
         protected override void UnloadContent()
@@ -101,34 +97,30 @@ namespace Eternia.View
         }
         public override void Draw(GameTime gameTime)
         {
-            Matrix view = Matrix.CreateLookAt(new Vector3(200, 90, 10), new Vector3(0, 50, 10), Vector3.Up);
-            Matrix projection = Matrix.CreateScale(1.0f) * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), GraphicsDevice.Viewport.AspectRatio, 0.1f, 10000.0f);
-            Matrix baseWorld =  Matrix.CreateRotationY(MathHelper.ToRadians(180));
-            foreach (ModelMesh mesh in model.Meshes)
-            {
-                Matrix localWorld = transforms[mesh.ParentBone.Index] * baseWorld;
-                foreach (ModelMeshPart part in mesh.MeshParts)
-                {
-                    BasicEffect effect = (BasicEffect)part.Effect;
-                    effect.World = localWorld;
-                    effect.View = view;
-                    effect.Projection = projection;
-                    effect.EnableDefaultLighting();
-                    mesh.Draw();
-                }
-
-            }
-
             spriteBatch.Begin();
             
             spriteBatch.Draw(battlePanel, new Rectangle(0,0, battlePanel.Width, battlePanel.Height), Color.White);
             drawMenuOptions();
+            drawFighterStats();
             
             if(fightIsOn)
                 drawTimeBars(gameTime);
 
             spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        private void drawFighterStats()
+        {
+            List<Being> fighters = battle.Fighters;
+            int i = 0;
+            foreach(Being being in fighters)
+            {
+                spriteBatch.DrawString(fightersNamesFont, being.Name +
+                "\n Health: " + being.CurrentHealth, new Vector2(600, 20 + (i++ * 50)), Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
+            }
+           
+
         }
 
         private void drawTimeBars(GameTime gameTime)

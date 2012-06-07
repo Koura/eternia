@@ -23,6 +23,19 @@ namespace Eternia.Logic
             set { }
         }
         bool waitingAction;
+
+        public bool WaitingAction
+        {
+            get { return waitingAction; }
+            set { waitingAction = value; }
+        }
+        private int turn;
+
+        public int Turn
+        {
+            get { return turn; }
+            set { turn = value; }
+        }
         
         float maxBar;
 
@@ -33,25 +46,29 @@ namespace Eternia.Logic
         }
         public void addTimeBarValues() 
         {
-            if (waitingAction)
+            if (WaitingAction)
                 return;
-            foreach (Being b in fighters)
+            for (int i = 0; i < fighters.Count; i++)
             {
                 float currentValue;
-                if (timeBar.TryGetValue(b.Name, out currentValue))
-                {     
-                    currentValue = currentValue + b.Speed / 50;
-                    
+                Being being = fighters.ElementAt(i);
+                if (timeBar.TryGetValue(being.Name, out currentValue))
+                {
+                    currentValue = currentValue + being.Speed / 50;
+
                     if (currentValue >= maxBar)
                     {
-                        currentValue = 0;                        
-                        waitingAction = true;
+                        currentValue = 0;
+                        WaitingAction = true;
+                        TimeBar[being.Name] = currentValue;
+                        Turn = i;
+                        break;
                     }
-                    TimeBar[b.Name] = currentValue;
-                                            
+                    TimeBar[being.Name] = currentValue;
+
                 }
 
-                
+
             }
         }
 
@@ -68,6 +85,7 @@ namespace Eternia.Logic
 
         public Battle()
         {
+            turn = -1;
             observers = new List<IObserver>();
             timeBar = new Dictionary<string, float>();
             fighters = new List<Being>();
@@ -142,7 +160,28 @@ namespace Eternia.Logic
         internal void fight()
         {
             addTimeBarValues();
+            if (WaitingAction)
+            {
+                nextPlayerMove();
+            }
             notify();
+        }
+
+        private void nextPlayerMove()
+        {
+            //waiting hero player to move
+            if(herosTurn())
+            {
+                
+            }
+            
+        }
+
+        public bool herosTurn()
+        {
+            if (turn == 0) return true;
+
+            return false;
         }
     }
 }

@@ -99,8 +99,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="models\floor.fbx">
-      <Name>floor</Name>
+    <Compile Include="models\fighter.fbx">
+      <Name>fighter</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="models\enemy.fbx">
+      <Name>enemy</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
