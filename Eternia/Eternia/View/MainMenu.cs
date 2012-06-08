@@ -52,7 +52,7 @@ namespace Eternia
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2), "Load Game", font, Color.White));
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 40), "Options", font, Color.White));
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 80), "Exit Game", font, Color.White));
-            menuoptions.Add(new MenuOption(new Vector2(50,50), InputManager.instance().getTime(), font, Color.White));
+            menuoptions.Add(new MenuOption(new Vector2(50, 50), "" + arrowposi.Y, font, Color.White));
             arrowposi = new Rectangle(game.GraphicsDevice.Viewport.Width / 3 + 10, game.GraphicsDevice.Viewport.Height / 2 - 61, menuarrow.Width / 16, menuarrow.Height / 16);
         }
 
@@ -80,16 +80,42 @@ namespace Eternia
                     InputManager.instance().falsify();
                 }
             }
+            if ((kb & 1 << 5) > 0)
+            {
+                interpretAccept();
+            }
             //send message to interface
         }
 
         /*
          * Can we just leave this like so? Does the gamestate/screenmanager handle things so that only the topmost screen gets to update?
          */
+        private void interpretAccept()
+        {
+            //starting new game
+            if (arrowposi.Y == game.GraphicsDevice.Viewport.Height / 2 - 61)
+            {
+            }
+            //loading a previous game
+            if (arrowposi.Y == game.GraphicsDevice.Viewport.Height / 2 - 21)
+            { 
+            }
+            //pressed A at options
+            if (arrowposi.Y == game.GraphicsDevice.Viewport.Height / 2 + 19)
+            {
+
+            }
+            //A was pressed at Exit game
+            if (arrowposi.Y == game.GraphicsDevice.Viewport.Height / 2 + 59)
+            {
+                game.Exit();
+            }
+        }
+        
         public override void Update(GameTime gameTime)
         {
             ProcessInput();
-            menuoptions.Last().Text = InputManager.instance().getTime();
+            menuoptions.Last().Text = "" + arrowposi.Y;
             base.Update(gameTime);
         }
 

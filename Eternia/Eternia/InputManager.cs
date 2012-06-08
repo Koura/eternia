@@ -20,9 +20,8 @@ namespace Eternia
     {
         private long keyboard;
         private static InputManager inst;
-        double currentTime;
-        double pressedTimeUp;
-        double pressedTimeDown;
+        double currentTimeUp;
+        double currentTimeDown;
         Boolean moveable = false;
  
         public static InputManager instance()
@@ -49,7 +48,7 @@ namespace Eternia
         {
             if (isDown)
             {
-                keyboard |=(1 << bit);
+                keyboard |= (UInt32)(1 << bit);
             }
             else
             {
@@ -63,17 +62,16 @@ namespace Eternia
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
                 setKeyDown(true, 0);
-                if (currentTime == 0.0f)
+                if (currentTimeUp == 0.0f)
                 {
-                    currentTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    pressedTimeUp = gameTime.TotalGameTime.TotalMilliseconds;
+                    currentTimeUp = gameTime.TotalGameTime.TotalMilliseconds;
                     moveable = true;
                     //Send Message('KeyDown', Key)
                 }
-                else if (gameTime.TotalGameTime.TotalMilliseconds - currentTime > 400)
+                else if (gameTime.TotalGameTime.TotalMilliseconds - currentTimeUp > 400)
                 {
                     //Send Message('KeyDown', Key)
-                    currentTime += 300;
+                    currentTimeUp += 300;
                     moveable = true;
                 }
             }
@@ -81,31 +79,37 @@ namespace Eternia
             {
                 setKeyDown(false, 0);
                 //Send Message('KeyUp', Key)
-                currentTime = 0;
-                pressedTimeUp = 0;
+                currentTimeUp = 0;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
                 setKeyDown(true, 1);
-                if (currentTime == 0.0f)
+                if (currentTimeDown == 0.0f)
                 {
-                    currentTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    pressedTimeDown = gameTime.TotalGameTime.TotalMilliseconds;
+                    currentTimeDown = gameTime.TotalGameTime.TotalMilliseconds;
                     moveable = true;
                     //Send Message('KeyDown', Key)
                 }
-                else if (gameTime.TotalGameTime.TotalMilliseconds - currentTime > 400)
+                else if (gameTime.TotalGameTime.TotalMilliseconds - currentTimeDown > 400)
                 {
                     //Send Message('KeyDown', Key)
-                    currentTime += 300;
+                    currentTimeDown += 300;
                     moveable = true;
                 }            
             }
             else
             {
                 setKeyDown(false, 1);
-                currentTime = 0;
-                pressedTimeDown = 0;
+                currentTimeDown = 0;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                setKeyDown(true, 5);
+
+            }
+            else
+            {
+                setKeyDown(false, 5);
             }
         }
 
@@ -117,10 +121,6 @@ namespace Eternia
         public void falsify()
         {
             moveable = false;
-        }
-        public String getTime()
-        {
-            return String.Format("{0:0.00}", currentTime-pressedTimeUp);
         }
     }
 }
