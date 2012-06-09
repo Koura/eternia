@@ -26,6 +26,7 @@ namespace Eternia
             : base(game)
         {
             this.game = game;
+            InputManager.instance().InputGiven += new InputEventHandler(OnInput);
             // TODO: Construct any child components here
         }
 
@@ -45,6 +46,8 @@ namespace Eternia
          {
              spriteBatch = new SpriteBatch(game.GraphicsDevice);
          }
+       
+        public abstract void OnInput(object sender, String message);
 
         protected override void UnloadContent()
         {
@@ -54,7 +57,7 @@ namespace Eternia
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
 
-        protected abstract void ProcessInput();
+        protected abstract void ProcessInput(String message);
         
 
         public override void Update(GameTime gameTime)

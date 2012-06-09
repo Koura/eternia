@@ -16,14 +16,18 @@ using Microsoft.Xna.Framework.Media;
 */
 namespace Eternia
 {
+
+    public delegate void InputEventHandler(object source, String input);
+
     public class InputManager : Microsoft.Xna.Framework.Game
     {
         private long keyboard;
         private static InputManager inst;
         double currentTimeUp;
         double currentTimeDown;
-        Boolean moveable = false;
- 
+
+        public event InputEventHandler InputGiven;
+        
         public static InputManager instance()
         {
             if (inst == null)
@@ -31,17 +35,11 @@ namespace Eternia
                 inst = new InputManager();
             }
             return inst;
-        }
+        } 
 
         private InputManager()
         {
             keyboard = 0;
-        }
-
-
-        public long getKeyboard() 
-        {
-            return keyboard;
         }
 
         private void setKeyDown(Boolean isDown, int bit)
@@ -65,14 +63,14 @@ namespace Eternia
                 if (currentTimeUp == 0.0f)
                 {
                     currentTimeUp = gameTime.TotalGameTime.TotalMilliseconds;
-                    moveable = true;
+                    InputReceived("up");
                     //Send Message('KeyDown', Key)
                 }
                 else if (gameTime.TotalGameTime.TotalMilliseconds - currentTimeUp > 400)
                 {
                     //Send Message('KeyDown', Key)
                     currentTimeUp += 300;
-                    moveable = true;
+                    InputReceived("up");
                 }
             }
             else
@@ -87,14 +85,14 @@ namespace Eternia
                 if (currentTimeDown == 0.0f)
                 {
                     currentTimeDown = gameTime.TotalGameTime.TotalMilliseconds;
-                    moveable = true;
                     //Send Message('KeyDown', Key)
+                    InputReceived("down");
                 }
                 else if (gameTime.TotalGameTime.TotalMilliseconds - currentTimeDown > 400)
                 {
                     //Send Message('KeyDown', Key)
                     currentTimeDown += 300;
-                    moveable = true;
+                    InputReceived("down");
                 }            
             }
             else
@@ -105,7 +103,7 @@ namespace Eternia
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 setKeyDown(true, 5);
-
+                InputReceived("accept");
             }
             else
             {
@@ -113,14 +111,12 @@ namespace Eternia
             }
         }
 
-        public Boolean getMove()
+        public void InputReceived(String input)
         {
-            return moveable;
-        }
-
-        public void falsify()
-        {
-            moveable = false;
+            if (InputGiven != null)
+            {
+                InputGiven(this, input);
+            }
         }
     }
 }

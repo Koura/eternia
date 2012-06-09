@@ -22,14 +22,15 @@ namespace Eternia
         Texture2D background;
         Texture2D title;
         SpriteFont font;
-      
-        private List<MenuOption> menuoptions = new List<MenuOption>();
 
-        
+        int arrowValue = 1;
+      
+        private List<MenuOption> menuoptions = new List<MenuOption>();      
 
         public MainMenu(Game game)
             : base(game)
-        {         
+        {
+            
             // send message "menu"
             // dj.playdatfunkysong("menu"); somewhere else?
         }
@@ -37,7 +38,7 @@ namespace Eternia
         public override void Initialize()
 
         {
-            // Do our MainMenu component creation magicks here
+            // Do our MainMenu component creation magicks here           
             base.Initialize();
         }
 
@@ -52,7 +53,6 @@ namespace Eternia
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2), "Load Game", font, Color.White));
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 40), "Options", font, Color.White));
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 80), "Exit Game", font, Color.White));
-            menuoptions.Add(new MenuOption(new Vector2(50, 50), "" + arrowposi.Y, font, Color.White));
             arrowposi = new Rectangle(game.GraphicsDevice.Viewport.Width / 3 + 10, game.GraphicsDevice.Viewport.Height / 2 - 61, menuarrow.Width / 16, menuarrow.Height / 16);
         }
 
@@ -61,26 +61,25 @@ namespace Eternia
 
         }
 
-        protected override void ProcessInput()
-        {
-            long kb = InputManager.instance().getKeyboard();
-            if ((kb & 1 << 0) > 0)
+        protected override void ProcessInput(String message)
+        {           
+            if (message.Equals("up"))
             {
-                if (arrowposi.Y > game.GraphicsDevice.Viewport.Height / 2 - 40 && InputManager.instance().getMove())
+                if (arrowValue>1)
                 {
                     arrowposi.Y -= 40;
-                    InputManager.instance().falsify();
+                    arrowValue--;
                 }
             }
-            if ((kb & 1 << 1) > 0)
+            if (message.Equals("down"))
             {
-                if (arrowposi.Y <= game.GraphicsDevice.Viewport.Height / 2 + 40 && InputManager.instance().getMove())
+                if (arrowValue < 4)
                 {
                     arrowposi.Y += 40;
-                    InputManager.instance().falsify();
+                    arrowValue++;
                 }
             }
-            if ((kb & 1 << 5) > 0)
+            if (message.Equals("accept"))
             {
                 interpretAccept();
             }
@@ -90,23 +89,27 @@ namespace Eternia
         /*
          * Can we just leave this like so? Does the gamestate/screenmanager handle things so that only the topmost screen gets to update?
          */
+        public override void OnInput(object sender, String message)
+        {
+            ProcessInput(message);
+        }
         private void interpretAccept()
         {
             //starting new game
-            if (arrowposi.Y == game.GraphicsDevice.Viewport.Height / 2 - 61)
+            if (arrowValue == 1)
             {
             }
             //loading a previous game
-            if (arrowposi.Y == game.GraphicsDevice.Viewport.Height / 2 - 21)
+            if (arrowValue == 2)
             { 
             }
             //pressed A at options
-            if (arrowposi.Y == game.GraphicsDevice.Viewport.Height / 2 + 19)
+            if (arrowValue == 3)
             {
 
             }
             //A was pressed at Exit game
-            if (arrowposi.Y == game.GraphicsDevice.Viewport.Height / 2 + 59)
+            if (arrowValue == 4)
             {
                 game.Exit();
             }
@@ -114,8 +117,7 @@ namespace Eternia
         
         public override void Update(GameTime gameTime)
         {
-            ProcessInput();
-            menuoptions.Last().Text = "" + arrowposi.Y;
+
             base.Update(gameTime);
         }
 
