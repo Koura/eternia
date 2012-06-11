@@ -25,7 +25,9 @@ namespace Eternia
         private static InputManager inst;
         double currentTimeUp;
         double currentTimeDown;
-
+        double currentAccept;
+        private Dictionary<String, int> cooldowns;
+             
         public event InputEventHandler InputGiven;
         
         public static InputManager instance()
@@ -40,6 +42,15 @@ namespace Eternia
         private InputManager()
         {
             keyboard = 0;
+            cooldowns = new Dictionary<String, int>();
+            addMappings();
+        }
+
+        private void addMappings()
+        {
+            cooldowns.Add("up", 0);
+            cooldowns.Add("down", 0);
+            cooldowns.Add("accept", 0);
         }
 
         private void setKeyDown(Boolean isDown, int bit)
@@ -103,11 +114,22 @@ namespace Eternia
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 setKeyDown(true, 5);
-                InputReceived("accept");
+                if (currentAccept == 0.0f)
+                {
+                    currentAccept = gameTime.TotalGameTime.TotalMilliseconds;
+                    InputReceived("accept");
+                }
+
+                else if (gameTime.TotalGameTime.TotalMilliseconds - currentAccept > 400)
+                {
+                    currentAccept += 300;
+                    InputReceived("accept");
+                }
             }
             else
             {
                 setKeyDown(false, 5);
+                currentAccept = 0;
             }
         }
 

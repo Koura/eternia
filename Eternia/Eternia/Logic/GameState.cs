@@ -20,7 +20,6 @@ namespace Eternia
 
         private Party party;
         private String state;
-        private String status;
         private List<IObserver> observers;
 
         private Boolean safeZone;
@@ -40,7 +39,6 @@ namespace Eternia
         {
             party = new Party();
             state = "MainMenu";
-            status = "outdoors";
             safeZone = false;
         }
         /// <summary>

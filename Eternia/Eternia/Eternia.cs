@@ -22,6 +22,8 @@ namespace Eternia
         GameState gameState;
         ScreenManager view;
         AudioManager audio;
+        ScreenDelegator delegator;
+        CommandHandler commandHandler;
 
         private const string gameTitle = "Last Dreams of Eternia";
 
@@ -51,7 +53,11 @@ namespace Eternia
             this.audio = new AudioManager(this.gameState);
             this.gameState.attachObserver(audio);
             view = new ScreenManager(this);
-            view.pushScreen(new MainMenu(this));
+            delegator = new ScreenDelegator(view, this, this.gameState);
+            this.gameState.attachObserver(delegator);
+            this.commandHandler = new CommandHandler(this.view, this.gameState);
+            view.attachObserver(this.commandHandler);
+            this.gameState.setState("MainMenu");
             Window.Title = gameTitle;
 
             base.Initialize();

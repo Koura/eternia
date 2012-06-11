@@ -109,12 +109,16 @@
   <ItemGroup>
     <Compile Include="audio\AudioManager.cs" />
     <Compile Include="InputManager.cs" />
+    <Compile Include="IScreenManager.cs" />
     <Compile Include="ISubject.cs" />
+    <Compile Include="Logic\CommandHandler.cs" />
     <Compile Include="Logic\GameState.cs" />
     <Compile Include="Logic\IGameState.cs" />
     <Compile Include="View\MainMenu.cs" />
     <Compile Include="IObserver.cs" />
     <Compile Include="View\MenuOption.cs" />
+    <Compile Include="View\Options.cs" />
+    <Compile Include="View\ScreenDelegator.cs" />
     <Compile Include="ZeWorld\Being.cs" />
     <Compile Include="ZeWorld\Enemy.cs" />
     <Compile Include="ZeWorld\EnemyBoss.cs" />

@@ -91,7 +91,10 @@ namespace Eternia
          */
         public override void OnInput(object sender, String message)
         {
-            ProcessInput(message);
+            if (this.Enabled)
+            {
+                ProcessInput(message);
+            }
         }
         private void interpretAccept()
         {
@@ -106,7 +109,7 @@ namespace Eternia
             //pressed A at options
             if (arrowValue == 3)
             {
-
+                StateChanged("Options");
             }
             //A was pressed at Exit game
             if (arrowValue == 4)
