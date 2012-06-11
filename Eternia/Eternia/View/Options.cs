@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Eternia
 {
-    class Options : Screen
+    public class Options : Screen
     {
         Rectangle arrowposi;
         Texture2D menuarrow;
@@ -59,13 +59,6 @@ namespace Eternia
             }
         }
 
-        public override void OnInput(object sender, String message)
-        {
-            if (this.Enabled)
-            {
-                ProcessInput(message);
-            }
-        }
         private void interpretAccept()
         {
             //going back to mainmenu
@@ -73,12 +66,6 @@ namespace Eternia
             {
                 StateChanged("MainMenu");
             }
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-
-            base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)

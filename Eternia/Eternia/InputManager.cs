@@ -23,10 +23,7 @@ namespace Eternia
     {
         private long keyboard;
         private static InputManager inst;
-        double currentTimeUp;
-        double currentTimeDown;
-        double currentAccept;
-        private Dictionary<String, int> cooldowns;
+        private Dictionary<String, double> cooldowns;
              
         public event InputEventHandler InputGiven;
         
@@ -42,7 +39,7 @@ namespace Eternia
         private InputManager()
         {
             keyboard = 0;
-            cooldowns = new Dictionary<String, int>();
+            cooldowns = new Dictionary<String, double>();
             addMappings();
         }
 
@@ -71,65 +68,60 @@ namespace Eternia
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
                 setKeyDown(true, 0);
-                if (currentTimeUp == 0.0f)
+                if (cooldowns["up"] == 0.0f)
                 {
-                    currentTimeUp = gameTime.TotalGameTime.TotalMilliseconds;
+                    cooldowns["up"] = gameTime.TotalGameTime.TotalMilliseconds;
                     InputReceived("up");
-                    //Send Message('KeyDown', Key)
                 }
-                else if (gameTime.TotalGameTime.TotalMilliseconds - currentTimeUp > 400)
-                {
-                    //Send Message('KeyDown', Key)
-                    currentTimeUp += 300;
+                else if (gameTime.TotalGameTime.TotalMilliseconds - cooldowns["up"] > 400)
+                {                   
+                    cooldowns["up"] = cooldowns["up"] + 300;
                     InputReceived("up");
                 }
             }
             else
             {
                 setKeyDown(false, 0);
-                //Send Message('KeyUp', Key)
-                currentTimeUp = 0;
+                cooldowns["up"] = 0;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
                 setKeyDown(true, 1);
-                if (currentTimeDown == 0.0f)
+                if (cooldowns["down"] == 0.0f)
                 {
-                    currentTimeDown = gameTime.TotalGameTime.TotalMilliseconds;
-                    //Send Message('KeyDown', Key)
+                    cooldowns["down"] = gameTime.TotalGameTime.TotalMilliseconds;
                     InputReceived("down");
                 }
-                else if (gameTime.TotalGameTime.TotalMilliseconds - currentTimeDown > 400)
+                else if (gameTime.TotalGameTime.TotalMilliseconds - cooldowns["down"] > 400)
                 {
-                    //Send Message('KeyDown', Key)
-                    currentTimeDown += 300;
+                    cooldowns["down"] = cooldowns["down"] + 300;
                     InputReceived("down");
                 }            
             }
             else
             {
                 setKeyDown(false, 1);
-                currentTimeDown = 0;
+                cooldowns["down"] = 0;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 setKeyDown(true, 5);
-                if (currentAccept == 0.0f)
+                if (cooldowns["accept"] == 0.0f)
                 {
-                    currentAccept = gameTime.TotalGameTime.TotalMilliseconds;
+                    cooldowns["accept"] = gameTime.TotalGameTime.TotalMilliseconds;
                     InputReceived("accept");
                 }
 
-                else if (gameTime.TotalGameTime.TotalMilliseconds - currentAccept > 400)
+                else if (gameTime.TotalGameTime.TotalMilliseconds - cooldowns["accept"] > 400)
                 {
-                    currentAccept += 300;
+                    cooldowns["accept"] = cooldowns["accept"] + 300;
                     InputReceived("accept");
                 }
             }
             else
             {
                 setKeyDown(false, 5);
-                currentAccept = 0;
+                cooldowns["accept"] = 0;
             }
         }
 

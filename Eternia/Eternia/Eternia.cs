@@ -73,10 +73,13 @@ namespace Eternia
             device = GraphicsDevice;
             Song menuSong = Content.Load<Song>(@"audios\maintheme");
             Song battle1 = Content.Load<Song>(@"audios\battletheme1");
+            Song overworld = Content.Load<Song>(@"audios\overworld");
             SoundEffect rollEffect = Content.Load<SoundEffect>(@"audios\roll");
             SoundEffect laughEffect = Content.Load<SoundEffect>(@"audios\laugh");
             audio.addNewSong("MainMenu", menuSong);
             audio.addNewSong("Battle1", battle1);
+            audio.addNewSong("Options", menuSong);
+            audio.addNewSong("OverWorld", overworld);
             audio.addNewSoundEffect("roll", rollEffect);
             audio.addNewSoundEffect("laugh", laughEffect); 
             audio.playSong(this.gameState.getState());

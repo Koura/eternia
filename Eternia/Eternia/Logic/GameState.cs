@@ -38,7 +38,6 @@ namespace Eternia
         public void NewGame()
         {
             party = new Party();
-            state = "MainMenu";
             safeZone = false;
         }
         /// <summary>

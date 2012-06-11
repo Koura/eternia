@@ -31,6 +31,8 @@ namespace Eternia
         {
             switch (choice)
             {
+                case "OverWorld":
+                    return new OverWorld(game);
                 case "MainMenu":
                     return new MainMenu(game);
                 case "Options" :

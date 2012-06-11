@@ -58,7 +58,6 @@ namespace Eternia
 
         protected override void UnloadContent()
         {
-
         }
 
         protected override void ProcessInput(String message)
@@ -89,22 +88,17 @@ namespace Eternia
         /*
          * Can we just leave this like so? Does the gamestate/screenmanager handle things so that only the topmost screen gets to update?
          */
-        public override void OnInput(object sender, String message)
-        {
-            if (this.Enabled)
-            {
-                ProcessInput(message);
-            }
-        }
         private void interpretAccept()
         {
             //starting new game
             if (arrowValue == 1)
             {
+                StateChanged("OverWorld");
             }
             //loading a previous game
             if (arrowValue == 2)
-            { 
+            {
+
             }
             //pressed A at options
             if (arrowValue == 3)
@@ -116,13 +110,7 @@ namespace Eternia
             {
                 game.Exit();
             }
-        }
-        
-        public override void Update(GameTime gameTime)
-        {
-
-            base.Update(gameTime);
-        }
+        }      
 
         public override void Draw(GameTime gameTime)
         {

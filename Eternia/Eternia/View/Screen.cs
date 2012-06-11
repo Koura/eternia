@@ -51,8 +51,14 @@ namespace Eternia
          {
              spriteBatch = new SpriteBatch(game.GraphicsDevice);
          }
-       
-        public abstract void OnInput(object sender, String message);
+
+        public void OnInput(object sender, String message)
+        {
+            if (this.Enabled)
+            {
+                ProcessInput(message);
+            }
+        }
 
         protected override void UnloadContent()
         {
