@@ -9,10 +9,9 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Eternia.View;
-using Eternia.Logic;
 
-namespace Eternia.View
+
+namespace Eternia
 {
     class BattleMenu : Screen, IObserver
     {
@@ -23,15 +22,16 @@ namespace Eternia.View
         Texture2D timeBarTexture;
         int arrowXpos;
         int arrowYpos;
-        Battle battle;
+        //Battle battle;
         int arrowXoffset;
         float[] optionsXpos;
         float optionY;
         SpriteFont font;
         SpriteFont fightersNamesFont;
+        List<Being> fighters;
         private List<MenuOption> menuoptions = new List<MenuOption>();
         private float timeBarValue;
-
+        Dictionary<String, float> timeBar;
         public float TimeBarValue
         {
             get { return timeBarValue; }
@@ -52,17 +52,20 @@ namespace Eternia.View
             set { menuoptions = value; }
         }
 
-        public BattleMenu(Game game,GameState gameState, Battle battle)
+        public BattleMenu(Game game)
             : base(game)
         {
-            this.battle = battle;
-            this.gameState = gameState;
+            fightIsOn = true;
         }
 
         public override void Initialize()
         {
             arrowXpos = game.GraphicsDevice.Viewport.Width / 5 + 100 + arrowXoffset;
-            
+            timeBar = new Dictionary<string, float>();
+            fighters = new List<Being>();
+            Hero hero = new Hero("Taistelu Jaska");
+            fighters.Add(hero);
+            timeBar.Add(hero.Name, 0);
             optionsXpos = new float[4];
             optionY = game.GraphicsDevice.Viewport.Height / 10 + 500;
             arrowYpos = (int)optionY;
@@ -71,7 +74,7 @@ namespace Eternia.View
             optionsXpos[2] = game.GraphicsDevice.Viewport.Width / 5 + 400;
             optionsXpos[3] = game.GraphicsDevice.Viewport.Width / 5 + 550;
             arrowXoffset = -100;
-            fightIsOn = true;
+            
             base.Initialize();
         }
         
@@ -100,7 +103,8 @@ namespace Eternia.View
             
             spriteBatch.Draw(battlePanel, new Rectangle(0,0, battlePanel.Width, battlePanel.Height), Color.White);
             drawMenuOptions();
-            drawFighterStats();
+           
+            drawFighterStats(fighters);
             
             if(fightIsOn)
                 drawTimeBars(gameTime);
@@ -109,9 +113,9 @@ namespace Eternia.View
             base.Draw(gameTime);
         }
 
-        private void drawFighterStats()
+        private void drawFighterStats(List<Being> fighters)
         {
-            List<Being> fighters = battle.Fighters;
+            this.fighters = fighters;
             int i = 0;
             foreach(Being being in fighters)
             {
@@ -127,11 +131,11 @@ namespace Eternia.View
             int x = 150;
             int y = 5;
             int index = 0;
-            foreach (Being b in battle.Fighters)
+            foreach (Being b in this.fighters)
             {                
                 int calcY = y + index * 20;
                 float timeBarLength;
-                battle.TimeBar.TryGetValue(b.Name,out timeBarLength);
+                timeBar.TryGetValue(b.Name,out timeBarLength);
                 
                 spriteBatch.Draw(timeBarTexture, new Rectangle(x, calcY, timeBarTexture.Width + 2, timeBarTexture.Height / 2 + 2), Color.Red);
                 spriteBatch.Draw(timeBarTexture, new Rectangle(x, calcY, (int)timeBarLength, timeBarTexture.Height / 2), Color.White);

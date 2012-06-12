@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Eternia.View;
 
-namespace Eternia.Logic
+namespace Eternia
 {
     class Battle : ISubject
     {
@@ -183,5 +183,30 @@ namespace Eternia.Logic
 
             return false;
         }
+
+        // Player's turn to take action
+        /*if (battle.herosTurn())
+        {
+            battleMenuManager.ProcessInput(gameTime);
+            if (battleMenuManager.EnterPressed)
+            {
+
+            }
+        }
+        battle.fight();
+         * */
+
+
+        
+   /*   public void initNewBattle()
+      {
+       
+          battle.attachObserver(battleMenu);
+          battle.setUpHeroes(party.Heroes);
+          battle.setUpBattle();
+          modelManager.setAllModelsAlive();
+
+      }*/
+      
     }
 }

@@ -37,6 +37,8 @@ namespace Eternia
                     return new MainMenu(game);
                 case "Options" :
                     return new Options(game);
+                case "Battle" :
+                    return new BattleMenu(game);
             }
             return null;
         }

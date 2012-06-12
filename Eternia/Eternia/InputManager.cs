@@ -44,6 +44,8 @@ namespace Eternia
         {
             cooldowns.Add("up", 0);
             cooldowns.Add("down", 0);
+            cooldowns.Add("left", 0);
+            cooldowns.Add("right", 0);
             cooldowns.Add("accept", 0);
         }
 
@@ -61,65 +63,11 @@ namespace Eternia
 
         public void interpretInput(GameTime gameTime)
         {
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
-            {
-                setKeyDown(true, 0);
-                if (cooldowns["up"] == 0.0f)
-                {
-                    cooldowns["up"] = gameTime.TotalGameTime.TotalMilliseconds;
-                    InputReceived("up");
-                }
-                else if (gameTime.TotalGameTime.TotalMilliseconds - cooldowns["up"] > 400)
-                {                   
-                    cooldowns["up"] = cooldowns["up"] + 300;
-                    InputReceived("up");
-                }
-            }
-            else
-            {
-                setKeyDown(false, 0);
-                cooldowns["up"] = 0;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
-            {
-                setKeyDown(true, 1);
-                if (cooldowns["down"] == 0.0f)
-                {
-                    cooldowns["down"] = gameTime.TotalGameTime.TotalMilliseconds;
-                    InputReceived("down");
-                }
-                else if (gameTime.TotalGameTime.TotalMilliseconds - cooldowns["down"] > 400)
-                {
-                    cooldowns["down"] = cooldowns["down"] + 300;
-                    InputReceived("down");
-                }            
-            }
-            else
-            {
-                setKeyDown(false, 1);
-                cooldowns["down"] = 0;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                setKeyDown(true, 5);
-                if (cooldowns["accept"] == 0.0f)
-                {
-                    cooldowns["accept"] = gameTime.TotalGameTime.TotalMilliseconds;
-                    InputReceived("accept");
-                }
-
-                else if (gameTime.TotalGameTime.TotalMilliseconds - cooldowns["accept"] > 400)
-                {
-                    cooldowns["accept"] = cooldowns["accept"] + 300;
-                    InputReceived("accept");
-                }
-            }
-            else
-            {
-                setKeyDown(false, 5);
-                cooldowns["accept"] = 0;
-            }
+            CheckCooldown("up", Keys.Up, gameTime);
+            CheckCooldown("down", Keys.Down, gameTime);
+            CheckCooldown("left", Keys.Left, gameTime);
+            CheckCooldown("right", Keys.Right, gameTime);
+            CheckCooldown("accept", Keys.A, gameTime);
         }
 
         public void InputReceived(String input)
@@ -127,6 +75,29 @@ namespace Eternia
             if (InputGiven != null)
             {
                 InputGiven(this, input);
+            }
+        }
+
+        public void CheckCooldown(String key, Keys button, GameTime gameTime)
+        {
+            if (Keyboard.GetState().IsKeyDown(button))
+            {
+                setKeyDown(true, 1);
+                if (cooldowns[key] == 0.0f)
+                {
+                    cooldowns[key] = gameTime.TotalGameTime.TotalMilliseconds;
+                    InputReceived(key);
+                }
+                else if (gameTime.TotalGameTime.TotalMilliseconds - cooldowns[key] > 400)
+                {
+                    cooldowns[key] = cooldowns[key] + 300;
+                    InputReceived(key);
+                }
+            }
+            else
+            {
+                setKeyDown(false, 1);
+                cooldowns[key] = 0;
             }
         }
     }

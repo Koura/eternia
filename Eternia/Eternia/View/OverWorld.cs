@@ -28,7 +28,16 @@ namespace Eternia
         }
         protected override void ProcessInput(String message)
         {
+            if (message.Equals("accept"))
+            {
+                interpretAccept();
+            }
         }
+
+        private void interpretAccept()
+        {
+            StateChanged("Battle");
+        }      
 
         public override void Draw(GameTime gameTime)
         {
