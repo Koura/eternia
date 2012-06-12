@@ -19,6 +19,7 @@ namespace Eternia
         public OverWorld(Game game)
             : base (game)
         {
+            map = new Map("eternia", game);
         }
 
         public void updateMap(Map map)

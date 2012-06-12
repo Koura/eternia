@@ -14,5 +14,6 @@ namespace Eternia
         void notify();
 
         Screen currentScreen();
+
     }
 }

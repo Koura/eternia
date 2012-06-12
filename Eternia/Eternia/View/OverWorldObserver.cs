@@ -7,6 +7,8 @@ namespace Eternia.View
 {
     class OverWorldObserver : IObserver
     {
-
+        public void update()
+        {
+        }
     }
 }
