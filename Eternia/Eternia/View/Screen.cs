@@ -69,7 +69,10 @@ namespace Eternia
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
 
         protected abstract void ProcessInput(String message);
+<<<<<<< HEAD
         
+=======
+>>>>>>> battle
 
         public override void Update(GameTime gameTime)
         {

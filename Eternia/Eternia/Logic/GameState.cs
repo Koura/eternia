@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Eternia.View;
 
 
 namespace Eternia
@@ -17,12 +18,10 @@ namespace Eternia
     /// </summary>
     public class GameState : ISubject, IGameState
     {
-
-        private Party party;
         private String state;
         private List<IObserver> observers;
-
         private Boolean safeZone;
+        Party party;
 
         public GameState()
         {
@@ -37,6 +36,11 @@ namespace Eternia
 
         public void NewGame()
         {
+<<<<<<< HEAD
+=======
+            state = "MainMenu";
+
+>>>>>>> battle
             party = new Party();
             safeZone = false;
         }
@@ -51,12 +55,13 @@ namespace Eternia
 
         public void detachObserver(IObserver observer)
         {
-            if(observers.Contains(observer))
+            if (observers.Contains(observer))
                 observers.Remove(observer);
         }
         public void notify()
         {
-            foreach(IObserver observer in observers) {
+            foreach (IObserver observer in observers)
+            {
                 observer.update();
             }
         }
@@ -70,4 +75,5 @@ namespace Eternia
             notify();
         }
     }
+
 }

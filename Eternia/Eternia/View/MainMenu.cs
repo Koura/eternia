@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Eternia.View;
 
 
 namespace Eternia
@@ -17,20 +18,35 @@ namespace Eternia
     /// </summary>
     public class MainMenu : Screen
     {
+
         Rectangle arrowposi;
         Texture2D menuarrow;
         Texture2D background;
         Texture2D title;
         SpriteFont font;
 
+<<<<<<< HEAD
+=======
+
+        internal List<MenuOption> Menuoptions
+        {
+            get { return menuoptions; }
+            set { menuoptions = value; }
+        }
+
+>>>>>>> battle
         int arrowValue = 1;
       
         private List<MenuOption> menuoptions = new List<MenuOption>();      
 
         public MainMenu(Game game)
             : base(game)
+<<<<<<< HEAD
         {
             
+=======
+        {            
+>>>>>>> battle
             // send message "menu"
             // dj.playdatfunkysong("menu"); somewhere else?
         }
@@ -38,7 +54,12 @@ namespace Eternia
         public override void Initialize()
 
         {
+<<<<<<< HEAD
             // Do our MainMenu component creation magicks here           
+=======
+            // Do our MainMenu component creation magicks here            
+            // Do our MainMenu component creation magicks here          
+>>>>>>> battle
             base.Initialize();
         }
 
@@ -48,12 +69,14 @@ namespace Eternia
             menuarrow = game.Content.Load<Texture2D>("images/menuarrow");
             background = game.Content.Load<Texture2D>("images/background");
             font = game.Content.Load<SpriteFont>("fonts/menufont");
+
             title = game.Content.Load<Texture2D>("images/menutxt");
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2-40), "New Game", font, Color.White));
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2), "Load Game", font, Color.White));
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 40), "Options", font, Color.White));
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 80), "Exit Game", font, Color.White));
             arrowposi = new Rectangle(game.GraphicsDevice.Viewport.Width / 3 + 10, game.GraphicsDevice.Viewport.Height / 2 - 61, menuarrow.Width / 16, menuarrow.Height / 16);
+
         }
 
         protected override void UnloadContent()
@@ -63,6 +86,7 @@ namespace Eternia
         protected override void ProcessInput(String message)
         {           
             if (message.Equals("up"))
+<<<<<<< HEAD
             {
                 if (arrowValue>1)
                 {
@@ -78,6 +102,23 @@ namespace Eternia
                     arrowValue++;
                 }
             }
+=======
+            {
+                if (arrowValue>1)
+                {
+                    arrowposi.Y -= 40;
+                    arrowValue--;
+                }
+            }
+            if (message.Equals("down"))
+            {
+                if (arrowValue < 4)
+                {
+                    arrowposi.Y += 40;
+                    arrowValue++;
+                }
+            }
+>>>>>>> battle
             if (message.Equals("accept"))
             {
                 interpretAccept();
@@ -98,7 +139,11 @@ namespace Eternia
             //loading a previous game
             if (arrowValue == 2)
             {
+<<<<<<< HEAD
 
+=======
+                //insert loading here
+>>>>>>> battle
             }
             //pressed A at options
             if (arrowValue == 3)
@@ -115,6 +160,10 @@ namespace Eternia
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
+
+
+            foreach (MenuOption option in Menuoptions)
+
             spriteBatch.Draw(background, new Rectangle(0, 0, 800, 600), Color.SteelBlue);
             spriteBatch.Draw(title, new Rectangle(10,0, title.Width, title.Height), Color.White);
             spriteBatch.Draw(menuarrow, arrowposi, Color.White);

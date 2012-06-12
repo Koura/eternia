@@ -17,6 +17,15 @@ namespace Eternia
     /// </summary>
     public  abstract class Being
     {
+        
+        private String name;
+
+        public String Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
         private Vector3 position;
 
         public Vector3 Position
@@ -76,11 +85,18 @@ namespace Eternia
         private String elementType;
         private String damageType;
 
-        private float speed { get; set; }
+        private float speed;
 
-        public Being()
+        public float Speed 
+        {
+            get { return speed; }
+            set { speed = value; }
+        }
+
+        public Being(String name)
 
         {
+            this.name = name;
             this.position = new Vector3(0,0,0);
             this.maxHealth = 100;
             this.currentHealth = maxHealth;
@@ -94,5 +110,11 @@ namespace Eternia
             this.magicResist = 0;
             
         }
+
+        //public void VulnerabilityCalc()
+        //{
+        //    vulnerability.Add("physical", (1.0f - ((Armor / 10) / 100)));
+        //    vulnerability.Add("magic", (1.0f - ((MagicResist / 10) / 100)));
+        //}
     }
 }

@@ -14,7 +14,7 @@ namespace Eternia
 {
     class EnemyBoss : Enemy
     {
-        public EnemyBoss(Vector3 position, float maxHealth, float armor, float damage, Dictionary<string, float> vulnerability) : base(position, maxHealth, armor, damage, vulnerability)
+        public EnemyBoss(String name,Vector3 position, float maxHealth, float armor, float damage) : base(name,position, maxHealth, armor, damage)
         {
 
         }

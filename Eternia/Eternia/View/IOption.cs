@@ -9,16 +9,18 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Eternia.View;
 
-namespace Eternia
+namespace Eternia.View
 {
-    class EnemySoldier : Enemy
+    interface IOption
     {
-        private string name;
-        public EnemySoldier(String name, Vector3 position,float maxHealth, float armor, float damage)
-            : base(name, position, maxHealth, armor, damage)
-        {
-            this.name = name;
-        }
+         Color Colour { get; set; }
+        SpriteFont Font { get; set; }
+         Vector2 Position { get; set; }
+         float Rotation { get; set; }
+         float Scale { get; set; }
+         Vector2 Size { get; set; }
+         String Text { get; set; }
     }
 }
