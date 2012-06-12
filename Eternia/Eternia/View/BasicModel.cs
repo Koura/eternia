@@ -54,8 +54,8 @@ namespace Eternia
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     effect.EnableDefaultLighting();
-                    effect.Projection = camera.projection;
-                    effect.View = camera.view;
+                    effect.Projection = camera.projectionMatrix;
+                    effect.View = camera.viewMatrix;
                     effect.World = GetWorld() * mesh.ParentBone.Transform;
                 }
                 mesh.Draw();

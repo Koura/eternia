@@ -16,10 +16,15 @@ namespace Eternia
     {
 
         Map map;
+        Camera camera;
+        Effect effect;
         public OverWorld(Game game)
             : base (game)
         {
             map = new Map("eternia", game);
+            camera = new Camera();
+            camera.SetUpCamera(game.GraphicsDevice);
+            effect = game.Content.Load<Effect>("EterniaEffects");
         }
 
         public void updateMap(Map map)
@@ -42,6 +47,7 @@ namespace Eternia
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
+            camera.Draw(effect);
             map.Draw(gameTime);
         }
     }

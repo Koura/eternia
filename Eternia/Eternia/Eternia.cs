@@ -32,6 +32,7 @@ namespace Eternia
         ModelManager modelManager;
         ScreenDelegator delegator;
         CommandHandler commandHandler;
+        LogicManager logicUnit;
 
         private const string gameTitle = "Last Dreams of Eternia";
 
@@ -55,7 +56,7 @@ namespace Eternia
             graphics.PreferredBackBufferHeight = 600;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
-            Camera = new Camera(this, new Vector3(0, 40 ,20), new Vector3(0, 0,0), Vector3.Up);
+            Camera = new Camera();
             modelManager = new ModelManager(this);
             Components.Add(modelManager);
             // AudioManager is a Iobserver. Give a Isubject as parameter in constructor. 
@@ -66,7 +67,8 @@ namespace Eternia
             view = new ScreenManager(this);    
             delegator = new ScreenDelegator(view, this, this.gameState);
             this.gameState.attachObserver(delegator);
-            this.commandHandler = new CommandHandler(this.view, this.gameState);
+            this.logicUnit = new LogicManager(this.gameState);
+            this.commandHandler = new CommandHandler(this.view, this.logicUnit);
             view.attachObserver(this.commandHandler);
             this.gameState.setState("MainMenu");
             Window.Title = gameTitle;

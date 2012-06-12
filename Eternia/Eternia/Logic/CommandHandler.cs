@@ -8,12 +8,12 @@ namespace Eternia
     class CommandHandler : IObserver
     {
         IScreenManager screenManager;
-        IGameState gameState;
+        LogicManager logic;
 
-        public CommandHandler(IScreenManager screenManager, IGameState gameState)
+        public CommandHandler(IScreenManager screenManager, LogicManager logic)
         {
             this.screenManager = screenManager;
-            this.gameState = gameState;
+            this.logic = logic;
         }
         public void update() 
         {
@@ -22,7 +22,7 @@ namespace Eternia
 
         public void OnStateChange(object sender, String newState)
         {
-            gameState.setState(newState);
+            logic.StateChange(newState);
         }
     }
 }

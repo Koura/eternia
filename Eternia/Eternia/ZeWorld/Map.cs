@@ -47,6 +47,7 @@ namespace Eternia
         Texture2D sandTexture;
         Texture2D rockTexture;
         Texture2D snowTexture;
+        Texture2D cloudMap;
 
         int terrainWidth;
         int terrainLength;
@@ -56,10 +57,6 @@ namespace Eternia
         IndexBuffer terrainIndexBuffer;
 
         Effect effect;
-        Matrix viewMatrix;
-        Matrix projectionMatrix;
-
-        Vector3 cameraPosition = new Vector3(130, 30, -50);
 
         public Map(String map, Game game)
            : base (game)
@@ -72,9 +69,6 @@ namespace Eternia
         {
             effect = game.Content.Load<Effect>("EterniaEffects");
 
-            viewMatrix = Matrix.CreateLookAt(new Vector3(130, 30, -50), new Vector3(0, 0, -40), new Vector3(0, 1, 0));
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, game.GraphicsDevice.Viewport.AspectRatio, 0.3f, 1000.0f);
-
             LoadVertices(map);
             LoadTextures();
         }
@@ -84,7 +78,8 @@ namespace Eternia
             sandTexture = game.Content.Load<Texture2D>("models/sand");
             rockTexture = game.Content.Load<Texture2D>("models/rock");
             snowTexture = game.Content.Load<Texture2D>("models/snow");
-            grassTexture = game.Content.Load<Texture2D>("models/grass");            
+            grassTexture = game.Content.Load<Texture2D>("models/grass");
+           // cloudMap = game.Content.Load<Texture2D>("cloudMap");
         }
 
         private void LoadVertices(String map)
@@ -97,8 +92,7 @@ namespace Eternia
             int[] terrainIndices = SetUpTerrainIndices();
             terrainVertices = CalculateNormals(terrainVertices, terrainIndices);
             CopyToTerrainBuffers(terrainVertices, terrainIndices);
-
-           
+  
         }
 
         private void LoadHeightData(Texture2D heightMap)
@@ -232,24 +226,18 @@ namespace Eternia
         public override void Draw(GameTime gameTime)
         {
             float time = (float)gameTime.TotalGameTime.TotalMilliseconds / 100.0f;                  
-            DrawTerrain(viewMatrix);
+            DrawTerrain();
 
             base.Draw(gameTime);
         }
 
-        private void DrawTerrain(Matrix currentViewMatrix)
+        private void DrawTerrain()
         {
             effect.CurrentTechnique = effect.Techniques["MultiTextured"];
             effect.Parameters["xTexture0"].SetValue(sandTexture);
             effect.Parameters["xTexture1"].SetValue(grassTexture);
             effect.Parameters["xTexture2"].SetValue(rockTexture);
             effect.Parameters["xTexture3"].SetValue(snowTexture);
-
-            Matrix worldMatrix = Matrix.Identity;
-            effect.Parameters["xWorld"].SetValue(worldMatrix);
-            effect.Parameters["xView"].SetValue(currentViewMatrix);
-            effect.Parameters["xProjection"].SetValue(projectionMatrix);
-
             effect.Parameters["xEnableLighting"].SetValue(true);
             effect.Parameters["xAmbient"].SetValue(0.4f);
             effect.Parameters["xLightDirection"].SetValue(new Vector3(-0.5f, -1, -0.5f));

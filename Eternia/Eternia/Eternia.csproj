@@ -119,9 +119,9 @@
     <Compile Include="View\BasicModel.cs" />
     <Compile Include="View\BattleMenu.cs" />
     <Compile Include="View\BattleOption.cs" />
-    <Compile Include="View\Camera.cs" />
     <Compile Include="View\IinputManager.cs" />
     <Compile Include="View\IOption.cs" />
+    <Compile Include="Logic\LogicManager.cs" />
     <Compile Include="View\MainMenu.cs" />
     <Compile Include="IObserver.cs" />
     <Compile Include="View\MenuOption.cs" />
@@ -131,6 +131,7 @@
     <Compile Include="View\OverWorldObserver.cs" />
     <Compile Include="View\ScreenDelegator.cs" />
     <Compile Include="ZeWorld\Being.cs" />
+    <Compile Include="ZeWorld\Camera.cs" />
     <Compile Include="ZeWorld\Enemy.cs" />
     <Compile Include="ZeWorld\EnemyBoss.cs" />
     <Compile Include="ZeWorld\EnemyFactory.cs" />
