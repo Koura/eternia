@@ -7,10 +7,5 @@ namespace Eternia
 
         void setState(String state);
 
-        int getArrowOnOptionState();
-
-        void setArrowOnOptionState(int arrowOnOption);
-
-
     }
 }

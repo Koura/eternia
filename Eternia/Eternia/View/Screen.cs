@@ -15,25 +15,23 @@ namespace Eternia
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
+
+    public delegate void StateChangeEventHandler(object source, String state);
+
     public abstract class Screen : Microsoft.Xna.Framework.DrawableGameComponent
     {
         //interface[] djs
         protected SpriteFont textFont;
         protected SpriteBatch spriteBatch;
         protected Game game;
-        private IGameState gameState;
-        private int arrowOnOption;
 
-        public int ArrowOnOption
-        {
-            get { return arrowOnOption; }
-            set { arrowOnOption = value; }
-        }
+        public event StateChangeEventHandler stateChange;
 
          public Screen(Game game)
             : base(game)
         {
             this.game = game;
+            InputManager.instance().InputGiven += new InputEventHandler(OnInput);
             // TODO: Construct any child components here
         }
 
@@ -54,6 +52,14 @@ namespace Eternia
              spriteBatch = new SpriteBatch(game.GraphicsDevice);
          }
 
+        public void OnInput(object sender, String message)
+        {
+            if (this.Enabled)
+            {
+                ProcessInput(message);
+            }
+        }
+
         protected override void UnloadContent()
         {
         }
@@ -62,6 +68,7 @@ namespace Eternia
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
 
+        protected abstract void ProcessInput(String message);
 
         public override void Update(GameTime gameTime)
         {
@@ -73,6 +80,14 @@ namespace Eternia
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
+        }
+
+        public void StateChanged(String newState)
+        {
+            if (stateChange != null)
+            {
+                stateChange(this, newState);
+            }
         }
     }
 }

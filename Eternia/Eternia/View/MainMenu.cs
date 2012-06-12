@@ -16,7 +16,7 @@ namespace Eternia
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class MainMenu : Screen, IObserver
+    public class MainMenu : Screen
     {
 
         Rectangle arrowposi;
@@ -24,7 +24,7 @@ namespace Eternia
         Texture2D background;
         Texture2D title;
         SpriteFont font;
-        private List<MenuOption> menuoptions = new List<MenuOption>();
+
 
         internal List<MenuOption> Menuoptions
         {
@@ -32,21 +32,22 @@ namespace Eternia
             set { menuoptions = value; }
         }
 
-        
+        int arrowValue = 1;
+      
+        private List<MenuOption> menuoptions = new List<MenuOption>();      
 
         public MainMenu(Game game)
             : base(game)
-        {
-            
+        {            
+            // send message "menu"
+            // dj.playdatfunkysong("menu"); somewhere else?
         }
 
         public override void Initialize()
 
         {
-            // Do our MainMenu component creation magicks here
-            
-            ArrowOnOption = 0;
-
+            // Do our MainMenu component creation magicks here            
+            // Do our MainMenu component creation magicks here          
             base.Initialize();
         }
 
@@ -68,21 +69,59 @@ namespace Eternia
 
         protected override void UnloadContent()
         {
-
         }
 
-        protected override void ProcessInput()
-        {  
-          
+        protected override void ProcessInput(String message)
+        {           
+            if (message.Equals("up"))
+            {
+                if (arrowValue>1)
+                {
+                    arrowposi.Y -= 40;
+                    arrowValue--;
+                }
+            }
+            if (message.Equals("down"))
+            {
+                if (arrowValue < 4)
+                {
+                    arrowposi.Y += 40;
+                    arrowValue++;
+                }
+            }
+            if (message.Equals("accept"))
+            {
+                interpretAccept();
+            }
+            //send message to interface
         }
 
         /*
          * Can we just leave this like so? Does the gamestate/screenmanager handle things so that only the topmost screen gets to update?
          */
-        public override void Update(GameTime gameTime)
+        private void interpretAccept()
         {
-            base.Update(gameTime);
-        }
+            //starting new game
+            if (arrowValue == 1)
+            {
+                StateChanged("OverWorld");
+            }
+            //loading a previous game
+            if (arrowValue == 2)
+            {
+                //insert loading here
+            }
+            //pressed A at options
+            if (arrowValue == 3)
+            {
+                StateChanged("Options");
+            }
+            //A was pressed at Exit game
+            if (arrowValue == 4)
+            {
+                game.Exit();
+            }
+        }      
 
         public override void Draw(GameTime gameTime)
         {

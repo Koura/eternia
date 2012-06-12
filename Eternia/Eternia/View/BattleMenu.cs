@@ -62,9 +62,8 @@ namespace Eternia.View
         public override void Initialize()
         {
             arrowXpos = game.GraphicsDevice.Viewport.Width / 5 + 100 + arrowXoffset;
-            ArrowOnOption = 0;
+            
             optionsXpos = new float[4];
-            arrowXpos = (int)optionsXpos[ArrowOnOption];
             optionY = game.GraphicsDevice.Viewport.Height / 10 + 500;
             arrowYpos = (int)optionY;
             optionsXpos[0] = game.GraphicsDevice.Viewport.Width / 5 + 100;
@@ -158,13 +157,11 @@ namespace Eternia.View
 
         private void drawMenuOptions()
         {
-            MenuOption chosenOption = menuoptions.ElementAt(gameState.getArrowOnOptionState());
 
             foreach (MenuOption option in Menuoptions)
             {
                 option.Colour = Color.Tomato;
             }
-            chosenOption.Colour = Color.Black;
             foreach (MenuOption option in Menuoptions)
             {
                 spriteBatch.DrawString(option.Font, option.Text, option.Position, option.Colour,
@@ -172,7 +169,7 @@ namespace Eternia.View
             }
         }
 
-
+        
 
         public override void Update(GameTime gameTime)
         {
@@ -180,7 +177,10 @@ namespace Eternia.View
             
         }
 
-        
+        protected override void ProcessInput(String message)
+        {
+        }
+
 
         // IObserver interface update
         public void update()

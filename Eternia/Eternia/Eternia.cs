@@ -30,12 +30,12 @@ namespace Eternia
         GameState gameState;
         ScreenManager view;
         AudioManager audio;
-        IinputManager mainMenuinputManager;
-        IinputManager battleMenuManager;
         ModelManager modelManager;
-        Party party;
         Battle battle;
         
+        ScreenDelegator delegator;
+        CommandHandler commandHandler;
+
         private const string gameTitle = "Last Dreams of Eternia";
 
         public Eternia()
@@ -66,14 +66,13 @@ namespace Eternia
             //this.gameState.NewGame();
             this.audio = new AudioManager(this.gameState);
             this.gameState.attachObserver(audio);
-            view = new ScreenManager(this);
-            view.pushScreen(new MainMenu(this, this.gameState));
-            mainMenuinputManager = new MainMenuInputManager(this, this.gameState);
-            battleMenuManager = new BattleMenuInputManager(this, this.gameState);
-            this.gameState.attachObserver(mainMenuinputManager);
-            party = new Party();
-            party.addCompany(new Hero("Taistelu-Jaska"));
-            
+            view = new ScreenManager(this);            
+           
+            delegator = new ScreenDelegator(view, this, this.gameState);
+            this.gameState.attachObserver(delegator);
+            this.commandHandler = new CommandHandler(this.view, this.gameState);
+            view.attachObserver(this.commandHandler);
+            this.gameState.setState("MainMenu");
             Window.Title = gameTitle;
 
             base.Initialize();
@@ -88,9 +87,14 @@ namespace Eternia
             // Create a new SpriteBatch, which can be used to draw textures.
             device = GraphicsDevice;
             Song menuSong = Content.Load<Song>(@"audios\maintheme");
+            Song battle1 = Content.Load<Song>(@"audios\battletheme1");
+            Song overworld = Content.Load<Song>(@"audios\overworld");
             SoundEffect rollEffect = Content.Load<SoundEffect>(@"audios\roll");
             SoundEffect laughEffect = Content.Load<SoundEffect>(@"audios\laugh");
             audio.addNewSong("MainMenu", menuSong);
+            audio.addNewSong("Battle1", battle1);
+            audio.addNewSong("Options", menuSong);
+            audio.addNewSong("OverWorld", overworld);
             audio.addNewSoundEffect("roll", rollEffect);
             audio.addNewSoundEffect("laugh", laughEffect); 
             audio.playSong(this.gameState.getState());
@@ -113,27 +117,14 @@ namespace Eternia
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (gameState.getState().Equals("MainMenu"))
-            {
-
-                processInputForMainMenu(gameTime);
-            }
-            
-            if (gameState.getState().Equals("NewBattle"))
-            {
-                initNewBattle();
-            }
-            if (gameState.getState().Equals("Battle"))
-            {
-                fight(gameTime);
-            }
+            InputManager.instance().interpretInput(gameTime);            
             base.Update(gameTime);
         }
 
         private void fight(GameTime gameTime)
         {
             // Player's turn to take action
-            if (battle.herosTurn())
+            /*if (battle.herosTurn())
             {
                 battleMenuManager.ProcessInput(gameTime);
                 if (battleMenuManager.EnterPressed)
@@ -142,13 +133,9 @@ namespace Eternia
                 }
             }
             battle.fight();
+             * */
         }
-
-        private void processInputForMainMenu(GameTime gameTime)
-        {
-            mainMenuinputManager.ProcessInput(gameTime);
-        }
-
+         /*   
         private void initNewBattle()
         {
             battle = new Battle();
@@ -160,8 +147,16 @@ namespace Eternia
             modelManager.setAllModelsAlive();
             view.pushScreen(battleMenu);
 
+            InputManager.instance().interpretInput(gameTime);
+            base.Update(gameTime);
+            if (Keyboard.GetState().IsKeyDown(Keys.R))
+                this.gameState.setState("Battle1");
+            if (Keyboard.GetState().IsKeyDown(Keys.Q))
+                audio.playSoundEffect("laugh");
+
+
         }
-        
+        */
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -173,10 +168,7 @@ namespace Eternia
             rs.CullMode = CullMode.None;
             device.RasterizerState = rs;
             device.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
-
             // TODO: Add your drawing code here
-            Screen screen = view.currentScreen;
-            screen.Draw(gameTime);
 
             base.Draw(gameTime);
         }

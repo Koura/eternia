@@ -18,11 +18,10 @@ namespace Eternia
     /// </summary>
     public class GameState : ISubject, IGameState
     {
-        private int arrowOnOption;
         private String state;
-        private String status;
         private List<IObserver> observers;
         private Boolean safeZone;
+        Party party;
 
         public GameState()
         {
@@ -38,7 +37,8 @@ namespace Eternia
         public void NewGame()
         {
             state = "MainMenu";
-            status = "outdoors";
+
+            party = new Party();
             safeZone = false;
         }
         /// <summary>
@@ -52,12 +52,13 @@ namespace Eternia
 
         public void detachObserver(IObserver observer)
         {
-            if(observers.Contains(observer))
+            if (observers.Contains(observer))
                 observers.Remove(observer);
         }
         public void notify()
         {
-            foreach(IObserver observer in observers) {
+            foreach (IObserver observer in observers)
+            {
                 observer.update();
             }
         }
@@ -70,19 +71,6 @@ namespace Eternia
             this.state = state;
             notify();
         }
-
-
-
-
-        public int getArrowOnOptionState()
-        {
-            return arrowOnOption;
-        }
-
-
-        public void setArrowOnOptionState(int arrowOnOption)
-        {
-            this.arrowOnOption = arrowOnOption;
-        }
     }
+
 }

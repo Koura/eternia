@@ -16,43 +16,69 @@ namespace Eternia
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class ScreenManager
+    public class ScreenManager : IScreenManager
     {
 
         Stack<Screen> screens = new Stack<Screen>();
         private Game game;
+        private List<IObserver> observers;
+
         public ScreenManager(Game game)
         {
             this.game = game;
+            observers = new List<IObserver>();
             // TODO: Construct any child components here
         }
 
-        public Screen currentScreen
+        public Screen currentScreen()
         {
-            get { return screens.Peek(); }
+            return screens.Peek();
         }
 
         public void pushScreen(Screen screen)
         {
             if (screens.Count != 0)
             {
-                currentScreen.Enabled = false;
-                currentScreen.Visible = false;
+                currentScreen().Enabled = false;
+                currentScreen().Visible = false;
             }
             screens.Push(screen);
             game.Components.Add(screen);
+            notify();
         }
 
         public void popScreen()
         {
-            currentScreen.Enabled = false;
-            currentScreen.Visible = false;
-            game.Components.Remove(currentScreen);
-            screens.Pop();
             if (screens.Count != 0)
             {
-                currentScreen.Enabled = true;
-                currentScreen.Visible = true;
+
+                currentScreen().Enabled = false;
+                currentScreen().Visible = false;
+                game.Components.Remove(currentScreen());
+                screens.Pop();
+            }
+            if (screens.Count != 0)
+            {
+                currentScreen().Enabled = true;
+                currentScreen().Visible = true;
+            }
+        }
+
+        public void attachObserver(IObserver observer)
+        {
+            observers.Add(observer);
+        }
+
+        public void detachObserver(IObserver observer)
+        {
+            if (observers.Contains(observer))
+                observers.Remove(observer);
+        }
+        public void notify()
+        {
+            foreach (IObserver observer in observers)
+            {
+                observer.update();
             }
         }
     }
