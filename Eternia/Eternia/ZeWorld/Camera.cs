@@ -30,16 +30,16 @@ namespace Eternia
         /// <param name="device"></param>
         public void SetUpCamera(GraphicsDevice device)
         {
-            cameraPos = new Vector3(80, 20, -50);
+           cameraPos = new Vector3(80, 20, -50);
            viewMatrix = Matrix.CreateLookAt(cameraPos, new Vector3(0, 2, -12), new Vector3(0, 1, 0));
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, nearClip, farClip);
+           projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, nearClip, farClip);
         }
 
 
         public void Draw(Effect effect)
         { 
             effect.Parameters["xView"].SetValue(viewMatrix);
-            effect.Parameters["xProjection"].SetValue(viewMatrix * projectionMatrix);
+            effect.Parameters["xProjection"].SetValue(projectionMatrix);
             effect.Parameters["xWorld"].SetValue(Matrix.Identity);
            
         }
