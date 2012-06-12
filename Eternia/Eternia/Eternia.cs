@@ -8,8 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Eternia.View;
-using Eternia.Logic;
+
 
 namespace Eternia
 {
@@ -31,7 +30,6 @@ namespace Eternia
         ScreenManager view;
         AudioManager audio;
         ModelManager modelManager;
-        Battle battle;
         ScreenDelegator delegator;
         CommandHandler commandHandler;
 
@@ -85,12 +83,12 @@ namespace Eternia
             // Create a new SpriteBatch, which can be used to draw textures.
             device = GraphicsDevice;
             Song menuSong = Content.Load<Song>(@"audios\maintheme");
-            Song battle1 = Content.Load<Song>(@"audios\battletheme1");
+            Song battle = Content.Load<Song>(@"audios\battletheme1");
             Song overworld = Content.Load<Song>(@"audios\overworld");
             SoundEffect rollEffect = Content.Load<SoundEffect>(@"audios\roll");
             SoundEffect laughEffect = Content.Load<SoundEffect>(@"audios\laugh");
             audio.addNewSong("MainMenu", menuSong);
-            audio.addNewSong("Battle1", battle1);
+            audio.addNewSong("Battle", battle);
             audio.addNewSong("Options", menuSong);
             audio.addNewSong("OverWorld", overworld);
             audio.addNewSoundEffect("roll", rollEffect);
@@ -118,43 +116,6 @@ namespace Eternia
             InputManager.instance().interpretInput(gameTime);            
             base.Update(gameTime);
         }
-
-        private void fight(GameTime gameTime)
-        {
-            // Player's turn to take action
-            /*if (battle.herosTurn())
-            {
-                battleMenuManager.ProcessInput(gameTime);
-                if (battleMenuManager.EnterPressed)
-                {
-
-                }
-            }
-            battle.fight();
-             * */
-        }
-         /*   
-        private void initNewBattle()
-        {
-            battle = new Battle();
-            gameState.setState("Battle");
-            BattleMenu battleMenu = new BattleMenu(this, this.gameState,battle);
-            battle.attachObserver(battleMenu);
-            battle.setUpHeroes(party.Heroes);
-            battle.setUpBattle();
-            modelManager.setAllModelsAlive();
-            view.pushScreen(battleMenu);
-
-            InputManager.instance().interpretInput(gameTime);
-            base.Update(gameTime);
-            if (Keyboard.GetState().IsKeyDown(Keys.R))
-                this.gameState.setState("Battle1");
-            if (Keyboard.GetState().IsKeyDown(Keys.Q))
-                audio.playSoundEffect("laugh");
-
-
-        }
-        */
 
         /// <summary>
         /// This is called when the game should draw itself.
