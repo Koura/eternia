@@ -9,6 +9,7 @@ namespace Eternia.View
     {
         public void update()
         {
+
         }
     }
 }

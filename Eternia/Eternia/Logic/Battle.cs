@@ -198,15 +198,10 @@ namespace Eternia
 
 
         
-   /*   public void initNewBattle()
-      {
-       
-          battle.attachObserver(battleMenu);
-          battle.setUpHeroes(party.Heroes);
-          battle.setUpBattle();
-          modelManager.setAllModelsAlive();
+        public void initNewBattle()
+          {
 
-      }*/
+          }
       
     }
 }

@@ -16,18 +16,14 @@ namespace Eternia
     class BattleMenu : Screen, IObserver
     {
         
-        IGameState gameState;
-        Texture2D menuarrow;
         Texture2D battlePanel;
         Texture2D timeBarTexture;
-        int arrowXpos;
-        int arrowYpos;
-        //Battle battle;
-        int arrowXoffset;
+        Battle battle;
         float[] optionsXpos;
         float optionY;
         SpriteFont font;
-        SpriteFont fightersNamesFont;
+        int selectionValue = 0;
+
         List<Being> fighters;
         private List<MenuOption> menuoptions = new List<MenuOption>();
         private float timeBarValue;
@@ -38,42 +34,30 @@ namespace Eternia
             set { timeBarValue = value; }
         }
 
-        private bool fightIsOn;
-
-        public bool FightIsOn
-        {
-            get;
-            set;
-        }
-
-        internal List<MenuOption> Menuoptions
-        {
-            get { return menuoptions; }
-            set { menuoptions = value; }
-        }
-
         public BattleMenu(Game game)
             : base(game)
         {
-            fightIsOn = true;
+            timeBar = new Dictionary<string, float>();
+            fighters = new List<Being>();
+            battle = new Battle();
+            
+            Party party = new Party();
+            party.addCompany(new Hero("Taistelu Jaska"));
+            battle.setUpHeroes(party.Heroes);
+            battle.setUpBattle();
+            
         }
 
         public override void Initialize()
         {
-            arrowXpos = game.GraphicsDevice.Viewport.Width / 5 + 100 + arrowXoffset;
-            timeBar = new Dictionary<string, float>();
-            fighters = new List<Being>();
-            Hero hero = new Hero("Taistelu Jaska");
-            fighters.Add(hero);
-            timeBar.Add(hero.Name, 0);
+            
+            
             optionsXpos = new float[4];
             optionY = game.GraphicsDevice.Viewport.Height / 10 + 500;
-            arrowYpos = (int)optionY;
             optionsXpos[0] = game.GraphicsDevice.Viewport.Width / 5 + 100;
             optionsXpos[1] = game.GraphicsDevice.Viewport.Width / 5 + 250;
             optionsXpos[2] = game.GraphicsDevice.Viewport.Width / 5 + 400;
             optionsXpos[3] = game.GraphicsDevice.Viewport.Width / 5 + 550;
-            arrowXoffset = -100;
             
             base.Initialize();
         }
@@ -82,9 +66,8 @@ namespace Eternia
         protected override void LoadContent()
         {
             base.LoadContent();
-            menuarrow = game.Content.Load<Texture2D>("images/menuarrow");
             font = game.Content.Load<SpriteFont>("fonts/menufont");
-            fightersNamesFont = game.Content.Load<SpriteFont>("fonts/battleFighters");
+            font = game.Content.Load<SpriteFont>("fonts/battleFighters");
             battlePanel = game.Content.Load<Texture2D>("images/battleImg1");
             timeBarTexture = game.Content.Load<Texture2D>("images/timeBar");
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[0], optionY), "Attack", font, Color.Black));
@@ -106,8 +89,7 @@ namespace Eternia
            
             drawFighterStats(fighters);
             
-            if(fightIsOn)
-                drawTimeBars(gameTime);
+            drawTimeBars(gameTime);
 
             spriteBatch.End();
             base.Draw(gameTime);
@@ -119,7 +101,7 @@ namespace Eternia
             int i = 0;
             foreach(Being being in fighters)
             {
-                spriteBatch.DrawString(fightersNamesFont, being.Name +
+                spriteBatch.DrawString(font, being.Name +
                 "\n Health: " + being.CurrentHealth, new Vector2(600, 20 + (i++ * 50)), Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
             }
            
@@ -151,44 +133,74 @@ namespace Eternia
 
         private void drawPlayerToTakeActionNext(int x, int calcY)
         {
-            spriteBatch.DrawString(fightersNamesFont, "Your turn!", new Vector2(x + 210, calcY), Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
+            spriteBatch.DrawString(font, "Your turn!", new Vector2(x + 210, calcY), Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
         }
 
         private void drawfighterNames(int x, int calcY, Being being)
         {
-            spriteBatch.DrawString(fightersNamesFont, being.Name, new Vector2(x, calcY), Color.White, 0, new Vector2(0,0),0.5f, SpriteEffects.None,0);
+            spriteBatch.DrawString(font, being.Name, new Vector2(x, calcY), Color.White, 0, new Vector2(0,0),0.5f, SpriteEffects.None,0);
         }
 
         private void drawMenuOptions()
         {
 
-            foreach (MenuOption option in Menuoptions)
+            foreach (MenuOption option in menuoptions)
             {
                 option.Colour = Color.Tomato;
             }
-            foreach (MenuOption option in Menuoptions)
+            menuoptions.ElementAt(selectionValue).Colour = Color.Black;
+            foreach (MenuOption option in menuoptions)
             {
                 spriteBatch.DrawString(option.Font, option.Text, option.Position, option.Colour,
                 option.Rotation, option.Size / 2, option.Scale, SpriteEffects.None, 0);
             }
+
         }
 
         
 
         public override void Update(GameTime gameTime)
         {
+            fighters = battle.Fighters;
+            timeBar = battle.TimeBar;
+            battle.fight();
             base.Update(gameTime);
             
         }
 
         protected override void ProcessInput(String message)
         {
+            if (message.Equals("left"))
+            {
+                if (selectionValue > 0)
+                {
+                    selectionValue--;
+                }
+            }
+            if (message.Equals("right"))
+            {
+                if (selectionValue < 3)
+                {
+                    selectionValue++;
+                }
+            }
+            if (message.Equals("accept"))
+            {
+                interpretAccept();
+            }
+        }
+
+        private void interpretAccept()
+        {
+            // 
+            throw new NotImplementedException();
         }
 
 
         // IObserver interface update
         public void update()
         {
+            
         }
 
     }
