@@ -17,13 +17,7 @@ namespace Eternia
     /// </summary>
     public class Hero : Being
     {
-        private String name;
-
-        public String Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
+        
         private float maxMana;
 
         public float MaxMana
@@ -83,9 +77,9 @@ namespace Eternia
         public List<IObserver> observers;
 
         public Hero(String name)
-            : base()
+            : base(name)
         {
-            this.name = name;
+            
             this.maxMana = 50;
             this.currentMana = this.maxMana;
             this.strength = 10;
@@ -93,18 +87,9 @@ namespace Eternia
             this.endurance = 10;
             this.intelligence = 10;
             this.equipment = new List<Equipment>();
-            VulnerabilityCalc();
         }
 
-        private void VulnerabilityCalc()
-        {
-            vulnerability.Add("physical", (1.0f - ((Armor / 10) / 100)));
-            vulnerability.Add("magic", (1.0f - ((MagicResist / 10) / 100)));
-            vulnerability.Add("fire", 1.0f - ((endurance/5)/100));
-            vulnerability.Add("ice", 1.0f - ((endurance / 5) / 100));
-            vulnerability.Add("lightning", 1.0f - ((endurance / 5) / 100));
-            vulnerability.Add("wind", 1.0f - ((endurance / 5) / 100));
-        }
+        
 
         public void addObersever(IObserver observer) {
             this.observers.Add(observer);

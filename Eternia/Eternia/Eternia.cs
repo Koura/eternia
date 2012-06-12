@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Eternia.View;
+using Eternia.Logic;
 
 namespace Eternia
 {
@@ -17,11 +19,19 @@ namespace Eternia
     public class Eternia : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
-
         GraphicsDevice device;
+        Camera camera;
+
+        public Camera Camera
+        {
+            get { return camera; }
+            set { camera = value; }
+        }
         GameState gameState;
         ScreenManager view;
         AudioManager audio;
+        ModelManager modelManager;
+        Battle battle;
         ScreenDelegator delegator;
         CommandHandler commandHandler;
 
@@ -47,12 +57,15 @@ namespace Eternia
             graphics.PreferredBackBufferHeight = 600;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
+            Camera = new Camera(this, new Vector3(0, 40 ,20), new Vector3(0, 0,0), Vector3.Up);
+            modelManager = new ModelManager(this);
+            Components.Add(modelManager);
             // AudioManager is a Iobserver. Give a Isubject as parameter in constructor. 
             this.gameState = new GameState();
             //this.gameState.NewGame();
             this.audio = new AudioManager(this.gameState);
             this.gameState.attachObserver(audio);
-            view = new ScreenManager(this);
+            view = new ScreenManager(this);    
             delegator = new ScreenDelegator(view, this, this.gameState);
             this.gameState.attachObserver(delegator);
             this.commandHandler = new CommandHandler(this.view, this.gameState);
@@ -102,6 +115,36 @@ namespace Eternia
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            InputManager.instance().interpretInput(gameTime);            
+            base.Update(gameTime);
+        }
+
+        private void fight(GameTime gameTime)
+        {
+            // Player's turn to take action
+            /*if (battle.herosTurn())
+            {
+                battleMenuManager.ProcessInput(gameTime);
+                if (battleMenuManager.EnterPressed)
+                {
+
+                }
+            }
+            battle.fight();
+             * */
+        }
+         /*   
+        private void initNewBattle()
+        {
+            battle = new Battle();
+            gameState.setState("Battle");
+            BattleMenu battleMenu = new BattleMenu(this, this.gameState,battle);
+            battle.attachObserver(battleMenu);
+            battle.setUpHeroes(party.Heroes);
+            battle.setUpBattle();
+            modelManager.setAllModelsAlive();
+            view.pushScreen(battleMenu);
+
             InputManager.instance().interpretInput(gameTime);
             base.Update(gameTime);
             if (Keyboard.GetState().IsKeyDown(Keys.R))
@@ -109,8 +152,9 @@ namespace Eternia
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
                 audio.playSoundEffect("laugh");
 
+
         }
-        
+        */
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -122,7 +166,6 @@ namespace Eternia
             rs.CullMode = CullMode.None;
             device.RasterizerState = rs;
             device.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
-
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
