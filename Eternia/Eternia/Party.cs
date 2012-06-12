@@ -13,6 +13,7 @@ namespace Eternia
 {
     class Party
     {
+        
         private Vector3 position;
 
         public Vector3 Position
@@ -36,7 +37,10 @@ namespace Eternia
             get { return inventory; }
             set { inventory = value; }
         }
-
+        public Party()
+        {
+            heroes = new List<Hero>();
+        }
         public void addCompany(Hero hero)
         {
             heroes.Add(hero);

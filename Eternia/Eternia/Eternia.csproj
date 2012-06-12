@@ -13,7 +13,7 @@
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
-    <XnaProfile>HiDef</XnaProfile>
+    <XnaProfile>Reach</XnaProfile>
     <XnaCrossPlatformGroupID>ce175869-acac-4bb3-8b51-add826aef0f5</XnaCrossPlatformGroupID>
     <XnaOutputType>Game</XnaOutputType>
     <ApplicationIcon>Game.ico</ApplicationIcon>
@@ -108,18 +108,35 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="audio\AudioManager.cs" />
+    <Compile Include="InputManager.cs" />
+    <Compile Include="IScreenManager.cs" />
     <Compile Include="ISubject.cs" />
+    <Compile Include="Logic\Battle.cs" />
+    <Compile Include="Logic\BattleScene.cs" />
+    <Compile Include="Logic\CommandHandler.cs" />
     <Compile Include="Logic\GameState.cs" />
     <Compile Include="Logic\IGameState.cs" />
+    <Compile Include="View\BasicModel.cs" />
+    <Compile Include="View\BattleMenu.cs" />
+    <Compile Include="View\BattleOption.cs" />
+    <Compile Include="View\IinputManager.cs" />
+    <Compile Include="View\IOption.cs" />
+    <Compile Include="Logic\LogicManager.cs" />
     <Compile Include="View\MainMenu.cs" />
     <Compile Include="IObserver.cs" />
     <Compile Include="View\MenuOption.cs" />
+    <Compile Include="View\ModelManager.cs" />
+    <Compile Include="View\Options.cs" />
+    <Compile Include="View\OverWorld.cs" />
+    <Compile Include="View\OverWorldObserver.cs" />
+    <Compile Include="View\ScreenDelegator.cs" />
     <Compile Include="ZeWorld\Being.cs" />
+    <Compile Include="ZeWorld\Camera.cs" />
     <Compile Include="ZeWorld\Enemy.cs" />
     <Compile Include="ZeWorld\EnemyBoss.cs" />
     <Compile Include="ZeWorld\EnemyFactory.cs" />
     <Compile Include="ZeWorld\EnemySoldier.cs" />
-    <Compile Include="ZeWorld\Equipment.cs" />
+    <Compile Include="ZeWorld\IEquipment.cs" />
     <Compile Include="ZeWorld\Hero.cs" />
     <Compile Include="Party.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -127,6 +144,8 @@
     <Compile Include="Eternia.cs" />
     <Compile Include="View\Screen.cs" />
     <Compile Include="View\ScreenManager.cs" />
+    <Compile Include="ZeWorld\Iitem.cs" />
+    <Compile Include="ZeWorld\Map.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

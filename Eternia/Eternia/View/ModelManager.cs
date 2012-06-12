@@ -15,23 +15,12 @@ namespace Eternia
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-
-    public delegate void StateChangeEventHandler(object source, String state);
-
-    public abstract class Screen : Microsoft.Xna.Framework.DrawableGameComponent
+    public class ModelManager : Microsoft.Xna.Framework.DrawableGameComponent
     {
-        //interface[] djs
-        protected SpriteFont textFont;
-        protected SpriteBatch spriteBatch;
-        protected Game game;
-
-        public event StateChangeEventHandler stateChange;
-
-         public Screen(Game game)
+        Dictionary<String,BasicModel> models = new Dictionary<String,BasicModel>();
+        public ModelManager(Game game)
             : base(game)
         {
-            this.game = game;
-            InputManager.instance().InputGiven += new InputEventHandler(OnInput);
             // TODO: Construct any child components here
         }
 
@@ -39,54 +28,66 @@ namespace Eternia
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
-        /// 
-         
         public override void Initialize()
         {
             // TODO: Add your initialization code here
+
             base.Initialize();
         }
-
         protected override void LoadContent()
-         {
-             spriteBatch = new SpriteBatch(game.GraphicsDevice);
-         }
-
-        public void OnInput(object sender, String message)
         {
-            if (this.Enabled)
-            {
-                ProcessInput(message);
-            }
-        }
+            BasicModel hero = new BasicModel(Game.Content.Load<Model>(@"models/fighter"), new Vector3(0, 0, 0));
+            BasicModel enemy1 = new BasicModel(Game.Content.Load<Model>(@"models/enemy"), new Vector3(0, 0, -10));
 
-        protected override void UnloadContent()
-        {
+            models.Add("hero",hero);
+            models.Add("enemy",enemy1);
+            base.LoadContent();
         }
         /// <summary>
         /// Allows the game component to update itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-
-        protected abstract void ProcessInput(String message);
-
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
+            foreach (KeyValuePair<String, BasicModel> model in models)
+            {
+                model.Value.Update();
+            }
 
             base.Update(gameTime);
         }
-
         public override void Draw(GameTime gameTime)
         {
+            foreach (KeyValuePair<String, BasicModel> model in models)
+            {
+                model.Value.Draw(((Eternia)Game).Camera);
+            }
             base.Draw(gameTime);
         }
-
-        public void StateChanged(String newState)
+        public void setModelAlive(String modelName)
         {
-            if (stateChange != null)
+            BasicModel model = null;
+
+            if(models.TryGetValue(modelName, out model))
             {
-                stateChange(this, newState);
+                model.IsAlive = true;
+            }
+
+        }
+        public void setAllModelsAlive()
+        {
+            foreach (KeyValuePair<String, BasicModel> model in models)
+            {
+                model.Value.IsAlive = true;
+            }
+        }
+        public void setModelDead(String modelName)
+        {
+            BasicModel model = null;
+
+            if(models.TryGetValue(modelName, out model))
+            {
+                model.IsAlive = false;
             }
         }
     }
