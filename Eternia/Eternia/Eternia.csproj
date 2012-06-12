@@ -119,6 +119,7 @@
     <Compile Include="View\MenuOption.cs" />
     <Compile Include="View\Options.cs" />
     <Compile Include="View\OverWorld.cs" />
+    <Compile Include="View\OverWorldObserver.cs" />
     <Compile Include="View\ScreenDelegator.cs" />
     <Compile Include="ZeWorld\Being.cs" />
     <Compile Include="ZeWorld\Enemy.cs" />

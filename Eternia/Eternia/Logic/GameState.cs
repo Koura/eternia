@@ -24,6 +24,8 @@ namespace Eternia
 
         private Boolean safeZone;
 
+        private Dictionary<String, Map> maps;
+
         public GameState()
         {
             state = "MainMenu";
@@ -35,9 +37,10 @@ namespace Eternia
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
 
-        public void NewGame()
+        public void NewGame(Game game)
         {
             party = new Party();
+            maps.Add("OverWorld", new Map("eternia", game));
             safeZone = false;
         }
         /// <summary>
@@ -68,6 +71,11 @@ namespace Eternia
         {
             this.state = state;
             notify();
+        }
+
+        public Map getMap()
+        {
+            return maps[state];
         }
     }
 }

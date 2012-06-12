@@ -10,10 +10,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-/*
- *This is a singleton class. Not the final version but rather a first try-out to see that input actually
- *works in a desirable manner.
-*/
+
 namespace Eternia
 {
 
