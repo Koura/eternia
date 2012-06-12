@@ -18,13 +18,11 @@ namespace Eternia
     /// </summary>
     public class MainMenu : Screen, IObserver
     {
-        IGameState gameState;
+
+        Rectangle arrowposi;
         Texture2D menuarrow;
-        int arrowXpos;
-        int arrowYpos;
-        
-        int arrowOffset;
-        float[] optionsYpos;
+        Texture2D background;
+        Texture2D title;
         SpriteFont font;
         private List<MenuOption> menuoptions = new List<MenuOption>();
 
@@ -36,10 +34,10 @@ namespace Eternia
 
         
 
-        public MainMenu(Game game, IGameState gameState)
+        public MainMenu(Game game)
             : base(game)
         {
-            this.gameState = gameState;
+            
         }
 
         public override void Initialize()
@@ -47,15 +45,8 @@ namespace Eternia
         {
             // Do our MainMenu component creation magicks here
             
-            arrowXpos = game.GraphicsDevice.Viewport.Width/3+1;
             ArrowOnOption = 0;
-            optionsYpos = new float[4];
-            arrowYpos = (int)optionsYpos[ArrowOnOption];
-            optionsYpos[0] = game.GraphicsDevice.Viewport.Height / 2 - 40;
-            optionsYpos[1] = game.GraphicsDevice.Viewport.Height / 2;
-            optionsYpos[2] = game.GraphicsDevice.Viewport.Height / 2 + 40;
-            optionsYpos[3] = game.GraphicsDevice.Viewport.Height / 2 + 80;
-            arrowOffset = -20;
+
             base.Initialize();
         }
 
@@ -63,11 +54,16 @@ namespace Eternia
         {
             base.LoadContent();
             menuarrow = game.Content.Load<Texture2D>("images/menuarrow");
+            background = game.Content.Load<Texture2D>("images/background");
             font = game.Content.Load<SpriteFont>("fonts/menufont");
-            Menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, optionsYpos[0]), "New Game", font, Color.White));
-            Menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, optionsYpos[1]), "Load Game", font, Color.White));
-            Menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, optionsYpos[2]), "Options", font, Color.White));
-            Menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, optionsYpos[3]), "Exit Game", font, Color.White));
+
+            title = game.Content.Load<Texture2D>("images/menutxt");
+            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2-40), "New Game", font, Color.White));
+            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2), "Load Game", font, Color.White));
+            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 40), "Options", font, Color.White));
+            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 80), "Exit Game", font, Color.White));
+            arrowposi = new Rectangle(game.GraphicsDevice.Viewport.Width / 3 + 10, game.GraphicsDevice.Viewport.Height / 2 - 61, menuarrow.Width / 16, menuarrow.Height / 16);
+
         }
 
         protected override void UnloadContent()
@@ -75,14 +71,16 @@ namespace Eternia
 
         }
 
-       
+        protected override void ProcessInput()
+        {  
+          
+        }
 
         /*
          * Can we just leave this like so? Does the gamestate/screenmanager handle things so that only the topmost screen gets to update?
          */
         public override void Update(GameTime gameTime)
         {
-            ArrowOnOption = gameState.getArrowOnOptionState();
             base.Update(gameTime);
         }
 
@@ -91,21 +89,19 @@ namespace Eternia
             spriteBatch.Begin();
 
 
-            spriteBatch.Draw(menuarrow, new Rectangle(arrowXpos,(int)optionsYpos[ArrowOnOption] + arrowOffset,menuarrow.Width/16, menuarrow.Height/16), Color.White);
-
             foreach (MenuOption option in Menuoptions)
+
+            spriteBatch.Draw(background, new Rectangle(0, 0, 800, 600), Color.SteelBlue);
+            spriteBatch.Draw(title, new Rectangle(10,0, title.Width, title.Height), Color.White);
+            spriteBatch.Draw(menuarrow, arrowposi, Color.White);
+            
+            foreach (MenuOption option in menuoptions)
             {
                 spriteBatch.DrawString(option.Font, option.Text, option.Position, option.Colour,
                 option.Rotation, option.Size / 2, option.Scale, SpriteEffects.None, 0);
-            }
-            
+            }           
             spriteBatch.End();
             base.Draw(gameTime);
-        }
-
-        public void update()
-        {
-            throw new NotImplementedException();
         }
     }
 }
