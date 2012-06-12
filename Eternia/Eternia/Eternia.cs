@@ -30,12 +30,8 @@ namespace Eternia
         GameState gameState;
         ScreenManager view;
         AudioManager audio;
-<<<<<<< HEAD
-=======
         ModelManager modelManager;
         Battle battle;
-        
->>>>>>> battle
         ScreenDelegator delegator;
         CommandHandler commandHandler;
 
@@ -69,12 +65,7 @@ namespace Eternia
             //this.gameState.NewGame();
             this.audio = new AudioManager(this.gameState);
             this.gameState.attachObserver(audio);
-<<<<<<< HEAD
-            view = new ScreenManager(this);
-=======
-            view = new ScreenManager(this);            
-           
->>>>>>> battle
+            view = new ScreenManager(this);    
             delegator = new ScreenDelegator(view, this, this.gameState);
             this.gameState.attachObserver(delegator);
             this.commandHandler = new CommandHandler(this.view, this.gameState);
@@ -124,8 +115,6 @@ namespace Eternia
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-<<<<<<< HEAD
-=======
             InputManager.instance().interpretInput(gameTime);            
             base.Update(gameTime);
         }
@@ -156,7 +145,6 @@ namespace Eternia
             modelManager.setAllModelsAlive();
             view.pushScreen(battleMenu);
 
->>>>>>> battle
             InputManager.instance().interpretInput(gameTime);
             base.Update(gameTime);
             if (Keyboard.GetState().IsKeyDown(Keys.R))

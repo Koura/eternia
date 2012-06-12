@@ -36,11 +36,9 @@ namespace Eternia
 
         public void NewGame()
         {
-<<<<<<< HEAD
-=======
+
             state = "MainMenu";
 
->>>>>>> battle
             party = new Party();
             safeZone = false;
         }

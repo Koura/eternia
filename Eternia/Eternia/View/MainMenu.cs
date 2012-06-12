@@ -25,41 +25,27 @@ namespace Eternia
         Texture2D title;
         SpriteFont font;
 
-<<<<<<< HEAD
-=======
-
         internal List<MenuOption> Menuoptions
         {
             get { return menuoptions; }
             set { menuoptions = value; }
         }
 
->>>>>>> battle
         int arrowValue = 1;
       
         private List<MenuOption> menuoptions = new List<MenuOption>();      
 
         public MainMenu(Game game)
             : base(game)
-<<<<<<< HEAD
         {
-            
-=======
-        {            
->>>>>>> battle
             // send message "menu"
             // dj.playdatfunkysong("menu"); somewhere else?
         }
 
         public override void Initialize()
 
-        {
-<<<<<<< HEAD
-            // Do our MainMenu component creation magicks here           
-=======
-            // Do our MainMenu component creation magicks here            
+        {          
             // Do our MainMenu component creation magicks here          
->>>>>>> battle
             base.Initialize();
         }
 
@@ -86,7 +72,6 @@ namespace Eternia
         protected override void ProcessInput(String message)
         {           
             if (message.Equals("up"))
-<<<<<<< HEAD
             {
                 if (arrowValue>1)
                 {
@@ -102,23 +87,6 @@ namespace Eternia
                     arrowValue++;
                 }
             }
-=======
-            {
-                if (arrowValue>1)
-                {
-                    arrowposi.Y -= 40;
-                    arrowValue--;
-                }
-            }
-            if (message.Equals("down"))
-            {
-                if (arrowValue < 4)
-                {
-                    arrowposi.Y += 40;
-                    arrowValue++;
-                }
-            }
->>>>>>> battle
             if (message.Equals("accept"))
             {
                 interpretAccept();
@@ -139,11 +107,7 @@ namespace Eternia
             //loading a previous game
             if (arrowValue == 2)
             {
-<<<<<<< HEAD
-
-=======
                 //insert loading here
->>>>>>> battle
             }
             //pressed A at options
             if (arrowValue == 3)
