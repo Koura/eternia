@@ -30,7 +30,7 @@ namespace Eternia
         /// <param name="device"></param>
         public void SetUpCamera(GraphicsDevice device)
         {
-           cameraPos = new Vector3(80, 20, -50);
+           cameraPos = new Vector3(80, 20, -70);
            viewMatrix = Matrix.CreateLookAt(cameraPos, new Vector3(0, 2, -12), new Vector3(0, 1, 0));
            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, nearClip, farClip);
         }

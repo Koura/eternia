@@ -47,7 +47,9 @@ namespace Eternia
         Texture2D sandTexture;
         Texture2D rockTexture;
         Texture2D snowTexture;
-        Texture2D cloudMap;
+        Texture2D skyTexture;
+
+        Model skyDome;
 
         int terrainWidth;
         int terrainLength;
@@ -68,6 +70,7 @@ namespace Eternia
         private void LoadMap(String map)
         {
             effect = game.Content.Load<Effect>("EterniaEffects");
+            skyDome = game.Content.Load<Model>("models/dome"); skyDome.Meshes[0].MeshParts[0].Effect = effect.Clone();
 
             LoadVertices(map);
             LoadTextures();
@@ -79,7 +82,7 @@ namespace Eternia
             rockTexture = game.Content.Load<Texture2D>("models/rock");
             snowTexture = game.Content.Load<Texture2D>("models/snow");
             grassTexture = game.Content.Load<Texture2D>("models/grass");
-           // cloudMap = game.Content.Load<Texture2D>("cloudMap");
+            skyTexture = game.Content.Load<Texture2D>("models/cloudMap");
         }
 
         private void LoadVertices(String map)
@@ -225,7 +228,7 @@ namespace Eternia
 
         public override void Draw(GameTime gameTime)
         {
-            float time = (float)gameTime.TotalGameTime.TotalMilliseconds / 100.0f;                  
+            float time = (float)gameTime.TotalGameTime.TotalMilliseconds / 100.0f;
             DrawTerrain();
 
             base.Draw(gameTime);
@@ -250,6 +253,31 @@ namespace Eternia
                 pass.Apply();
                 game.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, terrainVertexBuffer.VertexCount, 0, terrainIndexBuffer.IndexCount / 3);
             }
+        }
+
+        public void DrawSkyDome(Camera camera)
+        {
+            game.GraphicsDevice.DepthStencilState = DepthStencilState.None;
+
+            Matrix[] modelTransforms = new Matrix[skyDome.Bones.Count];
+            skyDome.CopyAbsoluteBoneTransformsTo(modelTransforms);
+
+            Matrix wMatrix = Matrix.CreateTranslation(0, -0.3f, 0) * Matrix.CreateScale(100) * Matrix.CreateTranslation(camera.cameraPos);
+            foreach (ModelMesh mesh in skyDome.Meshes)
+            {
+                foreach (Effect currentEffect in mesh.Effects)
+                {
+                    Matrix worldMatrix = modelTransforms[mesh.ParentBone.Index] * wMatrix;
+                    currentEffect.CurrentTechnique = currentEffect.Techniques["Textured"];
+                    currentEffect.Parameters["xWorld"].SetValue(worldMatrix);
+                    currentEffect.Parameters["xView"].SetValue(camera.viewMatrix);
+                    currentEffect.Parameters["xProjection"].SetValue(camera.projectionMatrix);
+                    currentEffect.Parameters["xTexture"].SetValue(skyTexture);
+                    currentEffect.Parameters["xEnableLighting"].SetValue(false);
+                }
+                mesh.Draw();
+            }
+            game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
         }
 
     }

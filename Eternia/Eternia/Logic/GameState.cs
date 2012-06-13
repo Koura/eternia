@@ -24,6 +24,15 @@ namespace Eternia
         Party party;
 
         private Dictionary<String, Map> maps;
+        private Camera camera;
+
+        public Camera Camera
+        {
+            get { return camera; }
+        }
+        public Map getMap(String key) {
+            return maps["key"];
+        }
 
         public GameState()
         {
@@ -40,9 +49,10 @@ namespace Eternia
         {
 
             state = "MainMenu";
-
             party = new Party();
             maps.Add("OverWorld", new Map("eternia", game));
+            camera = new Camera();
+            camera.SetUpCamera(game.GraphicsDevice);
             safeZone = false;
         }
         /// <summary>
@@ -75,7 +85,7 @@ namespace Eternia
             this.state = state;
             notify();
         }
-
+        
         public Map getMap()
         {
             return maps[state];

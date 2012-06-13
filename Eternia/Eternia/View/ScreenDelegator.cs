@@ -18,9 +18,9 @@ namespace Eternia
 
         ScreenManager manager;
         private Game game;
-        IGameState gameState;
+        GameState gameState;
 
-        public ScreenDelegator(ScreenManager manager, Game game, IGameState gameState)
+        public ScreenDelegator(ScreenManager manager, Game game, GameState gameState)
         {
             this.manager = manager;
             this.game = game;
@@ -31,7 +31,7 @@ namespace Eternia
         {
             switch (choice)
             {
-                case "OverWorld":
+                case "OverWorld":             
                     return new OverWorld(game);
                 case "MainMenu":
                     return new MainMenu(game);

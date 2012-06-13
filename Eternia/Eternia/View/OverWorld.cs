@@ -27,10 +27,6 @@ namespace Eternia
             effect = game.Content.Load<Effect>("EterniaEffects");
         }
 
-        public void updateMap(Map map)
-        {
-            this.map = map;
-        }
         protected override void ProcessInput(String message)
         {
             if (message.Equals("accept"))
@@ -42,12 +38,18 @@ namespace Eternia
         private void interpretAccept()
         {
             StateChanged("Battle");
-        }      
+        }
 
+        public void receiveChanges(Map map, Camera camera)
+        {
+            this.map = map;
+            this.camera = camera;
+        }
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
             camera.Draw(effect);
+            map.DrawSkyDome(camera);
             map.Draw(gameTime);
         }
     }
