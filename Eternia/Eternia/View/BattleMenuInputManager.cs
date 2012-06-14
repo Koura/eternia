@@ -55,8 +55,7 @@ namespace Eternia.View
                             break;
                         }
                     case Keys.Enter:
-                        {
-                            checkChosenOptionInBattle();
+                        {                            
                             enterPressed = true;
                             break;
                         }
@@ -75,10 +74,12 @@ namespace Eternia.View
             return true;
         }
         
-        private void checkChosenOptionInBattle()
+        public int getChosenOption()
         {
             gameState.setArrowOnOptionState(arrowOnOption);
-            Console.WriteLine("player is about to chose: " + gameState.getArrowOnOptionState());
+            enterPressed = false;
+            return arrowOnOption;
+            
         }
 
         private void updateKeyLeft()

@@ -71,6 +71,7 @@ namespace Eternia
             this.commandHandler = new CommandHandler(this.view, this.logicUnit);
             view.attachObserver(this.commandHandler);
             this.gameState.setState("MainMenu");
+            gameState.NewGame(this);
             Window.Title = gameTitle;
 
             base.Initialize();
@@ -118,7 +119,7 @@ namespace Eternia
             InputManager.instance().interpretInput(gameTime);            
             base.Update(gameTime);
         }
-
+         
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>

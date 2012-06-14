@@ -124,5 +124,11 @@ namespace Eternia.View
                 throw new NotImplementedException();
             }
         }
+
+
+        public int getChosenOption()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

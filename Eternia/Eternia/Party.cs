@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 namespace Eternia
 {
-    class Party
+    public class Party
     {
         
         private Vector3 position;

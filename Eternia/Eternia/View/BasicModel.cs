@@ -19,6 +19,7 @@ namespace Eternia
     {
         public Model model { get; set; }
         protected Matrix world = Matrix.Identity;
+
         private bool isAlive;
 
         public bool IsAlive
@@ -30,6 +31,10 @@ namespace Eternia
         {
             isAlive = false;
             this.model = model;
+            this.world = Matrix.CreateTranslation(position);
+        }
+        public void setPosition(Vector3 position)
+        {
             this.world = Matrix.CreateTranslation(position);
         }
 

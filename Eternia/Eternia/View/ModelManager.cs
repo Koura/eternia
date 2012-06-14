@@ -17,6 +17,8 @@ namespace Eternia
     /// </summary>
     public class ModelManager : Microsoft.Xna.Framework.DrawableGameComponent
     {
+
+        Model enemyModel;
         Dictionary<String,BasicModel> models = new Dictionary<String,BasicModel>();
         public ModelManager(Game game)
             : base(game)
@@ -36,12 +38,28 @@ namespace Eternia
         }
         protected override void LoadContent()
         {
-            BasicModel hero = new BasicModel(Game.Content.Load<Model>(@"models/fighter"), new Vector3(0, 0, 0));
-            BasicModel enemy1 = new BasicModel(Game.Content.Load<Model>(@"models/enemy"), new Vector3(0, 0, -10));
-
+            BasicModel hero = new BasicModel(Game.Content.Load<Model>(@"models/fighter"), new Vector3(5, 0, 0));
+            enemyModel = Game.Content.Load<Model>(@"models/enemy");
             models.Add("hero",hero);
-            models.Add("enemy",enemy1);
+            setEnemies(5);
             base.LoadContent();
+        }
+        public void setEnemies(int amount)
+        {
+            
+            
+
+            for (int i = 1; i <= amount; i++)
+            {
+                float x = i * 2;
+                float z =(float)Math.Sin(MathHelper.ToDegrees(i));
+                
+                models.Add("enemy_"+i, new BasicModel(enemyModel, new Vector3(x, 0, z)));
+                x++;
+            }
+                
+                
+                
         }
         /// <summary>
         /// Allows the game component to update itself.

@@ -12,13 +12,12 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Eternia
 {
-    class EnemySoldier : Enemy
+    abstract class Enemy : Being
     {
-        private string name;
-        public EnemySoldier(String name, Vector3 position,float maxHealth, float armor, float damage)
-            : base(name, position, maxHealth, armor, damage)
+        public Enemy(String name, Vector3 position, float maxHealth, float armor, float damage)
+            : base(name)
         {
-           
+
         }
     }
 }

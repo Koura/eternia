@@ -8,29 +8,55 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Eternia.View;
 
 namespace Eternia
 {
-    class Battle : ISubject
+    public struct Info
+    {
+        public String text;
+        public Vector2 position;
+        public TimeSpan startTime;
+
+        public Info(String text, Vector2 position, TimeSpan startTime)
+        {
+            this.text = text;
+            this.position = position;
+            this.startTime = startTime;
+        }
+    }
+    class Battle
     {
         private List<IObserver> observers;
-        private List<Being> fighters;
 
+        Random randomizer;
+        private IStrategy strategy;
+        private List<Being> fighters;
         public List<Being> Fighters
         {
             get { return fighters; }
             set { }
         }
-        bool waitingAction;
+        private List<Being> heroes;
 
+        public List<Being> Heroes
+        {
+            get { return heroes; }
+            set { heroes = value; }
+        }
+
+        private List<Being> enemies;
+        public List<Being> Enemies
+        {
+            get { return this.enemies; }
+
+        }
+        bool waitingAction;
         public bool WaitingAction
         {
             get { return waitingAction; }
             set { waitingAction = value; }
         }
         private int turn;
-
         public int Turn
         {
             get { return turn; }
@@ -38,13 +64,84 @@ namespace Eternia
         }
         
         float maxBar;
-
         public float MaxBar
         {
             get { return maxBar; }
             set { maxBar = value; }
         }
-        public void addTimeBarValues() 
+        
+
+        /*
+         * this is timebar for each hero and enemy. Their timeBar will grow in turns untill it reaches the maxbar level
+         * - then it will be set to zero and it will start to ingrease again untill fight is over.
+         */
+        private Dictionary<String, float> timeBar;
+
+        public Dictionary<String, float> TimeBar
+        {
+            get { return timeBar; }
+        }
+
+        public Battle()
+        {
+            turn = -1;
+            observers = new List<IObserver>();
+            timeBar = new Dictionary<string, float>();
+            fighters = new List<Being>();
+            heroes = new List<Being>();
+            enemies = new List<Being>();
+            maxBar = 200;
+            waitingAction = false;
+        }
+        public void setUpHeroes(List<Hero> heroes)
+        {
+            foreach (Hero h in heroes)
+            {
+                this.fighters.Add(h);
+                this.heroes.Add(h);
+                timeBar.Add(h.Name, 0);
+            }
+        }
+
+        public void setUpBattle() {
+            setEnemies();
+            
+
+        }
+
+        private void setEnemies()
+        {
+            randomizer = new Random();
+
+            // ask from factory randomly boss and foot enemies from 1 - 4
+            // if double is less than 0.31 call for a boss, otherwise normal foot soldier.
+
+            // amount of enemies
+            int enemyCount = randomizer.Next(1,4);
+            for (int i = 1; i <= enemyCount; i++)
+            {
+                double next = randomizer.NextDouble();
+
+                if (next < 0.31)
+                {
+                    Enemy enemy = EnemyFactory.createBoss("Ravenous Bugblatter Beast Of Traal " + i, new Vector3(10, 10, 10), 100, 0, 30);
+                    enemy.Speed = randomizer.Next(10, 20);
+                    fighters.Add(enemy);
+                    enemies.Add(enemy);
+                    timeBar.Add(enemy.Name, 0);
+                }
+                else
+                {
+                    Enemy enemy = EnemyFactory.createSoldier("Bugblatter " + i, new Vector3(10, 100, 10), 100, 0, 50);
+                    enemy.Speed = randomizer.Next(10, 20);
+                    fighters.Add(enemy);
+                    enemies.Add(enemy);
+                    timeBar.Add(enemy.Name, 0);
+                }
+            }
+            
+        }
+        public void addTimeBarValues()
         {
             if (WaitingAction)
                 return;
@@ -71,137 +168,107 @@ namespace Eternia
 
             }
         }
-
-        /*
-         * this is timebar for each hero and enemy. Their timeBar will grow in turns untill it reaches the maxbar level
-         * - then it will be set to zero and it will start to ingrease again untill fight is over.
-         */
-        private Dictionary<String, float> timeBar;
-
-        public Dictionary<String, float> TimeBar
-        {
-            get { return timeBar; }
-        }
-
-        public Battle()
-        {
-            turn = -1;
-            observers = new List<IObserver>();
-            timeBar = new Dictionary<string, float>();
-            fighters = new List<Being>();
-            maxBar = 200;
-            waitingAction = false;
-        }
-        public void setUpHeroes(List<Hero> heroes)
-        {
-            foreach (Hero h in heroes)
-            {
-                fighters.Add(h);
-                timeBar.Add(h.Name, 0);
-            }
-        }
-
-        public void setUpBattle() {
-            setEnemies();
-            
-
-        }
-
-        private void setEnemies()
-        {
-            Random randomizer = new Random();
-
-            // ask from factory randomly boss and foot enemies from 1 - 4
-            // if double is less than 0.31 call for a boss, otherwise normal foot soldier.
-
-            // amount of enemies
-            int enemyCount = randomizer.Next(1,4);
-            for (int i = 1; i <= enemyCount; i++)
-            {
-                double next = randomizer.NextDouble();
-
-                if (next < 0.31)
-                {
-                    Enemy enemy = EnemyFactory.createBoss("Ravenous Bugblatter Beast Of Traal " + i, new Vector3(10, 10, 10), 100, 0, 30);
-                    enemy.Speed = randomizer.Next(30, 50);
-                    fighters.Add(enemy);
-                    timeBar.Add(enemy.Name, 0);
-                }
-                else
-                {
-                    Enemy enemy = EnemyFactory.createSoldier("Bugblatter " + i, new Vector3(10, 100, 10), 100, 0, 50);
-                    enemy.Speed = randomizer.Next(10, 30);
-                    fighters.Add(enemy);
-                    timeBar.Add(enemy.Name, 0);
-                }
-            }
-            
-        }
-
-
-        public void attachObserver(IObserver observer)
-        {
-            observers.Add(observer);
-        }
-
-        public void detachObserver(IObserver observer)
-        {
-            observers.Remove(observer);
-        }
-
-        public void notify()
-        {
-            foreach (IObserver item in observers)
-            {
-                item.update();
-            }
-        }
-
-        internal void fight()
-        {
-            addTimeBarValues();
-            if (WaitingAction)
-            {
-                nextPlayerMove();
-            }
-            notify();
-        }
-
-        private void nextPlayerMove()
-        {
-            //waiting hero player to move
-            if(herosTurn())
-            {
-                
-            }
-            
-        }
-
         public bool herosTurn()
         {
-            if (turn == 0) return true;
-
+            if (waitingAction)
+            {
+                if (turn < heroes.Count) return true;
+            }
             return false;
         }
 
-        // Player's turn to take action
-        /*if (battle.herosTurn())
+        private void changeTurn()
         {
-            battleMenuManager.ProcessInput(gameTime);
-            if (battleMenuManager.EnterPressed)
-            {
+            turn++;
 
+            if (turn == fighters.Count())
+            {
+                turn = 0;
             }
         }
-        battle.fight();
-         * */
+        public void Attacking(int target)
+        {
+            Being attacker = heroes.ElementAt(turn);
+            Being enemyTarget = fighters.ElementAt(target);
+            strategy = new Attack(attacker,enemyTarget);
+            strategy.executeStrategy();
+            waitingAction = false;
+            changeTurn();
+        }
 
+        internal void executeEnemyAction()
+        {
+            if (!waitingAction) return;
+            System.Threading.Thread.Sleep(3000);
+            enemyAttack(turn);
+            
+        }
+
+        private void enemyAttack(int attackerNro)
+        {
+            Being attacker = fighters.ElementAt(attackerNro);
+            int targetNumber = randomizer.Next(0, heroes.Count - 1);
+            Being target = fighters.ElementAt(targetNumber);
+            strategy = new Attack(attacker, target);
+            strategy.executeStrategy();
+            changeTurn();
+            waitingAction = false;
+        }
+
+        internal bool enemiesTurn()
+        {
+            if (waitingAction)
+            {
+                if(turn >= heroes.Count)
+                    return true;
+            }
+                
+            return false;
+        }
+        
+        internal void fight()
+        {
+            addTimeBarValues();
+            if (enemiesTurn())
+            {
+                executeEnemyAction();
+            }
+            
+        }
 
         
-        public void initNewBattle()
-          {
+        public int checkEnemyStatus()
+        {
+            // if fighters health is zero or less take him out from the list. Message to modelManager not to draw those dead models
+            // anymore. If all heros all all enemys are dead end battle.
+            Being dead = null;
+            foreach (Being being in enemies)
+            {
+                if (being.CurrentHealth <= 0)
+                    dead = being;
+            }
+            fighters.Remove(dead);
+            enemies.Remove(dead);
+            if (enemies.Count == 0) return 4;
+            if (dead != null) return 1;
+            
+            return 0;
+        }
 
-          }
-      
+        internal int checkHeroStatus()
+        {
+            Being dead = null;
+            foreach (Being being in heroes)
+            {
+                if (being.CurrentHealth <= 0)
+                    dead = being;
+            }
+            fighters.Remove(dead);
+            heroes.Remove(dead);
+            if (heroes.Count == 0) return -4;
+            if (dead != null) return -1;
+
+            return 0;
+        }
     }
 }

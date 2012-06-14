@@ -14,11 +14,14 @@ namespace Eternia.View
 {
     interface IinputManager : IObserver
     {
-         void ProcessInput(GameTime gameTime);
+        bool EnterPressed { get; set; }
 
-         bool inputProcessorTimer(GameTime gameTime);
+        void ProcessInput(GameTime gameTime);
 
+        bool inputProcessorTimer(GameTime gameTime);
 
-         bool EnterPressed { get; set; }
+        int getChosenOption();
+
+         
     }
 }

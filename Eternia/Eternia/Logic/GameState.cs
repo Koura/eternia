@@ -21,7 +21,12 @@ namespace Eternia
         private String state;
         private List<IObserver> observers;
         private Boolean safeZone;
-        Party party;
+        private Party party;
+
+        public Party Party
+        {
+            get { return this.party; }
+        }
 
         private Dictionary<String, Map> maps;
 
@@ -40,9 +45,17 @@ namespace Eternia
         {
 
             state = "MainMenu";
-
+            Hero hero1 = new Hero("Taistelu Jaska");
+            Hero hero2 = new Hero("Ozzy");
+            Hero hero3 = new Hero("Wee Man");
+            hero1.Damage = 50;
+            hero2.Damage = 20;
+            hero3.Damage = 20;
             party = new Party();
-            maps.Add("OverWorld", new Map("eternia", game));
+            party.addCompany(hero1);
+            party.addCompany(hero2);
+            party.addCompany(hero3);
+            //maps.Add("OverWorld", new Map("eternia", game));
             safeZone = false;
         }
         /// <summary>
