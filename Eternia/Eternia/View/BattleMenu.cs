@@ -41,13 +41,9 @@ namespace Eternia
             set { target = value; }
 
         }
-        public bool PlayerTurn
-        {
-            set { this.playerTurn = value; }
-        }
-
+        public bool PlayerTurn;
+        TimeSpan currentTime;
         private bool actionMade;
-
         public bool ActionMade
         {
             get { return this.actionMade; }
@@ -74,7 +70,6 @@ namespace Eternia
             set { this.timeBar = value; }
         }
 
-        TimeSpan currentTime;
         private List<MenuOption> menuoptions = new List<MenuOption>();
         private float timeBarValue;
         private int casualties = 0;
@@ -134,14 +129,8 @@ namespace Eternia
             spriteBatch.Begin();
             
             spriteBatch.Draw(battlePanel, new Rectangle(0,0, battlePanel.Width, battlePanel.Height), Color.White);
-            
-           
             drawFighterStats();
-            
             drawTimeBars(gameTime);
-
-            
-
             if (playerAction.Equals("Attack"))
             {
                 drawTargetSelection();
@@ -153,7 +142,7 @@ namespace Eternia
             }
             drawCasualties();
             drawInfo();
-            Console.WriteLine(info.text);
+            drawInfo(gameTime);
             spriteBatch.End();
                 
             base.Draw(gameTime);
@@ -210,6 +199,12 @@ namespace Eternia
             if (info.text != null && (info.startTime.TotalMilliseconds + 1200.0f > gameTime.TotalGameTime.TotalMilliseconds))
                 spriteBatch.DrawString(font, info.text, info.position, Color.White);
             
+        }
+
+        private void drawInfo(GameTime gameTime)
+        {
+            if (info.text != null && ( info.startTime.TotalMilliseconds + 1200.0f > gameTime.TotalGameTime.TotalMilliseconds) )
+                spriteBatch.DrawString(font, info.text, info.position, Color.White);
         }
 
         private void drawFighterStats()

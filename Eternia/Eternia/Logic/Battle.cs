@@ -27,7 +27,6 @@ namespace Eternia
     class Battle
     {
         private List<IObserver> observers;
-
         Random randomizer;
         private IStrategy strategy;
         private List<Being> fighters;
@@ -246,6 +245,7 @@ namespace Eternia
             {
                 if (being.CurrentHealth <= 0)
                     dead = being;
+
             }
             fighters.Remove(dead);
             enemies.Remove(dead);
@@ -269,6 +269,11 @@ namespace Eternia
             if (dead != null) return -1;
 
             return 0;
+        }
+
+        internal void checkStatus()
+        {
+            // check all beings, who is alive
         }
     }
 }
