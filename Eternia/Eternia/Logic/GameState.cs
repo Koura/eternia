@@ -55,7 +55,7 @@ namespace Eternia
             party.addCompany(hero1);
             party.addCompany(hero2);
             party.addCompany(hero3);
-            //maps.Add("OverWorld", new Map("eternia", game));
+            maps.Add("OverWorld", new Map("eternia", game));
             safeZone = false;
         }
         /// <summary>

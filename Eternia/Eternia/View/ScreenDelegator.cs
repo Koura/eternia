@@ -31,13 +31,13 @@ namespace Eternia
         {
             switch (choice)
             {
-                case "Battle":
+                case "OverWorld":
                     return new OverWorld(game);
                 case "MainMenu":
                     return new MainMenu(game);
                 case "Options" :
                     return new Options(game);
-                case "OverWorld" :
+                case "Battle" :
                     return new BattleHandler(this.gameState,new Battle(), new BattleMenu(game)).BattleMenu;
             }
             return null;
