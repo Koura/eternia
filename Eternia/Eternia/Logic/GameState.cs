@@ -20,22 +20,24 @@ namespace Eternia
     {
         private String state;
         private List<IObserver> observers;
-        private Boolean safeZone;
         Party party;
 
         private Dictionary<String, Map> maps;
         private Camera camera;
-
+        private Game game;
         public Camera Camera
         {
             get { return camera; }
         }
         public Map getMap(String key) {
-            return maps["key"];
+            return maps[key];
         }
 
-        public GameState()
+        public GameState(Game game)
         {
+            this.game = game;
+            camera = new Camera();
+            maps = new Dictionary<string, Map>();
             state = "MainMenu";
             observers = new List<IObserver>();
         }
@@ -45,7 +47,7 @@ namespace Eternia
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
 
-        public void NewGame(Game game)
+        public void NewGame()
         {
 
             state = "MainMenu";
@@ -53,7 +55,7 @@ namespace Eternia
             maps.Add("OverWorld", new Map("eternia", game));
             camera = new Camera();
             camera.SetUpCamera(game.GraphicsDevice);
-            safeZone = false;
+            party.addCompany(new Hero("Taistelu Jaska"));
         }
         /// <summary>
         /// Allows the game component to update itself.
@@ -75,6 +77,7 @@ namespace Eternia
             {
                 observer.update();
             }
+            camera.notify();
         }
         public String getState()
         {
@@ -82,6 +85,10 @@ namespace Eternia
         }
         public void setState(string state)
         {
+            if(state.Equals("OverWorld"))
+            {
+                NewGame();
+            }
             this.state = state;
             notify();
         }

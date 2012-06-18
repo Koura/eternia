@@ -36,7 +36,7 @@ namespace Eternia
         }
         protected override void LoadContent()
         {
-            BasicModel hero = new BasicModel(Game.Content.Load<Model>(@"models/fighter"), new Vector3(0, 0, 0));
+            BasicModel hero = new BasicModel(Game.Content.Load<Model>(@"models/fighter"), new Vector3(20, 0, 20));
             BasicModel enemy1 = new BasicModel(Game.Content.Load<Model>(@"models/enemy"), new Vector3(0, 0, -10));
 
             models.Add("hero",hero);

@@ -51,7 +51,6 @@ namespace Eternia
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
             graphics.IsFullScreen = false;
@@ -60,8 +59,7 @@ namespace Eternia
             modelManager = new ModelManager(this);
             Components.Add(modelManager);
             // AudioManager is a Iobserver. Give a Isubject as parameter in constructor. 
-            this.gameState = new GameState();
-            //this.gameState.NewGame();
+            this.gameState = new GameState(this);
             this.audio = new AudioManager(this.gameState);
             this.gameState.attachObserver(audio);
             view = new ScreenManager(this);    

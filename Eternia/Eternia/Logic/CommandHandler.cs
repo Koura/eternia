@@ -18,11 +18,17 @@ namespace Eternia
         public void update() 
         {
             screenManager.currentScreen().stateChange += new StateChangeEventHandler(OnStateChange);
+            screenManager.currentScreen().stateChange += new StateChangeEventHandler(OnStateUpdate);
         }
 
         public void OnStateChange(object sender, String newState)
         {
             logic.StateChange(newState);
+        }
+
+        public void OnStateUpdate(object sender, String newUpdate)
+        {
+            logic.stateUpdate(newUpdate);
         }
     }
 }

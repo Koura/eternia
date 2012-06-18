@@ -18,17 +18,36 @@ namespace Eternia
         Map map;
         Camera camera;
         Effect effect;
+
         public OverWorld(Game game)
             : base (game)
         {
-            map = new Map("eternia", game);
             camera = new Camera();
             camera.SetUpCamera(game.GraphicsDevice);
             effect = game.Content.Load<Effect>("EterniaEffects");
         }
 
+
+
+
         protected override void ProcessInput(String message)
         {
+            if (message.Equals("up"))
+            {
+                StateChanged("moveUp");
+            }
+            if (message.Equals("down"))
+            {
+                StateChanged("moveDown");
+            }
+            if (message.Equals("left"))
+            {
+                StateChanged("moveLeft");
+            }
+            if (message.Equals("right"))
+                StateChanged("moveRight");
+            {
+            }
             if (message.Equals("accept"))
             {
                 interpretAccept();
@@ -52,5 +71,7 @@ namespace Eternia
             map.DrawSkyDome(camera);
             map.Draw(gameTime);
         }
+
+
     }
 }
