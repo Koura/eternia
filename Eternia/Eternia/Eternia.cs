@@ -51,28 +51,25 @@ namespace Eternia
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
-            modelManager = ModelManager.instance(this);
+            Camera = new Camera();
             Components.Add(modelManager);
             // AudioManager is a Iobserver. Give a Isubject as parameter in constructor. 
-            this.gameState = new GameState();
-            //this.gameState.NewGame();
+            this.gameState = new GameState(this);
             this.audio = new AudioManager(this.gameState);
             this.gameState.attachObserver(audio);
-            view = new ScreenManager(this);    
+            view = new ScreenManager(this);
             delegator = new ScreenDelegator(view, this, this.gameState);
             this.gameState.attachObserver(delegator);
             this.logicUnit = new LogicManager(this.gameState);
             this.commandHandler = new CommandHandler(this.view, this.logicUnit);
             view.attachObserver(this.commandHandler);
             this.gameState.setState("MainMenu");
-            gameState.NewGame(this);
             Window.Title = gameTitle;
-            camera = new Camera(this,new Vector3(0, 5, 50), new Vector3(0, 0, -20),Vector3.Up);
+
             base.Initialize();
         }
 

@@ -20,18 +20,30 @@ namespace Eternia
     {
         private String state;
         private List<IObserver> observers;
-        private Boolean safeZone;
         private Party party;
 
-        public Party Party
+        internal Party Party
         {
-            get { return this.party; }
+            get { return party; }
+            set { party = value; }
         }
 
         private Dictionary<String, Map> maps;
-
-        public GameState()
+        private Camera camera;
+        private Game game;
+        public Camera Camera
         {
+            get { return camera; }
+        }
+        public Map getMap(String key) {
+            return maps[key];
+        }
+
+        public GameState(Game game)
+        {
+            this.game = game;
+            camera = new Camera();
+            maps = new Dictionary<string, Map>();
             state = "MainMenu";
             observers = new List<IObserver>();
         }
@@ -41,23 +53,20 @@ namespace Eternia
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
 
-        public void NewGame(Game game)
+        public void NewGame()
         {
 
             state = "MainMenu";
             Hero hero1 = new Hero("Taistelu Jaska", new Vector3(0,0,-50));
             Hero hero2 = new Hero("Ozzy", new Vector3 (200, 0, 0));
             Hero hero3 = new Hero("Wee Man", new Vector3 (400, 0, -50));
-            hero1.Damage = 50;
-            hero2.Damage = 20;
-            hero3.Damage = 20;
-            hero3.CurrentHealth = 10;
             party = new Party();
             party.addCompany(hero1);
             party.addCompany(hero2);
             party.addCompany(hero3);
             maps.Add("OverWorld", new Map("eternia", game));
-            safeZone = false;
+            camera = new Camera();
+            camera.SetUpCamera(game.GraphicsDevice);
         }
         /// <summary>
         /// Allows the game component to update itself.
@@ -79,6 +88,7 @@ namespace Eternia
             {
                 observer.update();
             }
+            camera.notify();
         }
         public String getState()
         {
@@ -86,10 +96,14 @@ namespace Eternia
         }
         public void setState(string state)
         {
+            if(state.Equals("OverWorld"))
+            {
+                NewGame();
+            }
             this.state = state;
             notify();
         }
-
+        
         public Map getMap()
         {
             return maps[state];

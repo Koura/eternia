@@ -18,9 +18,10 @@ namespace Eternia
 
         ScreenManager manager;
         private Game game;
-        IGameState gameState;
+        GameState gameState;
+        OverWorldObserver observer;
 
-        public ScreenDelegator(ScreenManager manager, Game game, IGameState gameState)
+        public ScreenDelegator(ScreenManager manager, Game game, GameState gameState)
         {
             this.manager = manager;
             this.game = game;
@@ -31,8 +32,8 @@ namespace Eternia
         {
             switch (choice)
             {
-                case "OverWorld":
-                    return new OverWorld(game);
+                case "OverWorld":             
+                    return newWorld();
                 case "MainMenu":
                     return new MainMenu(game);
                 case "Options" :
@@ -50,6 +51,14 @@ namespace Eternia
                 this.manager.popScreen();
                 this.manager.pushScreen(screen);
             }
+        }
+
+        public Screen newWorld()
+        {
+            OverWorld world = new OverWorld(game);
+            observer = new OverWorldObserver(gameState, world);
+            gameState.Camera.attachObserver(observer);
+            return world;
         }
     }
 }

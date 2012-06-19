@@ -18,20 +18,38 @@ namespace Eternia
         Map map;
         Camera camera;
         Effect effect;
+        List<Hero> heroes;
+
         public OverWorld(Game game)
             : base (game)
         {
-            map = new Map("eternia", game);
-            camera = new Camera(game, new Vector3(0, 20, 20), new Vector3(0, 0, -20), Vector3.Up);
+            camera = new Camera();
+            camera.SetUpCamera(game.GraphicsDevice);
             effect = game.Content.Load<Effect>("EterniaEffects");
+            this.heroes = new List<Hero>();
         }
 
-        public void updateMap(Map map)
-        {
-            this.map = map;
-        }
+
+
+
         protected override void ProcessInput(String message)
         {
+            if (message.Equals("up"))
+            {
+                StateChanged("moveUp");
+            }
+            if (message.Equals("down"))
+            {
+                StateChanged("moveDown");
+            }
+            if (message.Equals("left"))
+            {
+                StateChanged("moveLeft");
+            }
+            if (message.Equals("right"))
+                StateChanged("moveRight");
+            {
+            }
             if (message.Equals("accept"))
             {
                 interpretAccept();
@@ -41,13 +59,22 @@ namespace Eternia
         private void interpretAccept()
         {
             StateChanged("Battle");
-        }      
+        }
 
+        public void receiveChanges(Map map, Camera camera, List<Hero> heroes)
+        {
+            this.map = map;
+            this.camera = camera;
+            this.heroes = heroes;
+        }
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
             camera.Draw(effect);
+            map.DrawSkyDome(camera);
             map.Draw(gameTime);
         }
+
+
     }
 }
