@@ -76,8 +76,8 @@ namespace Eternia
         }
         public List<IObserver> observers;
 
-        public Hero(String name)
-            : base(name)
+        public Hero(String name, Vector3 position)
+            : base(name, position)
         {
             
             this.maxMana = 50;

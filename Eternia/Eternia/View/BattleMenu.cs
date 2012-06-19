@@ -25,8 +25,20 @@ namespace Eternia
         int selectionValue = 0;
         List<Being> fighters;
         public Info info;
+        public Info casualtiesInfo;
         private bool playerTurn;
-        GameTime gameTime;
+        public ModelManager modelManager;
+
+        public bool PlayerTurn
+        {
+            get { return playerTurn; }
+            set { playerTurn = value; }
+        }
+        private TimeSpan currentTime;
+        public TimeSpan CurrentTime
+        {
+            get { return this.currentTime; }
+        }
         String battleState;
         int target = 0;
         private int heroCount;
@@ -41,9 +53,9 @@ namespace Eternia
             set { target = value; }
 
         }
-        public bool PlayerTurn;
-        TimeSpan currentTime;
+        
         private bool actionMade;
+
         public bool ActionMade
         {
             get { return this.actionMade; }
@@ -89,7 +101,7 @@ namespace Eternia
         public BattleMenu(Game game)
             : base(game)
         {
-
+            modelManager = ModelManager.instance(game);
         }
 
         public override void Initialize()
@@ -117,6 +129,7 @@ namespace Eternia
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[1], optionY), "Magic", font, Color.Black));
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[2], optionY), "Skills", font, Color.Black));
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[3], optionY), "Items", font, Color.Black));
+            
         }
 
         protected override void UnloadContent()
@@ -125,9 +138,8 @@ namespace Eternia
         }
         public override void Draw(GameTime gameTime)
         {
-            this.gameTime = gameTime;
+            currentTime = gameTime.TotalGameTime;
             spriteBatch.Begin();
-            
             spriteBatch.Draw(battlePanel, new Rectangle(0,0, battlePanel.Width, battlePanel.Height), Color.White);
             drawFighterStats();
             drawTimeBars(gameTime);
@@ -140,7 +152,6 @@ namespace Eternia
                 drawMenuOptions();
                
             }
-            drawCasualties();
             drawInfo();
             drawInfo(gameTime);
             spriteBatch.End();
@@ -149,39 +160,7 @@ namespace Eternia
 
             
 
-        }
-
-        private void drawCasualties()
-        {
-            String infoText ="";
-            switch (casualties)
-            {
-                case 4:
-                    {
-                        infoText  = "All enemies defeated.";                        
-                        break;
-                    }
-                case 1:
-                    {
-                        infoText = "Enemy killed.";
-                        break;
-                    }
-                case -1:
-                    {
-                        infoText = "Party member has been killed.";
-                        break;
-                    }
-                case -4:
-                    {
-                        infoText = "All party member has been killed.\n"+
-                        "GAME OVER";
-                        break;
-                    }
-            }            
-            info = new Info(infoText, new Vector2(200, 200), gameTime.TotalGameTime);
-            casualties = 0;
-        }
-            
+        }      
 
         private void drawTargetSelection()
         {
@@ -191,22 +170,23 @@ namespace Eternia
             int index = target;
             int calcY = y + index * 20;
             spriteBatch.DrawString(font, "<<< Target", new Vector2(x + 210, calcY), Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
-            info = new Info("Attack (A)", new Vector2(200, 200), gameTime.TotalGameTime);
+            info = new Info("Attack (A)", new Vector2(200, 200), currentTime);
         }
 
         private void drawInfo()
         {
-            if (info.text != null && (info.startTime.TotalMilliseconds + 1200.0f > gameTime.TotalGameTime.TotalMilliseconds))
+            if (info.text != null && (info.startTime.TotalMilliseconds + 1200.0f > currentTime.TotalMilliseconds))
                 spriteBatch.DrawString(font, info.text, info.position, Color.White);
-            
-        }
 
+            if (casualtiesInfo.text != null && (casualtiesInfo.startTime.TotalMilliseconds + 1200.0f > currentTime.TotalMilliseconds))
+                spriteBatch.DrawString(font, casualtiesInfo.text, casualtiesInfo.position, Color.White);
+        }
+         
         private void drawInfo(GameTime gameTime)
         {
-            if (info.text != null && ( info.startTime.TotalMilliseconds + 1200.0f > gameTime.TotalGameTime.TotalMilliseconds) )
+            if (info.text != null && (info.startTime.TotalMilliseconds + 1200.0f > gameTime.TotalGameTime.TotalMilliseconds))
                 spriteBatch.DrawString(font, info.text, info.position, Color.White);
         }
-
         private void drawFighterStats()
         {
             int i = 0;
@@ -274,15 +254,15 @@ namespace Eternia
 
         public override void Update(GameTime gameTime)
         {
-            currentTime = gameTime.TotalGameTime;
             notify();
-            
             base.Update(gameTime);
             
         }
 
         protected override void ProcessInput(String message)
         {
+            if (!playerTurn) return;
+
             switch (battleState)
             {
                 case "BattleMenu":
@@ -322,7 +302,6 @@ namespace Eternia
 
         private void ProcessInputInBattleMenu(string message)
         {
-            if (!playerTurn) return;
             if (message.Equals("left"))
             {
                 if (selectionValue > 0)
@@ -346,29 +325,17 @@ namespace Eternia
             {
                 case "BattleMenu":
                     {
-                        // if selectionValue is 0 player is about to attack
-                        if (selectionValue == 0)
-                        {
-                            playerAttacking();
-                        }
-                        // if selectionValue is 1 players is about use magic
-                        if (selectionValue == 1)
-                        {
-                            actionMade = true;
-                        }
-                        // if selectionValue is 2 player is about to check items
-                        if (selectionValue == 2)
-                        {
-                            actionMade = true;
-                        }
+                        /*
+                         * iterpret what player is choosing in main battle menu
+                         * | attack | magic | skills | items
+                         */
+                        interpretAccecptInBattleMenu();
                         break;
                     }
                 case "Attack":
                     {
-
-                        info = new Info("Attacking!", new Vector2(200, 200), gameTime.TotalGameTime);
-                        actionMade = true;
-                        battleState = "BattleMenu";
+                        // interpret players action in attack. Who's player targeting.
+                        interpretAccecptInAttackOption();
                         break;
                     }
             }
@@ -376,12 +343,38 @@ namespace Eternia
             
         }
 
+        private void interpretAccecptInAttackOption()
+        {
+            info = new Info("Attacking!", new Vector2(200, 200), currentTime);
+            actionMade = true;
+            battleState = "BattleMenu";
+        }
+
+        private void interpretAccecptInBattleMenu()
+        {
+            // if selectionValue is 0 player is about to attack
+            if (selectionValue == 0)
+            {
+                playerAttacking();
+            }
+            // if selectionValue is 1 players is about use magic
+            if (selectionValue == 1)
+            {
+                actionMade = true;
+            }
+            // if selectionValue is 2 player is about to check items
+            if (selectionValue == 2)
+            {
+                actionMade = true;
+            }
+        }
+
         private void playerAttacking()
         {
             playerAction = "Attack";
             battleState = "Attack";
             // need to choose target
-            info = new Info("Select target", new Vector2(200, 200), gameTime.TotalGameTime);
+            info = new Info("Select target", new Vector2(200, 200), currentTime);
         }
 
         public void attachObserver(IObserver observer)

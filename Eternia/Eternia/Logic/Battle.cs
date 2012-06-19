@@ -30,6 +30,7 @@ namespace Eternia
         Random randomizer;
         private IStrategy strategy;
         private List<Being> fighters;
+
         public List<Being> Fighters
         {
             get { return fighters; }
@@ -92,7 +93,12 @@ namespace Eternia
             maxBar = 200;
             waitingAction = false;
         }
-        public void setUpHeroes(List<Hero> heroes)
+        /*
+         * Set given list of heros to battle. Heros are added to fighter and hero list. Each figter has own timebar
+         * - timebar value is mapped by fighter's name and it's value is set to zero. As timebar grows and get's to max timebar value
+         * it is corresponding fighter's turn to take action.
+         */
+        public void setHeroes(List<Hero> heroes)
         {
             foreach (Hero h in heroes)
             {
@@ -107,15 +113,15 @@ namespace Eternia
             
 
         }
-
+        /*
+         * Randomly select's amount of enemies between 1-4. Possibility is 0.3 to enemy to be "greater" boss fighter.
+         * Enemys are created by enemy factory. Enemies are added to the fighter and to the enemy list. Enemies are also given 
+         * their own timebar values to take action on their own turn.
+         */
         private void setEnemies()
         {
             randomizer = new Random();
 
-            // ask from factory randomly boss and foot enemies from 1 - 4
-            // if double is less than 0.31 call for a boss, otherwise normal foot soldier.
-
-            // amount of enemies
             int enemyCount = randomizer.Next(1,4);
             for (int i = 1; i <= enemyCount; i++)
             {
@@ -123,7 +129,7 @@ namespace Eternia
 
                 if (next < 0.31)
                 {
-                    Enemy enemy = EnemyFactory.createBoss("Ravenous Bugblatter Beast Of Traal " + i, new Vector3(10, 10, 10), 100, 0, 30);
+                    Enemy enemy = EnemyFactory.createBoss("Ravenous Bugblatter Beast Of Traal " + i, new Vector3((3 * i), 0, (-5 * i)), 100, 0, 30);
                     enemy.Speed = randomizer.Next(10, 20);
                     fighters.Add(enemy);
                     enemies.Add(enemy);
@@ -131,7 +137,7 @@ namespace Eternia
                 }
                 else
                 {
-                    Enemy enemy = EnemyFactory.createSoldier("Bugblatter " + i, new Vector3(10, 100, 10), 100, 0, 50);
+                    Enemy enemy = EnemyFactory.createSoldier("Bugblatter " + i, new Vector3((3 * i),0, (-3 * i)), 100, 0, 50);
                     enemy.Speed = randomizer.Next(10, 20);
                     fighters.Add(enemy);
                     enemies.Add(enemy);
@@ -140,6 +146,11 @@ namespace Eternia
             }
             
         }
+        /*
+         * Add's each fighters timebar value if battle is not on "waiting action" mode i.e none of fighter is currently performing their 
+         * action. If fighter's timebar value goes to max value, turn changes to corresponding fighter on fighter list amd fighter's timebar
+         * value is set to zero. 
+         */
         public void addTimeBarValues()
         {
             if (WaitingAction)
@@ -167,7 +178,7 @@ namespace Eternia
 
             }
         }
-        public bool herosTurn()
+        public bool heroesTurn()
         {
             if (waitingAction)
             {
@@ -205,6 +216,7 @@ namespace Eternia
 
         private void enemyAttack(int attackerNro)
         {
+            System.Threading.Thread.Sleep(1000);
             Being attacker = fighters.ElementAt(attackerNro);
             int targetNumber = randomizer.Next(0, heroes.Count - 1);
             Being target = fighters.ElementAt(targetNumber);
@@ -235,45 +247,39 @@ namespace Eternia
             
         }
 
-        
-        public int checkEnemyStatus()
+        internal Being checkEnemyKilled()
         {
-            // if fighters health is zero or less take him out from the list. Message to modelManager not to draw those dead models
-            // anymore. If all heros all all enemys are dead end battle.
+            // if fighters health is zero or less take him out from the list and returns dead enemy. 
             Being dead = null;
             foreach (Being being in enemies)
             {
                 if (being.CurrentHealth <= 0)
+                {
                     dead = being;
+                    break;
+                }
 
             }
-            fighters.Remove(dead);
-            enemies.Remove(dead);
-            if (enemies.Count == 0) return 4;
-            if (dead != null) return 1;
-            
-            return 0;
+            if (dead != null)
+            {
+                fighters.Remove(dead);
+                enemies.Remove(dead);
+            }
+            return dead;
         }
 
-        internal int checkHeroStatus()
+        internal Being checkHeroKilled()
         {
             Being dead = null;
             foreach (Being being in heroes)
             {
                 if (being.CurrentHealth <= 0)
+                {
                     dead = being;
+                    break;
+                }
             }
-            fighters.Remove(dead);
-            heroes.Remove(dead);
-            if (heroes.Count == 0) return -4;
-            if (dead != null) return -1;
-
-            return 0;
-        }
-
-        internal void checkStatus()
-        {
-            // check all beings, who is alive
+            return dead;
         }
     }
 }

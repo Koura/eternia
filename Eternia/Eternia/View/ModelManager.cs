@@ -15,17 +15,28 @@ namespace Eternia
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class ModelManager : Microsoft.Xna.Framework.DrawableGameComponent
+    public class ModelManager: DrawableGameComponent
     {
 
-        Model enemyModel;
-        Dictionary<String,BasicModel> models = new Dictionary<String,BasicModel>();
-        public ModelManager(Game game)
+        private Model enemyModel;
+        private Model heroModel;
+        private static ModelManager inst;
+        Dictionary<String,BasicModel> models;
+        private ModelManager(Game game)
             : base(game)
         {
-            // TODO: Construct any child components here
+           models = new Dictionary<String,BasicModel>();
+           LoadContent();
         }
 
+         public static ModelManager instance(Game game)
+        {
+            if (inst == null)
+            {
+                inst = new ModelManager(game);
+            }
+            return inst;
+        } 
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
@@ -33,33 +44,12 @@ namespace Eternia
         public override void Initialize()
         {
             // TODO: Add your initialization code here
-
-            base.Initialize();
         }
         protected override void LoadContent()
         {
-            BasicModel hero = new BasicModel(Game.Content.Load<Model>(@"models/fighter"), new Vector3(5, 0, 0));
+             heroModel = Game.Content.Load<Model>(@"models/fighter");
             enemyModel = Game.Content.Load<Model>(@"models/enemy");
-            models.Add("hero",hero);
-            setEnemies(5);
             base.LoadContent();
-        }
-        public void setEnemies(int amount)
-        {
-            
-            
-
-            for (int i = 1; i <= amount; i++)
-            {
-                float x = i * 2;
-                float z =(float)Math.Sin(MathHelper.ToDegrees(i));
-                
-                models.Add("enemy_"+i, new BasicModel(enemyModel, new Vector3(x, 0, z)));
-                x++;
-            }
-                
-                
-                
         }
         /// <summary>
         /// Allows the game component to update itself.
@@ -74,6 +64,9 @@ namespace Eternia
 
             base.Update(gameTime);
         }
+        /*
+         * Draws each model on model list.
+         */
         public override void Draw(GameTime gameTime)
         {
             foreach (KeyValuePair<String, BasicModel> model in models)
@@ -81,32 +74,38 @@ namespace Eternia
                 model.Value.Draw(((Eternia)Game).Camera);
             }
             base.Draw(gameTime);
-        }
-        public void setModelAlive(String modelName)
+        }        
+        /*
+         * Set given list of enemys to modelManager's model list to draw. Method uses enemyModel that is initialized on loadContent method.
+         * To change enemy model change different model on loadContent.
+         */
+        internal void setEnemies(List<Being> enemies)
         {
-            BasicModel model = null;
-
-            if(models.TryGetValue(modelName, out model))
+            foreach (Being being in enemies)
             {
-                model.IsAlive = true;
+                models.Add(being.Name, new BasicModel(enemyModel, new Vector3(being.Position.X, being.Position.Y, being.Position.Z)));
             }
-
+           
+                
         }
-        public void setAllModelsAlive()
+        /*
+         * Set given list of heros to modelManager's model list to draw. Method uses heroModel that is initialized on loadContent method.
+         * To change hero model change different model on loadContent.
+         */
+        internal void setHeros(List<Being> heroes)
         {
-            foreach (KeyValuePair<String, BasicModel> model in models)
+            foreach (Being being in heroes)
             {
-                model.Value.IsAlive = true;
+                BasicModel newBasicModel = new BasicModel(heroModel, new Vector3(being.Position.X, being.Position.Y, being.Position.Z));
+                models.Add(being.Name, newBasicModel);
             }
         }
-        public void setModelDead(String modelName)
+        /*
+         * removes given being's model from model list. Removed model won't be drawn anymore.
+         */
+        internal void removeModel(Being model)
         {
-            BasicModel model = null;
-
-            if(models.TryGetValue(modelName, out model))
-            {
-                model.IsAlive = false;
-            }
+            models.Remove(model.Name);
         }
     }
 }

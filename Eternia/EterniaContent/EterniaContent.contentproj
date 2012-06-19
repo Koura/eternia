@@ -83,7 +83,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-
     <Compile Include="images\battleImg1.png">
       <Name>battleImg1</Name>
       <Importer>TextureImporter</Importer>
@@ -93,7 +92,7 @@
   <ItemGroup>
     <Compile Include="images\timeBar.png">
       <Name>timeBar</Name>
-	</Compile>
+    </Compile>
     <Compile Include="audios\maintheme.mp3">
       <Name>maintheme</Name>
       <Importer>Mp3Importer</Importer>
@@ -126,7 +125,7 @@
       <Name>enemy</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-	</Compile>
+    </Compile>
     <Compile Include="images\menutxt.png">
       <Name>menutxt</Name>
       <Importer>TextureImporter</Importer>
@@ -180,6 +179,13 @@
       <Name>overworld</Name>
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="models\fighter1.fbx">
+      <Name>fighter1</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

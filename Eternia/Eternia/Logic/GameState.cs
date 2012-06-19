@@ -45,17 +45,18 @@ namespace Eternia
         {
 
             state = "MainMenu";
-            Hero hero1 = new Hero("Taistelu Jaska");
-            Hero hero2 = new Hero("Ozzy");
-            Hero hero3 = new Hero("Wee Man");
+            Hero hero1 = new Hero("Taistelu Jaska", new Vector3(0,0,-50));
+            Hero hero2 = new Hero("Ozzy", new Vector3 (200, 0, 0));
+            Hero hero3 = new Hero("Wee Man", new Vector3 (400, 0, -50));
             hero1.Damage = 50;
             hero2.Damage = 20;
             hero3.Damage = 20;
+            hero3.CurrentHealth = 10;
             party = new Party();
             party.addCompany(hero1);
             party.addCompany(hero2);
             party.addCompany(hero3);
-            //maps.Add("OverWorld", new Map("eternia", game));
+            maps.Add("OverWorld", new Map("eternia", game));
             safeZone = false;
         }
         /// <summary>

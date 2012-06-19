@@ -19,6 +19,7 @@ namespace Eternia
     {
         public Model model { get; set; }
         protected Matrix world = Matrix.Identity;
+        private Matrix rotation = Matrix.Identity;
 
         private bool isAlive;
 
@@ -29,7 +30,7 @@ namespace Eternia
         }
         public BasicModel(Model model, Vector3 position)
         {
-            isAlive = false;
+            isAlive = true;
             this.model = model;
             this.world = Matrix.CreateTranslation(position);
         }
@@ -69,7 +70,19 @@ namespace Eternia
 
         public virtual Matrix GetWorld()
         {
-            return world;
+            return world * rotation;
+        }
+        public void rotateModelOnX(float degrees)
+        {
+            rotation *= Matrix.CreateRotationX(MathHelper.ToRadians(degrees));
+        }
+        public void rotateModelOnY(float degrees)
+        {
+            rotation *= Matrix.CreateRotationY(MathHelper.ToRadians(degrees));
+        }
+        public void rotateModelOnZ(float degrees)
+        {
+            rotation *= Matrix.CreateRotationZ(MathHelper.ToRadians(degrees));
         }
     }
 }

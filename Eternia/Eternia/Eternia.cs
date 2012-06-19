@@ -56,8 +56,7 @@ namespace Eternia
             graphics.PreferredBackBufferHeight = 600;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
-            Camera = new Camera();
-            modelManager = new ModelManager(this);
+            modelManager = ModelManager.instance(this);
             Components.Add(modelManager);
             // AudioManager is a Iobserver. Give a Isubject as parameter in constructor. 
             this.gameState = new GameState();
@@ -73,7 +72,7 @@ namespace Eternia
             this.gameState.setState("MainMenu");
             gameState.NewGame(this);
             Window.Title = gameTitle;
-
+            camera = new Camera(this,new Vector3(0, 5, 50), new Vector3(0, 0, -20),Vector3.Up);
             base.Initialize();
         }
 
@@ -84,7 +83,7 @@ namespace Eternia
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            device = GraphicsDevice;
+            device =graphics.GraphicsDevice;
             Song menuSong = Content.Load<Song>(@"audios\maintheme");
             Song battle = Content.Load<Song>(@"audios\battletheme1");
             Song overworld = Content.Load<Song>(@"audios\overworld");
@@ -120,7 +119,6 @@ namespace Eternia
             base.Update(gameTime);
         }
          
-
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>

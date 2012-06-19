@@ -93,11 +93,11 @@ namespace Eternia
             set { speed = value; }
         }
 
-        public Being(String name)
+        public Being(String name, Vector3 position)
 
         {
             this.name = name;
-            this.position = new Vector3(0,0,0);
+            this.position = position;
             this.maxHealth = 100;
             this.currentHealth = maxHealth;
             this.armor = 0;

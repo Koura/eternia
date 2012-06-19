@@ -22,8 +22,7 @@ namespace Eternia
             : base (game)
         {
             map = new Map("eternia", game);
-            camera = new Camera();
-            camera.SetUpCamera(game.GraphicsDevice);
+            camera = new Camera(game, new Vector3(0, 20, 20), new Vector3(0, 0, -20), Vector3.Up);
             effect = game.Content.Load<Effect>("EterniaEffects");
         }
 

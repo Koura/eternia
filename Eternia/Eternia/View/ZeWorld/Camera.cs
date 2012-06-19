@@ -19,6 +19,8 @@ namespace Eternia
         public Matrix viewMatrix { get; set; }
         public Matrix projectionMatrix { get; set; }
         public Vector3 cameraPos { get; set; }
+        Vector3 cameraDirection;
+        Vector3 cameraUp;
         #endregion
 
         public const float nearClip = 1.0f;
@@ -28,20 +30,28 @@ namespace Eternia
         /// Sets up the camera
         /// </summary>
         /// <param name="device"></param>
-        public void SetUpCamera(GraphicsDevice device)
+        public Camera(Game game, Vector3 pos, Vector3 target, Vector3 up)
         {
-           cameraPos = new Vector3(80, 20, -50);
-           viewMatrix = Matrix.CreateLookAt(cameraPos, new Vector3(0, 2, -12), new Vector3(0, 1, 0));
-           projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, nearClip, farClip);
+           // build camera view matrix
+           cameraPos = pos;
+           cameraDirection = target - pos;
+           cameraDirection.Normalize();
+           cameraUp = up;
+           createALookAt();
+           
+           projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4,(float)game.Window.ClientBounds.Width/(float) game.Window.ClientBounds.Height, nearClip, farClip);
+        }
+        private void createALookAt()
+        {
+            viewMatrix = Matrix.CreateLookAt(cameraPos, cameraPos + cameraDirection, cameraUp);
         }
 
-
         public void Draw(Effect effect)
-        { 
+        {
             effect.Parameters["xView"].SetValue(viewMatrix);
             effect.Parameters["xProjection"].SetValue(projectionMatrix);
             effect.Parameters["xWorld"].SetValue(Matrix.Identity);
-           
+
         }
 
 
