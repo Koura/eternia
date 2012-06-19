@@ -12,11 +12,13 @@ namespace Eternia
         OverWorld overWorld;
         Map worldMap;
         Camera worldCamera;
+        List<Hero> heroes;
 
         public OverWorldObserver(GameState gameState, OverWorld overWorld)
         {
             this.gameState = gameState;
             this.overWorld = overWorld;
+            this.heroes = new List<Hero>();
         }
         public void update()
         {
@@ -28,11 +30,12 @@ namespace Eternia
         {
             this.worldMap = gameState.getMap("OverWorld");
             this.worldCamera = gameState.Camera;
+            this.heroes = gameState.Party.Heroes;
         }
 
         public void pushChanges()
         {
-            overWorld.receiveChanges(worldMap,worldCamera);
+            overWorld.receiveChanges(worldMap,worldCamera, heroes);
         }
     }
 }

@@ -79,7 +79,6 @@ namespace Eternia
         public Hero(String name)
             : base(name)
         {
-            
             this.maxMana = 50;
             this.currentMana = this.maxMana;
             this.strength = 10;

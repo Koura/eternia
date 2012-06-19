@@ -20,6 +20,7 @@ namespace Eternia
         public Matrix projectionMatrix { get; set; }
         public Vector3 cameraPos { get; set; }
         private List<IObserver> observers;
+        private Vector3 target;
         #endregion
 
         public const float nearClip = 1.0f;
@@ -37,8 +38,7 @@ namespace Eternia
 
         public void SetUpCamera(GraphicsDevice device)
         {
-           cameraPos = new Vector3(-40, 20, -30);
-          // viewMatrix = Matrix.CreateLookAt(cameraPos, new Vector3(0, 2, -12), new Vector3(0, 2, 0));
+           cameraPos = new Vector3(70, 20, -70);
            viewMatrix = Matrix.CreateLookAt(cameraPos, new Vector3(0, 0, 0), new Vector3(0, 1, 0));
            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, nearClip, farClip);
         }

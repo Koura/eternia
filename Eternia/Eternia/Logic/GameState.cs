@@ -20,7 +20,13 @@ namespace Eternia
     {
         private String state;
         private List<IObserver> observers;
-        Party party;
+        private Party party;
+
+        internal Party Party
+        {
+            get { return party; }
+            set { party = value; }
+        }
 
         private Dictionary<String, Map> maps;
         private Camera camera;

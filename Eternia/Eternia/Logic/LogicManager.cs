@@ -38,7 +38,7 @@ namespace Eternia
         {
             if (update.Equals("moveUp"))
             {
-                gameState.Camera.moveCamPos(new Vector3(0, 0, 1));
+                gameState.Party.Position += new Vector3(0,0,1);
             }
             if (update.Equals("moveDown"))
             {
