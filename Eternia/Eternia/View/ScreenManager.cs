@@ -13,9 +13,6 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Eternia
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
     public class ScreenManager : IScreenManager
     {
 
@@ -27,14 +24,16 @@ namespace Eternia
         {
             this.game = game;
             observers = new List<IObserver>();
-            // TODO: Construct any child components here
         }
 
+        //returns the screen currently on top of the stack without removing it from the stack.
         public Screen currentScreen()
         {
             return screens.Peek();
         }
 
+        //Adds a new screen on the top of the stack and marks the previous top screen to not update and draw.
+        //Screen is also added in the game components so the game automatically calls the update and draw
         public void pushScreen(Screen screen)
         {
             if (screens.Count != 0)
@@ -47,6 +46,8 @@ namespace Eternia
             notify();
         }
 
+        //removes the top screen of the stack and if after that there are more screens in the stack, 
+        //the methods marks top most screen to update and draw.
         public void popScreen()
         {
             if (screens.Count != 0)

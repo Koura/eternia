@@ -27,7 +27,7 @@ namespace Eternia
             this.game = game;
             this.gameState = gameState;
         }
-
+        //checks which screen to push into screen manager.
         private Screen chooseScreen(String choice)
         {
             switch (choice)
@@ -43,6 +43,8 @@ namespace Eternia
             }
             return null;
         }
+
+        //gets notified by an ISubject and pops the old screen from the screen manager and pushes a new one on the top.
         public void update() 
         {
             Screen screen = chooseScreen(this.gameState.getState());
@@ -52,7 +54,7 @@ namespace Eternia
                 this.manager.pushScreen(screen);
             }
         }
-
+        //attaches an observer to look for changes in the gamestate and to tell the current screen the new updates.
         public Screen newWorld()
         {
             OverWorld world = new OverWorld(game);

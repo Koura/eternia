@@ -181,7 +181,7 @@
       <Processor>SongProcessor</Processor>
     </Compile>
   </ItemGroup>
-   <ItemGroup>
+  <ItemGroup>
     <Compile Include="models\cloudMap.jpg">
       <Name>cloudMap</Name>
       <Importer>TextureImporter</Importer>
@@ -193,6 +193,13 @@
       <Name>dome</Name>
       <Importer>XImporter</Importer>
       <Processor>ModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="images\waterbump.dds">
+      <Name>waterbump</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

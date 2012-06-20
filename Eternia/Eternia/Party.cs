@@ -36,9 +36,16 @@ namespace Eternia
             observers = new List<IObserver>();
         }
 
+        //updates party position on the overworld map
         public void setPosi(Vector3 position)
         {
             this.position = position;
+            notify();
+        }
+        //updates the party rotation on the overworld map
+        public void setRota(Quaternion rotation)
+        {
+            this.partyRotation *= rotation;
             notify();
         }
         private List<Hero> heroes;
@@ -50,12 +57,14 @@ namespace Eternia
         }
         private List<Equipment> inventory;
 
+        //List of all the equipment the party has
         public List<Equipment> Inventory
         {
             get { return inventory; }
             set { inventory = value; }
         }
         
+        //adds a hero/companion/ally in to the party roster
         public void addCompany(Hero hero)
         {
             heroes.Add(hero);

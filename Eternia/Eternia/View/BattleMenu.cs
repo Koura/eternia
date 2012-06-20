@@ -28,6 +28,8 @@ namespace Eternia
         public Info casualtiesInfo;
         private bool playerTurn;
         public ModelManager modelManager;
+        Camera camera;
+        List<BasicModel> battledudes;
 
         public bool PlayerTurn
         {
@@ -102,6 +104,13 @@ namespace Eternia
             : base(game)
         {
             modelManager = ModelManager.instance(game);
+            camera = new Camera(game.GraphicsDevice);
+            camera.SetUpCamera();
+            Dictionary<String, BasicModel> temp = ModelManager.instance(game).models;
+            if(temp.Keys.Contains("WorldDude"))
+              temp.Remove("WorldDude");
+            battledudes = temp.Values.ToList();
+
         }
 
         public override void Initialize()
@@ -155,7 +164,11 @@ namespace Eternia
             drawInfo();
             drawInfo(gameTime);
             spriteBatch.End();
-            modelManager.Draw(gameTime);
+            foreach(BasicModel dude in battledudes)
+            {
+                dude.Draw(camera);
+            }
+
             base.Draw(gameTime);
 
             

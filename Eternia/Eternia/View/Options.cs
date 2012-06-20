@@ -50,7 +50,7 @@ namespace Eternia
         {
 
         }
-
+        //Determines how to react to pressing A button in a given situation
         protected override void ProcessInput(String message)
         {           
             if (message.Equals("accept"))
@@ -61,13 +61,13 @@ namespace Eternia
 
         private void interpretAccept()
         {
-            //going back to mainmenu
             if (arrowValue == 1)
             {
                 StateChanged("MainMenu");
             }
         }
 
+        //Draws the options. Nothing peculiar in here.
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();

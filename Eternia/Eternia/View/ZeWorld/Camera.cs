@@ -21,6 +21,18 @@ namespace Eternia
         public Vector3 cameraPos { get; set; }
         private List<IObserver> observers;
         private Vector3 target;
+        private Quaternion targetrot;
+
+        public Quaternion Targetrot
+        {
+            get { return targetrot; }
+            set { targetrot = value; }
+        }
+        public Vector3 Target
+        {
+            get { return target; }
+            set { target = value; }
+        }
         private GraphicsDevice device;
         #endregion
 
@@ -40,22 +52,25 @@ namespace Eternia
 
         public void SetUpCamera()
         {
-            cameraPos = new Vector3(70, 20, -70);
+            cameraPos = new Vector3(70, 30, -100);
             viewMatrix = Matrix.CreateLookAt(cameraPos, new Vector3(0, 0, 0), new Vector3(0, 1, 0));
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, nearClip, farClip);
         }
 
+        //Currently not used because it is bugged. It should move the camera to follow hero movement.
         public void moveCamPos(Vector3 moveVector, Quaternion rotation)
         {
-            Vector3 cameraPos = new Vector3(0, 2.0f, 2.0f);
+            Vector3 cameraPos = new Vector3(70.0f, 30.0f, -100.0f);
             cameraPos = Vector3.Transform(cameraPos, Matrix.CreateFromQuaternion(rotation));
-
+            targetrot = rotation;
             Vector3 camup = new Vector3(0, 1, 0);
             camup = Vector3.Transform(camup, Matrix.CreateFromQuaternion(rotation));
+            target = moveVector;
             viewMatrix = Matrix.CreateLookAt(cameraPos, moveVector, camup);
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, nearClip, farClip);
             notify();
         }
+ 
         public void Draw(Effect effect)
         {
             effect.Parameters["xView"].SetValue(viewMatrix);

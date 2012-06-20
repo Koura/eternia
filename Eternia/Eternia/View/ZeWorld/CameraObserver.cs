@@ -12,6 +12,8 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Eternia
 {
+
+    //Observes party movement and rotation and then reports changes to camera and overworld model.
     public class CameraObserver : IObserver
     {
         GameState gameState;
@@ -37,7 +39,7 @@ namespace Eternia
 
         private void pushUpdates()
         {
-            gameState.Camera.moveCamPos(position, rotation);
+            //gameState.Camera.moveCamPos(position, rotation);
             gameState.WorldModel.setPosition(position, rotation);
         }
     }
