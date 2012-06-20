@@ -73,7 +73,7 @@ namespace Eternia
             party.attachObserver(new CameraObserver(this));
             setModels();
             worldModel = ModelManager.instance(game).models["Taistelu Jaska"];
-            worldModel.setPosition(party.Position);
+            worldModel.setPosition(party.Position, party.PartyRotation);
             maps.Add("OverWorld", new Map("eternia", game));
             camera = new Camera(game.GraphicsDevice);
             camera.SetUpCamera();

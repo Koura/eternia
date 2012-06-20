@@ -38,6 +38,7 @@ namespace Eternia
         private void pushUpdates()
         {
             gameState.Camera.moveCamPos(position);
+            gameState.WorldModel.setPosition(position, rotation);
         }
     }
 }
