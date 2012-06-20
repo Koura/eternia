@@ -38,7 +38,7 @@ namespace Eternia
 
         public void setPosi(Vector3 position)
         {
-            this.position += position;
+            this.position = position;
             notify();
         }
         private List<Hero> heroes;
