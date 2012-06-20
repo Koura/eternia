@@ -74,6 +74,5 @@ namespace Eternia
                 observer.update();
             }
         }
-
     }
 }

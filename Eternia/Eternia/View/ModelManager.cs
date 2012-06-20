@@ -21,7 +21,7 @@ namespace Eternia
         private Model enemyModel;
         private Model heroModel;
         private static ModelManager inst;
-        Dictionary<String,BasicModel> models;
+        public Dictionary<String,BasicModel> models;
         private ModelManager(Game game)
             : base(game)
         {
@@ -96,10 +96,14 @@ namespace Eternia
         {
             foreach (Being being in heroes)
             {
-                BasicModel newBasicModel = new BasicModel(heroModel, new Vector3(being.Position.X, being.Position.Y, being.Position.Z));
-                models.Add(being.Name, newBasicModel);
+                if (!models.ContainsKey(being.Name))
+                {
+                    BasicModel newBasicModel = new BasicModel(heroModel, new Vector3(being.Position.X, being.Position.Y, being.Position.Z));
+                    models.Add(being.Name, newBasicModel);
+                }
             }
         }
+
         /*
          * removes given being's model from model list. Removed model won't be drawn anymore.
          */

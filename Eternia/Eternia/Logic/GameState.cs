@@ -21,6 +21,13 @@ namespace Eternia
         private String state;
         private List<IObserver> observers;
         private Party party;
+        BasicModel worldModel;
+
+        public BasicModel WorldModel
+        {
+            get { return worldModel; }
+            set { worldModel = value; }
+        }
 
         internal Party Party
         {
@@ -58,12 +65,15 @@ namespace Eternia
 
             state = "MainMenu";
             Hero hero1 = new Hero("Taistelu Jaska", new Vector3(0,0,-50));
-            Hero hero2 = new Hero("Ozzy", new Vector3 (200, 0, 0));
-            Hero hero3 = new Hero("Wee Man", new Vector3 (400, 0, -50));
+            Hero hero2 = new Hero("Ozzy", new Vector3 (200, -120, 0));
+            Hero hero3 = new Hero("Wee Man", new Vector3 (400, -120, -50));
             party = new Party();
             party.addCompany(hero1);
             party.addCompany(hero2);
             party.addCompany(hero3);
+            setModels();
+            worldModel = ModelManager.instance(game).models["Taistelu Jaska"];
+            worldModel.setPosition(party.Position);
             maps.Add("OverWorld", new Map("eternia", game));
             camera = new Camera();
             camera.SetUpCamera(game.GraphicsDevice);
@@ -72,6 +82,16 @@ namespace Eternia
         /// Allows the game component to update itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        private void setModels()
+        {
+            List<Being> temp = new List<Being>();
+            foreach (Hero hero in party.Heroes)
+            {
+                temp.Add(hero);
+            }
+            ModelManager.instance(game).setHeros(temp);
+        }
+
         public void attachObserver(IObserver observer)
         {
             observers.Add(observer);

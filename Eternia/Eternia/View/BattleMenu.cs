@@ -155,7 +155,7 @@ namespace Eternia
             drawInfo();
             drawInfo(gameTime);
             spriteBatch.End();
-                
+            modelManager.Draw(gameTime);
             base.Draw(gameTime);
 
             

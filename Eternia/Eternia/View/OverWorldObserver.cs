@@ -13,6 +13,7 @@ namespace Eternia
         Map worldMap;
         Camera worldCamera;
         List<Hero> heroes;
+        BasicModel model;
 
         public OverWorldObserver(GameState gameState, OverWorld overWorld)
         {
@@ -31,11 +32,12 @@ namespace Eternia
             this.worldMap = gameState.getMap("OverWorld");
             this.worldCamera = gameState.Camera;
             this.heroes = gameState.Party.Heroes;
+            this.model = gameState.WorldModel;
         }
 
         public void pushChanges()
         {
-            overWorld.receiveChanges(worldMap,worldCamera, heroes);
+            overWorld.receiveChanges(worldMap,worldCamera, heroes, model);
         }
     }
 }

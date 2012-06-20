@@ -26,7 +26,6 @@ namespace Eternia
         {
             if (newState.Contains("move"))
             {
-                stateUpdate(newState);
             }
             else
             {
@@ -38,7 +37,7 @@ namespace Eternia
         {
             if (update.Equals("moveUp"))
             {
-                gameState.Party.Position += new Vector3(0,0,1);
+                gameState.Party.setPosi(new Vector3(0,0,1));
             }
             if (update.Equals("moveDown"))
             {

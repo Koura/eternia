@@ -19,6 +19,7 @@ namespace Eternia
         Camera camera;
         Effect effect;
         List<Hero> heroes;
+        BasicModel model;
 
         public OverWorld(Game game)
             : base (game)
@@ -26,11 +27,8 @@ namespace Eternia
             camera = new Camera();
             camera.SetUpCamera(game.GraphicsDevice);
             effect = game.Content.Load<Effect>("EterniaEffects");
-            this.heroes = new List<Hero>();
+            this.heroes = new List<Hero>();           
         }
-
-
-
 
         protected override void ProcessInput(String message)
         {
@@ -61,11 +59,13 @@ namespace Eternia
             StateChanged("Battle");
         }
 
-        public void receiveChanges(Map map, Camera camera, List<Hero> heroes)
+        public void receiveChanges(Map map, Camera camera, List<Hero> heroes, BasicModel model)
         {
             this.map = map;
             this.camera = camera;
             this.heroes = heroes;
+            this.model = model;
+
         }
         public override void Draw(GameTime gameTime)
         {
@@ -73,6 +73,7 @@ namespace Eternia
             camera.Draw(effect);
             map.DrawSkyDome(camera);
             map.Draw(gameTime);
+            model.Draw(camera);
         }
 
 

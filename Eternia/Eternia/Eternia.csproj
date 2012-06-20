@@ -137,6 +137,7 @@
     <Compile Include="View\ScreenDelegator.cs" />
     <Compile Include="View\ZeWorld\Being.cs" />
     <Compile Include="View\ZeWorld\Camera.cs" />
+    <Compile Include="View\ZeWorld\CameraObserver.cs" />
     <Compile Include="View\ZeWorld\Enemy.cs" />
     <Compile Include="View\ZeWorld\EnemyBoss.cs" />
     <Compile Include="View\ZeWorld\EnemyFactory.cs" />

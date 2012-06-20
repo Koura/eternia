@@ -11,9 +11,9 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 namespace Eternia
 {
-    public class Party
+    public class Party : ISubject
     {
-        
+        private List<IObserver> observers;
         private Vector3 position;
 
         public Vector3 Position
@@ -22,7 +22,11 @@ namespace Eternia
             set { position = value; }
         }
 
-        
+        public void setPosi(Vector3 position)
+        {
+            this.position += position;
+            notify();
+        }
         private List<Hero> heroes;
 
         public List<Hero> Heroes
@@ -40,6 +44,8 @@ namespace Eternia
         public Party()
         {
             heroes = new List<Hero>();
+            position = new Vector3(600, -120, 600);
+            observers = new List<IObserver>();
         }
         public void addCompany(Hero hero)
         {
@@ -49,6 +55,24 @@ namespace Eternia
         {
             if(heroes.Contains(hero))
                heroes.Remove(hero);
+        }
+
+        public void attachObserver(IObserver observer)
+        {
+            observers.Add(observer);
+        }
+
+        public void detachObserver(IObserver observer)
+        {
+            if (observers.Contains(observer))
+                observers.Remove(observer);
+        }
+        public void notify()
+        {
+            foreach (IObserver observer in observers)
+            {
+                observer.update();
+            }
         }
     }
 }
