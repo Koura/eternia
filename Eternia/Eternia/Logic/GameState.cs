@@ -22,6 +22,7 @@ namespace Eternia
         private List<IObserver> observers;
         private Party party;
         BasicModel worldModel;
+        Hero hero2;
 
         public BasicModel WorldModel
         {
@@ -61,18 +62,16 @@ namespace Eternia
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
 
+        //When new game is chosen from the main menu this method initializes some basic values to party, camera etc.
         public void NewGame()
         {
-            Hero hero1 = new Hero("Taistelu Jaska", new Vector3(0,0,0));
-            Hero hero2 = new Hero("Ozzy", new Vector3 (200, -120, 0));
-            Hero hero3 = new Hero("Wee Man", new Vector3 (400, -120, -50));
+            Hero hero1 = new Hero("Taistelu Jaska", new Vector3(200,-120,200));
+            hero2 = new Hero("WorldDude", new Vector3(500,-335,500));
             party = new Party();
             party.addCompany(hero1);
-            party.addCompany(hero2);
-            party.addCompany(hero3);
             party.attachObserver(new CameraObserver(this));
             setModels();
-            worldModel = ModelManager.instance(game).models["Taistelu Jaska"];
+            worldModel = ModelManager.instance(game).models["WorldDude"];
             worldModel.setPosition(party.Position, party.PartyRotation);
             maps.Add("OverWorld", new Map("eternia", game));
             camera = new Camera(game.GraphicsDevice);
@@ -82,6 +81,7 @@ namespace Eternia
         /// Allows the game component to update itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        //Sets heroes in party/overworld in to modelmanager which gives the heroes models to represent them.
         private void setModels()
         {
             List<Being> temp = new List<Being>();
@@ -89,6 +89,7 @@ namespace Eternia
             {
                 temp.Add(hero);
             }
+            temp.Add(hero2);
             ModelManager.instance(game).setHeros(temp);
         }
 
@@ -110,10 +111,14 @@ namespace Eternia
             }
             camera.notify();
         }
+
+        //Gets the state string
         public String getState()
         {
             return this.state;
         }
+
+        //sets the state according to the string gotten
         public void setState(string state)
         {
             if (state.Equals("newGame"))
@@ -129,6 +134,7 @@ namespace Eternia
             notify();
         }
         
+        //returns the map appropriate for the gamestate
         public Map getMap()
         {
             return maps[state];

@@ -22,6 +22,7 @@ namespace Eternia
             this.gameState = gameState;
         }
 
+        //If the newstate contains the word move it doesn't do anything. Otherwise tells the gamestate to change the state to the newstate.
         public void StateChange(String newState)
         {
             if (newState.Contains("move"))
@@ -33,23 +34,26 @@ namespace Eternia
             }
         }
 
+        //Changes objects in the gamestate according to the message
         public void stateUpdate(String update)
         {
             if (update.Equals("moveUp"))
             {
-                gameState.Party.setPosi(new Vector3(0,0,3));
+                gameState.Party.setPosi(new Vector3(0,0,-5));
             }
             if (update.Equals("moveDown"))
             {
-                gameState.Party.setPosi(new Vector3(0,0,-3));
+                gameState.Party.setPosi(new Vector3(0,0,5));
             }
             if (update.Equals("moveLeft"))
             {
-                gameState.Party.setPosi(new Vector3(3, 0, 0));
+                 Quaternion additionalRot = Quaternion.CreateFromAxisAngle(new Vector3(0, -1, 0), 0.5f)*Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), 0.0f);
+                gameState.Party.setRota(additionalRot);
             }
             if (update.Equals("moveRight"))
             {
-                gameState.Party.setPosi(new Vector3(-3, 0, 0));
+                Quaternion additionalRot = Quaternion.CreateFromAxisAngle(new Vector3(0, -1, 0), -0.5f)*Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), 0.0f);
+                gameState.Party.setRota(additionalRot);
             }
         }
     }

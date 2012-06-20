@@ -68,7 +68,7 @@ namespace Eternia
         protected override void UnloadContent()
         {
         }
-
+        //processes the messages gotten from the player and acts accordingly.
         protected override void ProcessInput(String message)
         {           
             if (message.Equals("up"))
@@ -91,12 +91,9 @@ namespace Eternia
             {
                 interpretAccept();
             }
-            //send message to interface
-        }
 
-        /*
-         * Can we just leave this like so? Does the gamestate/screenmanager handle things so that only the topmost screen gets to update?
-         */
+        }
+        //Determines how to react to pressing A button in a given situation
         private void interpretAccept()
         {
             //starting new game
@@ -121,6 +118,7 @@ namespace Eternia
             }
         }      
 
+        //Draws the menu. Nothing peculiar in here.
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();

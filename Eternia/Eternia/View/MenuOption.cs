@@ -13,6 +13,13 @@ using Eternia.View;
 
 namespace Eternia
 {
+
+    //It's a "clickable" menu option used in the menu. Has a lot of getters and setters so nothing to comment in here.
+    //So move along. Now for something completely different  ->
+
+    //checks who trained the moose
+    //public IMoose trainMoose() {
+    //}
     class MenuOption: IOption
     {
         private Color colour;

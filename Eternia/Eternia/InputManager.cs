@@ -13,17 +13,20 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Eternia
 {
-
+    //our own event that send a source object and a string representation of the input
     public delegate void InputEventHandler(object source, String input);
+
 
     public class InputManager : Microsoft.Xna.Framework.Game
     {
-        private long keyboard;
         private static InputManager inst;
         private Dictionary<String, double> cooldowns;
              
+        //Defines an event called inputgiven that is the typo of inputeventhandler.
         public event InputEventHandler InputGiven;
         
+        //Implemented as a singleton so that there is only one instance of the inputmanager roaming free.
+        //Returns an instance or creates one if there isn't one yet.
         public static InputManager instance()
         {
             if (inst == null)
@@ -35,11 +38,11 @@ namespace Eternia
 
         private InputManager()
         {
-            keyboard = 0;
             cooldowns = new Dictionary<String, double>();
             addMappings();
         }
 
+        //Adds string messages representing certain keys to the dictionary
         private void addMappings()
         {
             cooldowns.Add("up", 0);
@@ -49,18 +52,7 @@ namespace Eternia
             cooldowns.Add("accept", 0);
         }
 
-        private void setKeyDown(Boolean isDown, int bit)
-        {
-            if (isDown)
-            {
-                keyboard |= (UInt32)(1 << bit);
-            }
-            else
-            {
-                keyboard &=  (~(1 << bit));
-            }
-        }
-
+        //Does the checkcooldown method for the given key
         public void interpretInput(GameTime gameTime)
         {
             CheckCooldown("up", Keys.Up, gameTime);
@@ -70,6 +62,7 @@ namespace Eternia
             CheckCooldown("accept", Keys.A, gameTime);
         }
 
+        //When we have validated that the player has pressed a key we call all the methods subscribed to InputGiven if any.
         public void InputReceived(String input)
         {
             if (InputGiven != null)
@@ -78,11 +71,12 @@ namespace Eternia
             }
         }
 
+        //Checks if a certain key is pressed down or if it's up. Also checks the button cooldown and determines if an inputevent can be
+        //triggered for the same key again.
         public void CheckCooldown(String key, Keys button, GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(button))
             {
-                setKeyDown(true, 1);
                 if (cooldowns[key] == 0.0f)
                 {
                     cooldowns[key] = gameTime.TotalGameTime.TotalMilliseconds;
@@ -96,7 +90,6 @@ namespace Eternia
             }
             else
             {
-                setKeyDown(false, 1);
                 cooldowns[key] = 0;
             }
         }

@@ -12,9 +12,6 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Eternia
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
     public class BasicModel
     {
         public Model model { get; set; }
@@ -44,22 +41,17 @@ namespace Eternia
         }
         public void setPosition(Vector3 position, Quaternion rotation)
         {
-            this.rotation += rotation;
+            this.rotation = rotation;
             Vector3 addVector = Vector3.Transform(position, rotation);
             this.position += addVector * 1.5f;
             this.world = Matrix.CreateScale(1.0f, 1.0f, 1.0f) * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateFromQuaternion(this.rotation) * Matrix.CreateTranslation(this.position);
 
         }
 
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-
         public virtual void Update()
         {
-            // TODO: Add your update code here
         }
+
         public void Draw(Camera camera)
         {
             if (!IsAlive)
@@ -83,23 +75,5 @@ namespace Eternia
                 mesh.Draw();
             }
         }
-        /*
-        public virtual Matrix GetWorld()
-        {
-            return world * rotation;
-        }
-        public void rotateModelOnX(float degrees)
-        {
-            rotation *= Matrix.CreateRotationX(MathHelper.ToRadians(degrees));
-        }
-        public void rotateModelOnY(float degrees)
-        {
-            rotation *= Matrix.CreateRotationY(MathHelper.ToRadians(degrees));
-        }
-        public void rotateModelOnZ(float degrees)
-        {
-            rotation *= Matrix.CreateRotationZ(MathHelper.ToRadians(degrees));
-        }
-        */
     }
 }

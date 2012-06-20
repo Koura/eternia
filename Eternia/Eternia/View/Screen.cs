@@ -12,15 +12,11 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Eternia
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
-
     public delegate void StateChangeEventHandler(object source, String state);
 
     public abstract class Screen : Microsoft.Xna.Framework.DrawableGameComponent
     {
-        //interface[] djs
+
         protected SpriteFont textFont;
         protected SpriteBatch spriteBatch;
         protected Game game;
@@ -31,27 +27,16 @@ namespace Eternia
             : base(game)
         {
             this.game = game;
+            //subscribe into inputmanagers Input Event.
             InputManager.instance().InputGiven += new InputEventHandler(OnInput);
-            // TODO: Construct any child components here
         }
-
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
-        /// 
          
-        public override void Initialize()
-        {
-            // TODO: Add your initialization code here
-            base.Initialize();
-        }
-
         protected override void LoadContent()
          {
              spriteBatch = new SpriteBatch(game.GraphicsDevice);
          }
 
+        //On user/player input we call an abstract method that is supposed to be implemented by every screen.
         public void OnInput(object sender, String message)
         {
             if (this.Enabled)
@@ -63,16 +48,12 @@ namespace Eternia
         protected override void UnloadContent()
         {
         }
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-
+        //Method that reacts to an input in a chosen way
         protected abstract void ProcessInput(String message);
 
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
+ 
 
             base.Update(gameTime);
         }
@@ -82,6 +63,7 @@ namespace Eternia
             base.Draw(gameTime);
         }
 
+        //Calls every method subscribed to the event (if any) with parametres Object sender and String message. 
         public void StateChanged(String newState)
         {
             if (stateChange != null)

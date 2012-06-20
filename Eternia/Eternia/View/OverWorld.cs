@@ -30,6 +30,7 @@ namespace Eternia
             this.heroes = new List<Hero>();           
         }
 
+        //processes the messages gotten from the player and acts accordingly.
         protected override void ProcessInput(String message)
         {
             if (message.Equals("up"))
@@ -53,12 +54,13 @@ namespace Eternia
                 interpretAccept();
             }
         }
-
+        //Determines how to react to pressing A button in a given situation
         private void interpretAccept()
         {
             StateChanged("Battle");
         }
 
+        //Gets called by the observer when changes have happened and gets the new relevant data.
         public void receiveChanges(Map map, Camera camera, List<Hero> heroes, BasicModel model)
         {
             this.map = map;
@@ -67,13 +69,21 @@ namespace Eternia
             this.model = model;
 
         }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+        }
+
+        //tells the camera, terrain, model and water to draw themselves.
         public override void Draw(GameTime gameTime)
         {
+            float time = (float)gameTime.TotalGameTime.TotalMilliseconds / 100.0f;
             base.Draw(gameTime);
             camera.Draw(effect);
-            map.DrawSkyDome(camera);
-            map.Draw(gameTime);
+            map.Draw(gameTime, camera);
             model.Draw(camera);
+            map.DrawWater(time);
         }
 
 
