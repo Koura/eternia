@@ -37,19 +37,19 @@ namespace Eternia
         {
             if (update.Equals("moveUp"))
             {
-                gameState.Party.setPosi(new Vector3(0,0,1));
+                gameState.Party.setPosi(new Vector3(0,0,3));
             }
             if (update.Equals("moveDown"))
             {
-                gameState.Camera.moveCamPos(new Vector3(0,0,-1));
+                gameState.Party.setPosi(new Vector3(0,0,-3));
             }
             if (update.Equals("moveLeft"))
             {
-                gameState.Camera.moveCamPos(new Vector3(-1, 0, 0));
+                gameState.Party.setPosi(new Vector3(3, 0, 0));
             }
             if (update.Equals("moveRight"))
             {
-                gameState.Camera.moveCamPos(new Vector3(1, 0, 0));
+                gameState.Party.setPosi(new Vector3(-3, 0, 0));
             }
         }
     }

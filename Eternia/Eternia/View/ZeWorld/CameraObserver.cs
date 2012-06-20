@@ -12,17 +12,32 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Eternia
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
-    public class CameraObserver
+    public class CameraObserver : IObserver
     {
-        public CameraObserver()
+        GameState gameState;
+        Vector3 position;
+        Quaternion rotation;
+
+        public CameraObserver(GameState gameState)
         {
-            // TODO: Construct any child components here
+            this.gameState = gameState;
         }
 
-        
-       
+        public void update()
+        {
+            getUpdates();
+            pushUpdates();
+        }
+
+        private void getUpdates()
+        {
+            this.position = gameState.Party.Position;
+            this.rotation = gameState.Party.PartyRotation;
+        }
+
+        private void pushUpdates()
+        {
+            gameState.Camera.moveCamPos(position, rotation);
+        }
     }
 }

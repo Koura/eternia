@@ -24,8 +24,8 @@ namespace Eternia
         public OverWorld(Game game)
             : base (game)
         {
-            camera = new Camera();
-            camera.SetUpCamera(game.GraphicsDevice);
+            camera = new Camera(game.GraphicsDevice);
+            camera.SetUpCamera();
             effect = game.Content.Load<Effect>("EterniaEffects");
             this.heroes = new List<Hero>();           
         }

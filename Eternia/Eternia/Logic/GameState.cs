@@ -49,10 +49,11 @@ namespace Eternia
         public GameState(Game game)
         {
             this.game = game;
-            camera = new Camera();
+            camera = new Camera(game.GraphicsDevice);
             maps = new Dictionary<string, Map>();
             state = "MainMenu";
             observers = new List<IObserver>();
+            
         }
 
         /// <summary>
@@ -62,8 +63,6 @@ namespace Eternia
 
         public void NewGame()
         {
-
-            state = "MainMenu";
             Hero hero1 = new Hero("Taistelu Jaska", new Vector3(0,0,-50));
             Hero hero2 = new Hero("Ozzy", new Vector3 (200, -120, 0));
             Hero hero3 = new Hero("Wee Man", new Vector3 (400, -120, -50));
@@ -71,12 +70,13 @@ namespace Eternia
             party.addCompany(hero1);
             party.addCompany(hero2);
             party.addCompany(hero3);
+            party.attachObserver(new CameraObserver(this));
             setModels();
             worldModel = ModelManager.instance(game).models["Taistelu Jaska"];
             worldModel.setPosition(party.Position);
             maps.Add("OverWorld", new Map("eternia", game));
-            camera = new Camera();
-            camera.SetUpCamera(game.GraphicsDevice);
+            camera = new Camera(game.GraphicsDevice);
+            camera.SetUpCamera();
         }
         /// <summary>
         /// Allows the game component to update itself.

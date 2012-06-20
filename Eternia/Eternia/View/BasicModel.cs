@@ -18,8 +18,9 @@ namespace Eternia
     public class BasicModel
     {
         public Model model { get; set; }
+        Vector3 position;
         protected Matrix world = Matrix.Identity;
-        private Matrix rotation = Matrix.Identity;
+        private Quaternion rotation = Quaternion.Identity;
 
         private bool isAlive;
 
@@ -32,11 +33,13 @@ namespace Eternia
         {
             isAlive = true;
             this.model = model;
-            this.world = Matrix.CreateTranslation(position);
+            this.position = position;
+            this.world = Matrix.CreateScale(1.0f, 1.0f, 1.0f) * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateFromQuaternion(rotation) * Matrix.CreateTranslation(position);
         }
         public void setPosition(Vector3 position)
         {
-            this.world = Matrix.CreateTranslation(position);
+            this.position = position;
+            this.world = Matrix.CreateScale(1.0f, 1.0f, 1.0f) * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateFromQuaternion(rotation) * Matrix.CreateTranslation(this.position);
         }
 
         /// <summary>
@@ -50,8 +53,9 @@ namespace Eternia
         public void Draw(Camera camera)
         {
             if (!IsAlive)
+            {
                 return;
-
+            }
             Matrix[] transforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(transforms);
 
@@ -62,12 +66,14 @@ namespace Eternia
                     effect.EnableDefaultLighting();
                     effect.Projection = camera.projectionMatrix;
                     effect.View = camera.viewMatrix;
-                    effect.World = GetWorld() * mesh.ParentBone.Transform;
+                    effect.World = world * mesh.ParentBone.Transform;
+
+                   
                 }
                 mesh.Draw();
             }
         }
-
+        /*
         public virtual Matrix GetWorld()
         {
             return world * rotation;
@@ -84,5 +90,6 @@ namespace Eternia
         {
             rotation *= Matrix.CreateRotationZ(MathHelper.ToRadians(degrees));
         }
+        */
     }
 }

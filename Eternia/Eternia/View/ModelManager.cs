@@ -22,6 +22,7 @@ namespace Eternia
         private Model heroModel;
         private static ModelManager inst;
         public Dictionary<String,BasicModel> models;
+        Effect effect;
         private ModelManager(Game game)
             : base(game)
         {
@@ -29,6 +30,10 @@ namespace Eternia
            LoadContent();
         }
 
+        public void setEffect(Effect effect)
+        {
+            this.effect = effect;
+        }
          public static ModelManager instance(Game game)
         {
             if (inst == null)
@@ -73,7 +78,6 @@ namespace Eternia
             {
                 model.Value.Draw(((Eternia)Game).Camera);
             }
-            base.Draw(gameTime);
         }        
         /*
          * Set given list of enemys to modelManager's model list to draw. Method uses enemyModel that is initialized on loadContent method.

@@ -29,7 +29,6 @@ namespace Eternia
         GameState gameState;
         ScreenManager view;
         AudioManager audio;
-        ModelManager modelManager;
         ScreenDelegator delegator;
         CommandHandler commandHandler;
         LogicManager logicUnit;
@@ -51,12 +50,12 @@ namespace Eternia
         /// </summary>
         protected override void Initialize()
         {
+            device = graphics.GraphicsDevice;
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
-            Camera = new Camera();
-            Components.Add(modelManager);
+            Camera = new Camera(device);
             // AudioManager is a Iobserver. Give a Isubject as parameter in constructor. 
             this.gameState = new GameState(this);
             this.audio = new AudioManager(this.gameState);
@@ -80,7 +79,6 @@ namespace Eternia
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            device =graphics.GraphicsDevice;
             Song menuSong = Content.Load<Song>(@"audios\maintheme");
             Song battle = Content.Load<Song>(@"audios\battletheme1");
             Song overworld = Content.Load<Song>(@"audios\overworld");

@@ -15,11 +15,25 @@ namespace Eternia
     {
         private List<IObserver> observers;
         private Vector3 position;
+        private Quaternion partyRotation = Quaternion.Identity;
+
+        public Quaternion PartyRotation
+        {
+            get { return partyRotation; }
+            set { partyRotation = value; }
+        }
 
         public Vector3 Position
         {
             get { return position; }
             set { position = value; }
+        }
+        
+        public Party()
+        {
+            heroes = new List<Hero>();
+            position = new Vector3(600, -120, 600);
+            observers = new List<IObserver>();
         }
 
         public void setPosi(Vector3 position)
@@ -41,12 +55,7 @@ namespace Eternia
             get { return inventory; }
             set { inventory = value; }
         }
-        public Party()
-        {
-            heroes = new List<Hero>();
-            position = new Vector3(600, -120, 600);
-            observers = new List<IObserver>();
-        }
+        
         public void addCompany(Hero hero)
         {
             heroes.Add(hero);
