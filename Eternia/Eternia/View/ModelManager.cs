@@ -72,13 +72,13 @@ namespace Eternia
         /*
          * Draws each model on model list.
          */
-        public override void Draw(GameTime gameTime)
-        {
-            foreach (KeyValuePair<String, BasicModel> model in models)
-            {
-                model.Value.Draw(((Eternia)Game).Camera);
-            }
-        }        
+        //public override void Draw(GameTime gameTime)
+        //{
+        //    foreach (KeyValuePair<String, BasicModel> model in models)
+        //    {
+        //        model.Value.Draw(((Eternia)Game).Camera);
+        //    }
+        //}        
         /*
          * Set given list of enemys to modelManager's model list to draw. Method uses enemyModel that is initialized on loadContent method.
          * To change enemy model change different model on loadContent.

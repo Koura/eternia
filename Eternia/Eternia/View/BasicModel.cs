@@ -19,6 +19,12 @@ namespace Eternia
     {
         public Model model { get; set; }
         Vector3 position;
+
+        public Vector3 Position
+        {
+            get { return position; }
+            set { position = value; }
+        }
         protected Matrix world = Matrix.Identity;
         private Quaternion rotation = Quaternion.Identity;
 
@@ -38,8 +44,8 @@ namespace Eternia
         }
         public void setPosition(Vector3 position)
         {
-            this.position = position;
-            this.world = Matrix.CreateScale(1.0f, 1.0f, 1.0f) * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateFromQuaternion(rotation) * Matrix.CreateTranslation(this.position);
+            this.Position = position;
+            this.world = Matrix.CreateScale(1.0f, 1.0f, 1.0f) * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateFromQuaternion(rotation) * Matrix.CreateTranslation(this.Position);
         }
 
         /// <summary>

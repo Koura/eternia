@@ -21,12 +21,38 @@ namespace Eternia
         public Vector3 cameraPos { get; set; }
         private List<IObserver> observers;
         private Vector3 target;
-        private GraphicsDevice device;
         #endregion
 
         public const float nearClip = 1.0f;
         public const float farClip = 200.0f;
+        private Matrix view;
+        private Matrix projection;
 
+        public Matrix Projection
+        {
+            get { return projection; }
+            set { projection = value; }
+        }
+
+        public Matrix View
+        {
+            get { return view; }
+            set { view = value; }
+        }
+        private Vector3 position;
+
+        public Vector3 Target
+        {
+            get { return target; }
+            set { target = value; }
+        }
+
+        public Vector3 Position
+        {
+            get { return position; }
+            set { position = value; }
+        }
+        private GraphicsDevice device;
         /// <summary>
         /// Sets up the camera
         /// </summary>
@@ -44,16 +70,18 @@ namespace Eternia
             viewMatrix = Matrix.CreateLookAt(cameraPos, new Vector3(0, 0, 0), new Vector3(0, 1, 0));
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, nearClip, farClip);
         }
-
-        public void moveCamPos(Vector3 moveVector, Quaternion rotation)
+        public void setcamera(Vector3 position, Vector3 target, Vector3 up)
         {
-            Vector3 cameraPos = new Vector3(0, 2.0f, 2.0f);
-            cameraPos = Vector3.Transform(cameraPos, Matrix.CreateFromQuaternion(rotation));
+            this.Position = position;
+            this.target = target;
+            viewMatrix = Matrix.CreateLookAt(position, target, up);
+            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, (float)device.Viewport.Width / (float)device.Viewport.Height, 1, 3000); 
+        }
 
-            Vector3 camup = new Vector3(0, 1, 0);
-            camup = Vector3.Transform(camup, Matrix.CreateFromQuaternion(rotation));
-            viewMatrix = Matrix.CreateLookAt(cameraPos, moveVector, camup);
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, nearClip, farClip);
+        public void moveCamPos(Vector3 moveVector)
+        {
+            cameraPos += moveVector;
+            viewMatrix = Matrix.CreateLookAt(cameraPos, new Vector3(0, 0, 0), new Vector3(0, 1, 0));
             notify();
         }
         public void Draw(Effect effect)

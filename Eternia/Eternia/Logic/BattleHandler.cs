@@ -12,6 +12,9 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Eternia
 {
+    /*
+     * battlehandler is object between battle and battleMenu. Battlehandler is battleMenu's observer.
+     */
     class BattleHandler: IObserver
     {
         private Battle battle;
@@ -38,6 +41,10 @@ namespace Eternia
             initializeBattle();
             
         }
+        /*
+         * Initializes battle. Sets fighters i.e heroes and enemies in battle. Method will get fighters information from battle and will set all
+         *  required information to battleMenu.
+         */
         public void initializeBattle()
         {
             battle.setHeroes(this.gameState.Party.Heroes);
@@ -50,11 +57,14 @@ namespace Eternia
             battleMenu.TimeBar = battle.TimeBar;
         }
 
+        /*
+         * Method is notified by battleMenu. If it is player's turn to take action method will fetch player's choise from menu
+         * and calls battle's corresponding method to execute action. 
+         */
         void IObserver.update()
         {
             battleMenu.PlayerTurn = battle.heroesTurn();
 
-            //if it is player turn and he has made an action, get the action and execute it
             if (battle.heroesTurn() && battleMenu.ActionMade)
             {
                 switch (battleMenu.PlayerAction)
@@ -81,26 +91,58 @@ namespace Eternia
                             break;
                         }
                 }
-                checkCasualties();
+                
                 resetPlayerAction();
             }
 
             battle.fight();
             battleMenu.HeroCount = battle.Heroes.Count;
+            checkCasualties();
         }
-
+        /*
+         * Method will reset player's previous actions in menu, so that same choise won't be executed again.
+         */
         private void resetPlayerAction()
         {
             BattleMenu.PlayerAction = "";
             BattleMenu.ActionMade = false;
         }
 
+        /*
+         * Method will check if any party members or enemies are alive in battle, and if there are enemies and heroes alive
+         * method will check if any heroes or enemies has been killed in battle.
+         */
         private void checkCasualties()
         {
-            enemyCasualties();
-            heroCasualties();
-        }
+            bool heroesAlive = battle.checkPartyAlive();
+            bool enemiesAlive = battle.checkEnemiesAlive();
+            if (!heroesAlive)
+            {
+                // exit to mainMenu
+            }
+            else
+            {
+                heroCasualties();
+            }
 
+
+            if (!enemiesAlive)
+            {
+                // Continue quest in overWorld
+                gameState.setState("OverWorld");
+            }
+            else
+            {
+                enemyCasualties();
+            }
+                
+            
+            
+        }
+        /*
+         * method will check if any party members has been killed and creates a new information to be displayed to player if so,
+         * and will delete the corresponding model from modelManager's model list.
+         */
         private void heroCasualties()
         {
             Being deadHero = battle.checkHeroKilled();
@@ -112,7 +154,10 @@ namespace Eternia
             }
             battleMenu.casualtiesInfo = new Info(infoText, new Vector2(200, 250), battleMenu.CurrentTime);
         }
-
+        /*
+        * method will check if any enemies has been killed and creates a new information to be displayed to player if so,
+         * and will delete the corresponding model from modelManager's model list.
+        */
         private void enemyCasualties()
         {
             Being deadEnemy = battle.checkEnemyKilled();

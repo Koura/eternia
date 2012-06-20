@@ -102,7 +102,7 @@ namespace Eternia
             //starting new game
             if (arrowValue == 1)
             {
-                StateChanged("OverWorld");
+                StateChanged("newGame");
             }
             //loading a previous game
             if (arrowValue == 2)

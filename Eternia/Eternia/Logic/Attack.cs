@@ -21,6 +21,8 @@ namespace Eternia
         {
             // calculate the damages to target
             float damage = attacker.Damage;
+            if (target.CurrentHealth <= 0)
+                return;
             float targetsNewHealth = target.CurrentHealth - damage;
             target.CurrentHealth = targetsNewHealth;
         }

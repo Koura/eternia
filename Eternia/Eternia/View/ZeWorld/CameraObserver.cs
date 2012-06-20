@@ -37,7 +37,7 @@ namespace Eternia
 
         private void pushUpdates()
         {
-            gameState.Camera.moveCamPos(position, rotation);
+            gameState.Camera.moveCamPos(position);
         }
     }
 }

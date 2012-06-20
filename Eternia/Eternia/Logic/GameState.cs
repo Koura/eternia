@@ -63,7 +63,7 @@ namespace Eternia
 
         public void NewGame()
         {
-            Hero hero1 = new Hero("Taistelu Jaska", new Vector3(0,0,-50));
+            Hero hero1 = new Hero("Taistelu Jaska", new Vector3(0,0,0));
             Hero hero2 = new Hero("Ozzy", new Vector3 (200, -120, 0));
             Hero hero3 = new Hero("Wee Man", new Vector3 (400, -120, -50));
             party = new Party();
@@ -116,11 +116,16 @@ namespace Eternia
         }
         public void setState(string state)
         {
-            if(state.Equals("OverWorld"))
+            if (state.Equals("newGame"))
             {
                 NewGame();
+                this.state = "OverWorld";
             }
-            this.state = state;
+            else
+            {
+                this.state = state;
+            }
+            
             notify();
         }
         

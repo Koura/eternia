@@ -28,6 +28,8 @@ namespace Eternia
         public Info casualtiesInfo;
         private bool playerTurn;
         public ModelManager modelManager;
+        private BasicModel hero;
+        private Camera camera;
 
         public bool PlayerTurn
         {
@@ -102,8 +104,13 @@ namespace Eternia
             : base(game)
         {
             modelManager = ModelManager.instance(game);
+            camera = new Camera(game.GraphicsDevice);
+            camera.setcamera(new Vector3(0, 200, -20), new Vector3(0, 0, 0), Vector3.Up);
         }
-
+        /*
+         * Method will initialize vector's X value for fonts that are drawn as options on battleMenu. BattleState is set for BattleMenu.
+         * PlayerTurn and actionMade is set false.
+         */
         public override void Initialize()
         {
             optionsXpos = new float[4];
@@ -118,7 +125,9 @@ namespace Eternia
             base.Initialize();
         }
         
-
+        /*
+         * Method will set all images and different option's fonts for the menu. 
+         */
         protected override void LoadContent()
         {
             base.LoadContent();
@@ -130,12 +139,17 @@ namespace Eternia
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[2], optionY), "Skills", font, Color.Black));
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[3], optionY), "Items", font, Color.Black));
             
+            camera.setcamera(new Vector3(0, 20, -20), new Vector3(0, 0, 0), Vector3.Up);
+            
         }
 
         protected override void UnloadContent()
         {
 
         }
+        /*
+         * Method will draw all components used in the menu.
+         */
         public override void Draw(GameTime gameTime)
         {
             currentTime = gameTime.TotalGameTime;
@@ -162,6 +176,9 @@ namespace Eternia
 
         }      
 
+        /*
+         * Method will draw, if player has made an attack action, font for player to chose right target.
+         */
         private void drawTargetSelection()
         {
             if (actionMade) return;
@@ -173,6 +190,9 @@ namespace Eternia
             info = new Info("Attack (A)", new Vector2(200, 200), currentTime);
         }
 
+        /*
+         * Method will draw a message if there is some information to be displayed on screen i.e if any party member has been killed or enemy is defeaded.
+         */
         private void drawInfo()
         {
             if (info.text != null && (info.startTime.TotalMilliseconds + 1200.0f > currentTime.TotalMilliseconds))
@@ -187,6 +207,9 @@ namespace Eternia
             if (info.text != null && (info.startTime.TotalMilliseconds + 1200.0f > gameTime.TotalGameTime.TotalMilliseconds))
                 spriteBatch.DrawString(font, info.text, info.position, Color.White);
         }
+        /*
+         * Method will draw all fighters current statistics relevant for the battle. 
+         */
         private void drawFighterStats()
         {
             int i = 0;
@@ -198,7 +221,9 @@ namespace Eternia
            
 
         }
-
+        /*
+         * Method will draw fighter's timebars to show who is next take action.
+         */
         private void drawTimeBars(GameTime gameTime)
         {
             int x = 150;
@@ -222,18 +247,25 @@ namespace Eternia
             }
             
         }
-
+        /*
+         * Method will draw font next to fighters timebar to point next fighter to take action.
+         */
         private void drawPlayerToTakeActionNext(int x, int calcY)
         {
             spriteBatch.DrawString(font, "Your turn!", new Vector2(x + 210, calcY), Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
 
         }
-
+        /*
+         * Method will draw all fighters name's on the timebars.
+         */
         private void drawfighterNames(int x, int calcY, Being being)
         {
             spriteBatch.DrawString(font, being.Name, new Vector2(x, calcY), Color.White, 0, new Vector2(0,0),0.5f, SpriteEffects.None,0);
         }
 
+        /*
+         * If it is player's turn to take action method will draw options for player to choose next action.
+         */
         private void drawMenuOptions()
         {
             if (!playerTurn) return;
@@ -259,6 +291,9 @@ namespace Eternia
             
         }
 
+        /*
+         * Method will process player's input on menu. If battleState is set on BattleMenu method ProcessInputInBattleMenu is called. 
+         */
         protected override void ProcessInput(String message)
         {
             if (!playerTurn) return;
@@ -281,7 +316,10 @@ namespace Eternia
                 interpretAccept();
             }
         }
-
+        /*
+         * Process input on attack state. Target is selected by moving "target" font on the side of timebars by icreasing or decreasing the
+         * value of target.
+         */
         private void ProcessInputInAttack(string message)
         {
             if (message.Equals("down"))
@@ -299,7 +337,9 @@ namespace Eternia
                 }
             }
         }
-
+        /*
+         * Process input on battleMenu. Selection value is updated as player moves to left or right.
+         */
         private void ProcessInputInBattleMenu(string message)
         {
             if (message.Equals("left"))
@@ -318,7 +358,10 @@ namespace Eternia
                 }
             }
         }
-
+        /*
+         * Method will iterpret the action that player has chosen, determined by battleState, interpretAccecptInBattleMenu or
+         * interpretAccecptInAttackOption method is called to take right action for player.
+         */
         private void interpretAccept()
         {
             switch (battleState)
@@ -342,14 +385,17 @@ namespace Eternia
 
             
         }
-
+        /*
+         * Method will interpret player action on attack state.
+         */
         private void interpretAccecptInAttackOption()
         {
             info = new Info("Attacking!", new Vector2(200, 200), currentTime);
             actionMade = true;
             battleState = "BattleMenu";
         }
-
+        /*
+         Method will interpret player action on battle menu state*/
         private void interpretAccecptInBattleMenu()
         {
             // if selectionValue is 0 player is about to attack
@@ -368,12 +414,14 @@ namespace Eternia
                 actionMade = true;
             }
         }
-
+        /*
+         * Method will set battle state and playerAction on "attack".
+         * Notifies player to choose the target.
+         */
         private void playerAttacking()
         {
             playerAction = "Attack";
             battleState = "Attack";
-            // need to choose target
             info = new Info("Select target", new Vector2(200, 200), currentTime);
         }
 

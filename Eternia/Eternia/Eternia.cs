@@ -19,14 +19,13 @@ namespace Eternia
     {
         GraphicsDeviceManager graphics;
         GraphicsDevice device;
-        Camera camera;
-
-        public Camera Camera
-        {
-            get { return camera; }
-            set { camera = value; }
-        }
         GameState gameState;
+
+        public GameState GameState
+        {
+            get { return gameState; }
+            set { gameState = value; }
+        }
         ScreenManager view;
         AudioManager audio;
         ScreenDelegator delegator;
@@ -55,18 +54,17 @@ namespace Eternia
             graphics.PreferredBackBufferHeight = 600;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
-            Camera = new Camera(device);
             // AudioManager is a Iobserver. Give a Isubject as parameter in constructor. 
-            this.gameState = new GameState(this);
-            this.audio = new AudioManager(this.gameState);
-            this.gameState.attachObserver(audio);
+            this.GameState = new GameState(this);
+            this.audio = new AudioManager(this.GameState);
+            this.GameState.attachObserver(audio);
             view = new ScreenManager(this);
-            delegator = new ScreenDelegator(view, this, this.gameState);
-            this.gameState.attachObserver(delegator);
-            this.logicUnit = new LogicManager(this.gameState);
+            delegator = new ScreenDelegator(view, this, this.GameState);
+            this.GameState.attachObserver(delegator);
+            this.logicUnit = new LogicManager(this.GameState);
             this.commandHandler = new CommandHandler(this.view, this.logicUnit);
             view.attachObserver(this.commandHandler);
-            this.gameState.setState("MainMenu");
+            this.GameState.setState("MainMenu");
             Window.Title = gameTitle;
 
             base.Initialize();
@@ -90,7 +88,7 @@ namespace Eternia
             audio.addNewSong("OverWorld", overworld);
             audio.addNewSoundEffect("roll", rollEffect);
             audio.addNewSoundEffect("laugh", laughEffect); 
-            audio.playSong(this.gameState.getState());
+            audio.playSong(this.GameState.getState());
             // TODO: use this.Content to load your game content here
         }
 

@@ -178,6 +178,9 @@ namespace Eternia
 
             }
         }
+        /*
+         * Method will check is it player's turn to take action on any of the heroes on battle.
+         */
         public bool heroesTurn()
         {
             if (waitingAction)
@@ -186,7 +189,9 @@ namespace Eternia
             }
             return false;
         }
-
+        /*
+         * Method will change turns to give all heroes and enemies to take action in battle.
+         */
         private void changeTurn()
         {
             turn++;
@@ -196,6 +201,13 @@ namespace Eternia
                 turn = 0;
             }
         }
+        /*
+         * Method is player attack action. Parameter is target on the enemy list. Method will use turn value to
+         * get right attacker form heroes list and will select target from fighters list where all beings involved
+         * in battle are listed. Method will implement new Istrategy interface as an Attack and will execute it's 
+         * own implementation on the executeStrategy() method that will  take two Beings as a parameters i.e attacker
+         * and target. Attack will then calculate damages for the target Being.
+         */
         public void Attacking(int target)
         {
             Being attacker = heroes.ElementAt(turn);
@@ -205,19 +217,26 @@ namespace Eternia
             waitingAction = false;
             changeTurn();
         }
-
+        /*
+         * Metod will execute enemies action if battle is on waiting mode. It uses turn value to select right attacker from
+         * fighters list.
+         */
         internal void executeEnemyAction()
         {
             if (!waitingAction) return;
-            System.Threading.Thread.Sleep(3000);
             enemyAttack(turn);
             
         }
 
-        private void enemyAttack(int attackerNro)
+        /*
+         * Method will wait a second and then execute enemies attack action. Parameter is an index number to fighter list to select right attacker.
+         * Method uses same Attack class as in player's attack method to execute and calculate damages. After attack changeTurn method is called
+         * and battle is set on "waiting action"-mode.
+         */
+        private void enemyAttack(int attackerIndex)
         {
             System.Threading.Thread.Sleep(1000);
-            Being attacker = fighters.ElementAt(attackerNro);
+            Being attacker = fighters.ElementAt(attackerIndex);
             int targetNumber = randomizer.Next(0, heroes.Count - 1);
             Being target = fighters.ElementAt(targetNumber);
             strategy = new Attack(attacker, target);
@@ -226,6 +245,9 @@ namespace Eternia
             waitingAction = false;
         }
 
+        /*
+         * method will check if it is enemies turn to take action.
+         */
         internal bool enemiesTurn()
         {
             if (waitingAction)
@@ -236,7 +258,9 @@ namespace Eternia
                 
             return false;
         }
-        
+        /*
+         * Method is used for any non player action on  battle i.e to increase timebars and executing enemy actions - if it is their turn.
+         */
         internal void fight()
         {
             addTimeBarValues();
@@ -246,28 +270,45 @@ namespace Eternia
             }
             
         }
+        /*
+         * Method will check if any enemies are killed and if so it will call removeDeadEnemy method to take enemy out from all lists and to 
+         * take down dead enemy's timeBar, for not to draw it anymore on menu.
+         */
 
         internal Being checkEnemyKilled()
         {
-            // if fighters health is zero or less take him out from the list and returns dead enemy. 
             Being dead = null;
             foreach (Being being in enemies)
             {
                 if (being.CurrentHealth <= 0)
                 {
                     dead = being;
+                    removeDeadEnemy(dead);
                     break;
                 }
 
             }
             if (dead != null)
             {
-                fighters.Remove(dead);
-                enemies.Remove(dead);
+                removeDeadEnemy(dead);
             }
             return dead;
         }
 
+        /*
+         * Method will remove dead enemy from fighter and enemy list. And it will remove also enemys timebar from dictionary
+         * so menu won't be drawing it anymore.
+         */
+        private void removeDeadEnemy(Being dead)
+        {
+            fighters.Remove(dead);
+            enemies.Remove(dead);
+            timeBar.Remove(dead.Name);
+        }
+        /*
+         * Method will check if any heroes are killed and if so it will call removeDeadHero method to take hero out from all lists and to 
+         * take down dead hero's timeBar, for not to draw it anymore on menu.
+         */
         internal Being checkHeroKilled()
         {
             Being dead = null;
@@ -276,10 +317,39 @@ namespace Eternia
                 if (being.CurrentHealth <= 0)
                 {
                     dead = being;
+                    removeDeadHero(dead);                    
                     break;
                 }
             }
             return dead;
+        }
+        /*
+         * Removes dead hero from all list that are used in battle. Hero's timebar is deleted from timebar dictionary witch value is used
+         * to draw corresponding value bar on menu.
+         */
+        internal void removeDeadHero(Being dead)
+        {
+            fighters.Remove(dead);
+            heroes.Remove(dead);
+            timeBar.Remove(dead.Name);
+        }
+        /*
+         * Will check if there are any heroes live on hero list to continue the battle.
+         */
+        internal bool checkPartyAlive()
+        {
+            if (heroes.Count == 0)
+                return false;
+            return true;
+        }
+        /*
+         * Will check if there are any enemies live on enemy list to continue the battle.
+         */
+        internal bool checkEnemiesAlive()
+        {
+            if (enemies.Count == 0)
+                return false;
+            return true;
         }
     }
 }
