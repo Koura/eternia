@@ -83,8 +83,19 @@ namespace Eternia
         public Dictionary<string, float> vulnerability;
 
         private String elementType;
+
+        public String ElementType
+        {
+            get { return elementType; }
+            set { elementType = value; }
+        }
         private String damageType;
 
+        public String DamageType
+        {
+            get { return damageType; }
+            set { damageType = value; }
+        }
         private float speed;
 
         public float Speed 
@@ -111,6 +122,22 @@ namespace Eternia
             VulnerabilityCalc();
         }
 
+        public Being(String name, Vector3 position, float maxHealth, float armor, float damage)
+        {
+            this.name = name;
+            this.position = position;
+            this.maxHealth = maxHealth;
+            this.currentHealth = this.maxHealth;
+            this.armor = armor;
+            this.damage = damage;
+            this.experience = 0;
+            this.vulnerability = new Dictionary<string, float>();
+            this.elementType = null;
+            this.damageType = "physical";
+            this.speed = 30;
+            this.magicResist = 0;
+            VulnerabilityCalc();
+        }
         public void VulnerabilityCalc()
         {
             vulnerability.Add("physical", (1.0f - ((Armor / 10) / 100)));

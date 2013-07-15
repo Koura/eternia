@@ -22,7 +22,6 @@ namespace Eternia
         private List<IObserver> observers;
         private Party party;
         BasicModel worldModel;
-        Hero hero2;
 
         public BasicModel WorldModel
         {
@@ -51,10 +50,9 @@ namespace Eternia
         {
             this.game = game;
             camera = new Camera(game.GraphicsDevice);
-            maps = new Dictionary<string, Map>();
             state = "MainMenu";
             observers = new List<IObserver>();
-            
+       
         }
 
         /// <summary>
@@ -65,17 +63,19 @@ namespace Eternia
         //When new game is chosen from the main menu this method initializes some basic values to party, camera etc.
         public void NewGame()
         {
+            
+            maps = new Dictionary<string, Map>();
             Hero hero1 = new Hero("Taistelu Jaska", new Vector3(200,-120,200));
-            hero2 = new Hero("WorldDude", new Vector3(500,-335,500));
             party = new Party();
             party.addCompany(hero1);
             party.attachObserver(new CameraObserver(this));
             setModels();
-            worldModel = ModelManager.instance(game).models["WorldDude"];
+            worldModel = ModelManager.instance(game).models["Taistelu Jaska"];
             worldModel.setPosition(party.Position, party.PartyRotation);
             maps.Add("OverWorld", new Map("eternia", game));
             camera = new Camera(game.GraphicsDevice);
             camera.SetUpCamera();
+            Console.WriteLine(Party.Position);
         }
         /// <summary>
         /// Allows the game component to update itself.
@@ -89,7 +89,6 @@ namespace Eternia
             {
                 temp.Add(hero);
             }
-            temp.Add(hero2);
             ModelManager.instance(game).setHeros(temp);
         }
 

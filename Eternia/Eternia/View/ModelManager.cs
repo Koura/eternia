@@ -87,7 +87,10 @@ namespace Eternia
         {
             foreach (Being being in enemies)
             {
-                models.Add(being.Name, new BasicModel(enemyModel, new Vector3(being.Position.X, being.Position.Y, being.Position.Z)));
+                if(!models.ContainsKey(being.Name))
+                {
+                    models.Add(being.Name, new BasicModel(enemyModel, new Vector3(being.Position.X, being.Position.Y, being.Position.Z)));
+                }
             }
            
                 

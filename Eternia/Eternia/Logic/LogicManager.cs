@@ -39,11 +39,13 @@ namespace Eternia
         {
             if (update.Equals("moveUp"))
             {
-                gameState.Party.setPosi(new Vector3(0,0,-5));
+                Vector3 addVector = Vector3.Transform(new Vector3(0,0, -5), gameState.Party.PartyRotation);
+                gameState.Party.setPosi(addVector);
             }
             if (update.Equals("moveDown"))
             {
-                gameState.Party.setPosi(new Vector3(0,0,5));
+                Vector3 addVector = Vector3.Transform(new Vector3(0, 0, 5), gameState.Party.PartyRotation);
+                gameState.Party.setPosi(addVector);
             }
             if (update.Equals("moveLeft"))
             {

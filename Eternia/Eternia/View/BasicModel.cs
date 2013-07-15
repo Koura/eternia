@@ -37,15 +37,13 @@ namespace Eternia
             isAlive = true;
             this.model = model;
             this.position = position;
-            this.world = Matrix.CreateScale(1.0f, 1.0f, 1.0f) * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateFromQuaternion(rotation) * Matrix.CreateTranslation(position);
+            this.world = Matrix.CreateScale(1.0f, 1.0f, 1.0f) * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateFromQuaternion(this.rotation) * Matrix.CreateTranslation(this.position);
         }
         public void setPosition(Vector3 position, Quaternion rotation)
         {
             this.rotation = rotation;
-            Vector3 addVector = Vector3.Transform(position, rotation);
-            this.position += addVector * 1.5f;
-            this.world = Matrix.CreateScale(1.0f, 1.0f, 1.0f) * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateFromQuaternion(this.rotation) * Matrix.CreateTranslation(this.position);
-
+            this.position = position;
+            this.world = Matrix.CreateScale(1.0f, 1.0f, 1.0f) * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateFromQuaternion(rotation) * Matrix.CreateTranslation(position);
         }
 
         public virtual void Update()

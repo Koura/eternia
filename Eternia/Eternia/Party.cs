@@ -32,14 +32,14 @@ namespace Eternia
         public Party()
         {
             heroes = new List<Hero>();
-            position = new Vector3(600, -120, 600);
+            position = new Vector3(1400, -515, 1400);
             observers = new List<IObserver>();
         }
 
         //updates party position on the overworld map
         public void setPosi(Vector3 position)
         {
-            this.position = position;
+            this.position += position * 1.5f;
             notify();
         }
         //updates the party rotation on the overworld map

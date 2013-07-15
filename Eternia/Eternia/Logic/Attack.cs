@@ -23,7 +23,7 @@ namespace Eternia
             float damage = attacker.Damage;
             if (target.CurrentHealth <= 0)
                 return;
-            float targetsNewHealth = target.CurrentHealth - damage;
+            float targetsNewHealth = target.CurrentHealth - (target.vulnerability[attacker.DamageType] * damage);
             target.CurrentHealth = targetsNewHealth;
         }
     }

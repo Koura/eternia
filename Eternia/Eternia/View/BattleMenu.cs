@@ -16,9 +16,8 @@ namespace Eternia
     class BattleMenu : Screen, ISubject
     {
         List<IObserver> observers = new List<IObserver>();
-        
-        Texture2D battlePanel;
         Texture2D timeBarTexture;
+        Texture2D hpBarTexture;
         float[] optionsXpos;
         float optionY;
         SpriteFont font;
@@ -107,9 +106,9 @@ namespace Eternia
             camera = new Camera(game.GraphicsDevice);
             camera.SetUpCamera();
             Dictionary<String, BasicModel> temp = ModelManager.instance(game).models;
-            if(temp.Keys.Contains("WorldDude"))
-              temp.Remove("WorldDude");
             battledudes = temp.Values.ToList();
+            battledudes[0].setPosition(new Vector3(200, -120, 200), Quaternion.Identity);
+            Console.WriteLine(battledudes[0].Position);
         }
         /*
          * Method will initialize vector's X value for fonts that are drawn as options on battleMenu. BattleState is set for BattleMenu.
@@ -136,8 +135,8 @@ namespace Eternia
         {
             base.LoadContent();
             font = game.Content.Load<SpriteFont>("fonts/menufont");
-            battlePanel = game.Content.Load<Texture2D>("images/battleImg1");
             timeBarTexture = game.Content.Load<Texture2D>("images/timeBar");
+            hpBarTexture = game.Content.Load<Texture2D>("images/hpbar");
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[0], optionY), "Attack", font, Color.Black));
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[1], optionY), "Magic", font, Color.Black));
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[2], optionY), "Skills", font, Color.Black));
@@ -156,7 +155,6 @@ namespace Eternia
         {
             currentTime = gameTime.TotalGameTime;
             spriteBatch.Begin();
-            spriteBatch.Draw(battlePanel, new Rectangle(0,0, battlePanel.Width, battlePanel.Height), Color.White);
             drawFighterStats();
             drawTimeBars(gameTime);
             if (playerAction.Equals("Attack"))
@@ -219,10 +217,36 @@ namespace Eternia
         private void drawFighterStats()
         {
             int i = 0;
+            int j = 0;
+            Color color = Color.Linen;
             foreach(Being being in fighters)
             {
-                spriteBatch.DrawString(font, being.Name +
-                "\n Health: " + being.CurrentHealth, new Vector2(600, 20 + (i++ * 50)), Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
+                if (being.GetType() == typeof(Hero))
+                {
+                    spriteBatch.DrawString(font, being.Name + "    HP: " + being.CurrentHealth + "/" + being.MaxHealth + "    MP: " + ((Hero)being).CurrentMana + "/" + ((Hero)being).MaxMana ,
+                        new Vector2(game.GraphicsDevice.Viewport.Width/10*6, game.GraphicsDevice.Viewport.Height/10*6.6f), Color.White, 0, new Vector2(0, 0), 0.6f, SpriteEffects.None, 0);
+                    if (being.CurrentHealth > being.MaxHealth * 0.5)
+                    {
+                        color = Color.Yellow;
+                    }
+                    else if (being.CurrentHealth > being.MaxHealth * 0.2)
+                    {
+                        color = Color.Orange;
+                    }
+                    else
+                    {
+                        color = Color.Magenta;
+                    }
+                    spriteBatch.Draw(hpBarTexture, new Rectangle((int)(game.GraphicsDevice.Viewport.Width / 10 * 6), (int)(game.GraphicsDevice.Viewport.Height / 10 * 6.6f + game.GraphicsDevice.Viewport.Height / 29),
+                           (int)(game.GraphicsDevice.Viewport.Width / 10 * 3.5f), (int)(game.GraphicsDevice.Viewport.Height / 43)), Color.SlateBlue);
+                    spriteBatch.Draw(hpBarTexture, new Rectangle((int)(game.GraphicsDevice.Viewport.Width / 10 * 6), (int)(game.GraphicsDevice.Viewport.Height / 10 * 6.6f + game.GraphicsDevice.Viewport.Height / 29),
+                           (int)((game.GraphicsDevice.Viewport.Width / 10 * 3.5f) * ((double)being.CurrentHealth / being.MaxHealth)), (int)(game.GraphicsDevice.Viewport.Height / 45)), color);
+                }
+                else
+                {
+                    spriteBatch.DrawString(font, being.Name +
+                    "\n Health: " + being.CurrentHealth, new Vector2(600, 20 + (i++ * 50)), Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
+                }
             }
            
 
@@ -277,9 +301,9 @@ namespace Eternia
             if (!playerTurn) return;
             foreach (MenuOption option in menuoptions)
             {
-                option.Colour = Color.Tomato;
+                option.Colour = Color.White;
             }
-            menuoptions.ElementAt(selectionValue).Colour = Color.Black;
+            menuoptions.ElementAt(selectionValue).Colour = Color.Tomato;
             foreach (MenuOption option in menuoptions)
             {
                 spriteBatch.DrawString(option.Font, option.Text, option.Position, option.Colour,

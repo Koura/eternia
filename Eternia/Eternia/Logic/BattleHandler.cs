@@ -119,6 +119,7 @@ namespace Eternia
             if (!heroesAlive)
             {
                 // exit to mainMenu
+                gameState.setState("MainMenu");
             }
             else
             {
@@ -129,7 +130,8 @@ namespace Eternia
             if (!enemiesAlive)
             {
                 // Continue quest in overWorld
-                gameState.setState("OverWorld");
+                gameState.WorldModel.setPosition(gameState.Party.Position, gameState.Party.PartyRotation);
+                gameState.setState("OverWorld");            
             }
             else
             {

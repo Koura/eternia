@@ -129,7 +129,7 @@ namespace Eternia
 
                 if (next < 0.31)
                 {
-                    Enemy enemy = EnemyFactory.createBoss("Ravenous Bugblatter Beast Of Traal " + i, new Vector3((3 * i), 0, (-5 * i)), 100, 0, 30);
+                    Enemy enemy = EnemyFactory.createBoss("Ravenous Bugblatter Beast Of Traal " + i, new Vector3((3 * i), 0, (-5 * i)), 50, 10, 20);
                     enemy.Speed = randomizer.Next(10, 20);
                     fighters.Add(enemy);
                     enemies.Add(enemy);
@@ -137,7 +137,7 @@ namespace Eternia
                 }
                 else
                 {
-                    Enemy enemy = EnemyFactory.createSoldier("Bugblatter " + i, new Vector3((3 * i),0, (-3 * i)), 100, 0, 50);
+                    Enemy enemy = EnemyFactory.createSoldier("Bugblatter " + i, new Vector3((3 * i),0, (-3 * i)), 40, 0, 10);
                     enemy.Speed = randomizer.Next(10, 20);
                     fighters.Add(enemy);
                     enemies.Add(enemy);
