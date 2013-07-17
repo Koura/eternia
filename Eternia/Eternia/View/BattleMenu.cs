@@ -18,6 +18,7 @@ namespace Eternia
         List<IObserver> observers = new List<IObserver>();
         Texture2D timeBarTexture;
         Texture2D hpBarTexture;
+        Effect effect;
         float[] optionsXpos;
         float optionY;
         SpriteFont font;
@@ -28,7 +29,20 @@ namespace Eternia
         private bool playerTurn;
         public ModelManager modelManager;
         Camera camera;
-        List<BasicModel> battledudes;
+        List<BasicModel> battleModels;
+        Map map;
+
+        public List<BasicModel> BattleModels
+        {
+            get { return battleModels; }
+            set { battleModels = value; }
+        }
+
+        public Map Map
+        {
+            get { return map; }
+            set { map = value; }
+        }
 
         public bool PlayerTurn
         {
@@ -105,10 +119,7 @@ namespace Eternia
             modelManager = ModelManager.instance(game);
             camera = new Camera(game.GraphicsDevice);
             camera.SetUpCamera();
-            Dictionary<String, BasicModel> temp = ModelManager.instance(game).models;
-            battledudes = temp.Values.ToList();
-            battledudes[0].setPosition(new Vector3(200, -120, 200), Quaternion.Identity);
-            Console.WriteLine(battledudes[0].Position);
+            effect = game.Content.Load<Effect>("EterniaEffects");
         }
         /*
          * Method will initialize vector's X value for fonts that are drawn as options on battleMenu. BattleState is set for BattleMenu.
@@ -154,6 +165,12 @@ namespace Eternia
         public override void Draw(GameTime gameTime)
         {
             currentTime = gameTime.TotalGameTime;
+            camera.Draw(effect);
+            map.Draw(gameTime, camera);
+            foreach(BasicModel model in battleModels)
+            {
+                model.Draw(camera);
+            }
             spriteBatch.Begin();
             drawFighterStats();
             drawTimeBars(gameTime);
@@ -164,16 +181,11 @@ namespace Eternia
             else
             {
                 drawMenuOptions();
-               
+
             }
             drawInfo();
             drawInfo(gameTime);
             spriteBatch.End();
-            foreach(BasicModel dude in battledudes)
-            {
-                dude.Draw(camera);
-            }
-
             base.Draw(gameTime);
 
             
@@ -217,7 +229,6 @@ namespace Eternia
         private void drawFighterStats()
         {
             int i = 0;
-            int j = 0;
             Color color = Color.Linen;
             foreach(Being being in fighters)
             {
@@ -227,7 +238,7 @@ namespace Eternia
                         new Vector2(game.GraphicsDevice.Viewport.Width/10*6, game.GraphicsDevice.Viewport.Height/10*6.6f), Color.White, 0, new Vector2(0, 0), 0.6f, SpriteEffects.None, 0);
                     if (being.CurrentHealth > being.MaxHealth * 0.5)
                     {
-                        color = Color.Yellow;
+                        color = Color.Gold;
                     }
                     else if (being.CurrentHealth > being.MaxHealth * 0.2)
                     {
@@ -238,9 +249,9 @@ namespace Eternia
                         color = Color.Magenta;
                     }
                     spriteBatch.Draw(hpBarTexture, new Rectangle((int)(game.GraphicsDevice.Viewport.Width / 10 * 6), (int)(game.GraphicsDevice.Viewport.Height / 10 * 6.6f + game.GraphicsDevice.Viewport.Height / 29),
-                           (int)(game.GraphicsDevice.Viewport.Width / 10 * 3.5f), (int)(game.GraphicsDevice.Viewport.Height / 43)), Color.SlateBlue);
+                           (int)(game.GraphicsDevice.Viewport.Width / 10 * 3.5f), (int)(game.GraphicsDevice.Viewport.Height / 50)), Color.SlateBlue);
                     spriteBatch.Draw(hpBarTexture, new Rectangle((int)(game.GraphicsDevice.Viewport.Width / 10 * 6), (int)(game.GraphicsDevice.Viewport.Height / 10 * 6.6f + game.GraphicsDevice.Viewport.Height / 29),
-                           (int)((game.GraphicsDevice.Viewport.Width / 10 * 3.5f) * ((double)being.CurrentHealth / being.MaxHealth)), (int)(game.GraphicsDevice.Viewport.Height / 45)), color);
+                           (int)((game.GraphicsDevice.Viewport.Width / 10 * 3.5f) * ((double)being.CurrentHealth / being.MaxHealth)), (int)(game.GraphicsDevice.Viewport.Height / 50)), color);
                 }
                 else
                 {

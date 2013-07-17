@@ -37,13 +37,13 @@ namespace Eternia
             isAlive = true;
             this.model = model;
             this.position = position;
-            this.world = Matrix.CreateScale(1.0f, 1.0f, 1.0f) * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateFromQuaternion(this.rotation) * Matrix.CreateTranslation(this.position);
+            this.world = Matrix.CreateScale(0.5f, 0.5f, 0.5f) * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateFromQuaternion(this.rotation) * Matrix.CreateTranslation(this.position);
         }
         public void setPosition(Vector3 position, Quaternion rotation)
         {
             this.rotation = rotation;
             this.position = position;
-            this.world = Matrix.CreateScale(1.0f, 1.0f, 1.0f) * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateFromQuaternion(rotation) * Matrix.CreateTranslation(position);
+            this.world = Matrix.CreateScale(0.5f, 0.5f, 0.5f) * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateFromQuaternion(rotation) * Matrix.CreateTranslation(position);
         }
 
         public virtual void Update()
@@ -66,9 +66,7 @@ namespace Eternia
                     effect.EnableDefaultLighting();
                     effect.Projection = camera.projectionMatrix;
                     effect.View = camera.viewMatrix;
-                    effect.World = world * mesh.ParentBone.Transform;
-
-                   
+                    effect.World = world * mesh.ParentBone.Transform;              
                 }
                 mesh.Draw();
             }

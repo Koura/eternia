@@ -248,7 +248,8 @@ namespace Eternia
             terrainIndexBuffer.SetData(indices);
         }
 
-        /* doesn't work yet
+        /*
+        //doesn't work yet
         public void UpdateViewMatrix(Camera camera)
         {            
             Vector3 reflCameraPosition = camera.cameraPos;

@@ -20,6 +20,7 @@ namespace Eternia
         Effect effect;
         List<Hero> heroes;
         BasicModel model;
+        Random battleProbability;
 
         public OverWorld(Game game)
             : base (game)
@@ -33,13 +34,22 @@ namespace Eternia
         //processes the messages gotten from the player and acts accordingly.
         protected override void ProcessInput(String message)
         {
+            battleProbability = new Random();
             if (message.Equals("up"))
             {
                 StateChanged("moveUp");
+                if (battleProbability.NextDouble() < 0.03)
+                {
+                    StateChanged("Battle");
+                }
             }
             if (message.Equals("down"))
             {
                 StateChanged("moveDown");
+                if (battleProbability.NextDouble() < 0.03)
+                {
+                    StateChanged("Battle");
+                }
             }
             if (message.Equals("left"))
             {

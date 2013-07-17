@@ -38,8 +38,6 @@ namespace Eternia
         public MainMenu(Game game)
             : base(game)
         {
-            // send message "menu"
-            // dj.playdatfunkysong("menu"); somewhere else?
         }
 
         public override void Initialize()

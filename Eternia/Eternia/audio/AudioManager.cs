@@ -61,7 +61,6 @@ namespace Eternia
         public void update()
         {
             Song song = null;
-
             if (music.TryGetValue(this.state.getState(), out song))
             {
                 if (song != currentlyPlaying)

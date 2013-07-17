@@ -65,7 +65,7 @@ namespace Eternia
         {
             
             maps = new Dictionary<string, Map>();
-            Hero hero1 = new Hero("Taistelu Jaska", new Vector3(200,-120,200));
+            Hero hero1 = new Hero("Taistelu Jaska", new Vector3(1400, -428, 1900));
             party = new Party();
             party.addCompany(hero1);
             party.attachObserver(new CameraObserver(this));
@@ -73,9 +73,9 @@ namespace Eternia
             worldModel = ModelManager.instance(game).models["Taistelu Jaska"];
             worldModel.setPosition(party.Position, party.PartyRotation);
             maps.Add("OverWorld", new Map("eternia", game));
+            maps.Add("Battle1", new Map("battle1", game));
             camera = new Camera(game.GraphicsDevice);
             camera.SetUpCamera();
-            Console.WriteLine(Party.Position);
         }
         /// <summary>
         /// Allows the game component to update itself.

@@ -50,11 +50,28 @@ namespace Eternia
             battle.setHeroes(this.gameState.Party.Heroes);
             battle.setUpBattle();
             battleMenu.Fighters = battle.Fighters;
+            battleMenu.Map = gameState.getMap("Battle1");
             List<Being> enemies = battle.Enemies;
             List<Being> heroes = battle.Heroes;
             battleMenu.modelManager.setEnemies(enemies);
             battleMenu.modelManager.setHeros(heroes);
             battleMenu.TimeBar = battle.TimeBar;
+            List<BasicModel> tempModels = new List<BasicModel>();
+            foreach (Being enemy in enemies)
+            {
+                tempModels.Add(battleMenu.modelManager.models[enemy.Name]);
+                Quaternion rotation = Quaternion.Identity; 
+                rotation *= Quaternion.CreateFromAxisAngle(new Vector3(0, -1, 0), -3.0f);
+                tempModels.Last().setPosition(enemy.Position, rotation);
+                Console.WriteLine(tempModels.Last().Position);
+            }
+            foreach (Being hero in heroes)
+            {
+                tempModels.Add(battleMenu.modelManager.models[hero.Name]);
+                tempModels.Last().setPosition(hero.Position, Quaternion.Identity);
+                Console.WriteLine(tempModels.Last().Position);
+            }
+            battleMenu.BattleModels = tempModels;
         }
 
         /*

@@ -69,31 +69,17 @@ namespace Eternia
 
             base.Update(gameTime);
         }
-        /*
-         * Draws each model on model list.
-         */
-        //public override void Draw(GameTime gameTime)
-        //{
-        //    foreach (KeyValuePair<String, BasicModel> model in models)
-        //    {
-        //        model.Value.Draw(((Eternia)Game).Camera);
-        //    }
-        //}        
-        /*
-         * Set given list of enemys to modelManager's model list to draw. Method uses enemyModel that is initialized on loadContent method.
-         * To change enemy model change different model on loadContent.
-         */
+        
         internal void setEnemies(List<Being> enemies)
         {
             foreach (Being being in enemies)
             {
                 if(!models.ContainsKey(being.Name))
                 {
-                    models.Add(being.Name, new BasicModel(enemyModel, new Vector3(being.Position.X, being.Position.Y, being.Position.Z)));
+                    BasicModel newBasicModel = new BasicModel(heroModel, new Vector3(being.Position.X, being.Position.Y, being.Position.Z));
+                    models.Add(being.Name, newBasicModel);
                 }
-            }
-           
-                
+            }        
         }
         /*
          * Set given list of heros to modelManager's model list to draw. Method uses heroModel that is initialized on loadContent method.
