@@ -25,10 +25,8 @@ namespace Eternia
         public OverWorld(Game game)
             : base (game)
         {
-            camera = new Camera(game.GraphicsDevice);
-            camera.SetUpCamera();
             effect = game.Content.Load<Effect>("EterniaEffects");
-            this.heroes = new List<Hero>();           
+            this.heroes = new List<Hero>();
         }
 
         //processes the messages gotten from the player and acts accordingly.
@@ -63,6 +61,10 @@ namespace Eternia
             {
                 interpretAccept();
             }
+            if (message.Equals("menu"))
+            {
+                StateChanged("PartyMenu");
+            }
         }
         //Determines how to react to pressing A button in a given situation
         private void interpretAccept()
@@ -90,9 +92,8 @@ namespace Eternia
         {
             float time = (float)gameTime.TotalGameTime.TotalMilliseconds / 100.0f;
             base.Draw(gameTime);
-            camera.Draw(effect);
             map.Draw(gameTime, camera);
-            model.Draw(camera);
+            model.Draw(camera, effect);
             map.DrawWater(time);
         }
 

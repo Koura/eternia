@@ -22,9 +22,8 @@ namespace Eternia
             get { return position; }
             set { position = value; }
         }
-        protected Matrix world = Matrix.Identity;
         private Quaternion rotation = Quaternion.Identity;
-
+        Effect effect;
         private bool isAlive;
 
         public bool IsAlive
@@ -36,37 +35,40 @@ namespace Eternia
         {
             isAlive = true;
             this.model = model;
-            this.position = position;
-            this.world = Matrix.CreateScale(0.5f, 0.5f, 0.5f) * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateFromQuaternion(this.rotation) * Matrix.CreateTranslation(this.position);
+            this.position = position;        
         }
         public void setPosition(Vector3 position, Quaternion rotation)
         {
             this.rotation = rotation;
             this.position = position;
-            this.world = Matrix.CreateScale(0.5f, 0.5f, 0.5f) * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateFromQuaternion(rotation) * Matrix.CreateTranslation(position);
         }
 
         public virtual void Update()
         {
         }
 
-        public void Draw(Camera camera)
+        public void Draw(Camera camera, Effect effect)
         {
             if (!IsAlive)
             {
                 return;
             }
+            Matrix worldMatrix = Matrix.CreateScale(0.05f, 0.05f, 0.05f) * Matrix.CreateRotationY(MathHelper.Pi) *
+                Matrix.CreateFromQuaternion(this.rotation) * Matrix.CreateTranslation(this.position);
             Matrix[] transforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(transforms);
 
             foreach (ModelMesh mesh in model.Meshes)
             {
-                foreach (BasicEffect effect in mesh.Effects)
+                foreach (Effect currentEffect in mesh.Effects)
                 {
-                    effect.EnableDefaultLighting();
-                    effect.Projection = camera.projectionMatrix;
-                    effect.View = camera.viewMatrix;
-                    effect.World = world * mesh.ParentBone.Transform;              
+                    currentEffect.CurrentTechnique = currentEffect.Techniques["Textured"];
+                    currentEffect.Parameters["xWorld"].SetValue(transforms[mesh.ParentBone.Index] * worldMatrix);
+                    currentEffect.Parameters["xView"].SetValue(camera.viewMatrix);
+                    currentEffect.Parameters["xProjection"].SetValue(camera.projectionMatrix);
+                    currentEffect.Parameters["xEnableLighting"].SetValue(true);
+                    currentEffect.Parameters["xLightDirection"].SetValue(new Vector3(-0.5f, -1, -0.5f));
+                    currentEffect.Parameters["xAmbient"].SetValue(0.4f);
                 }
                 mesh.Draw();
             }

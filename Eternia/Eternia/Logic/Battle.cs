@@ -129,14 +129,14 @@ namespace Eternia
 
                 if (next < 0.31)
                 {
-                    Enemy enemy = EnemyFactory.createBoss("Ravenous Bugblatter Beast Of Traal " + i, new Vector3((1200 + i*130), -428, (1600)), 50, 10, 20);
+                    Enemy enemy = EnemyFactory.createBoss("Thief mastermind " + i, new Vector3((48 + i*1), 12.1f, -98), 50, 10, 20);
                     fighters.Add(enemy);
                     enemies.Add(enemy);
                     timeBar.Add(enemy.Name, 0);
                 }
                 else
                 {
-                    Enemy enemy = EnemyFactory.createSoldier("Bugblatter " + i, new Vector3((1200 + i * 130), -428, (1600)), 40, 0, 10);
+                    Enemy enemy = EnemyFactory.createSoldier("Thief " + i, new Vector3((48 + i * 1), 12.1f, -98), 40, 0, 10);
                     enemy.Speed = randomizer.Next(10, 20);
                     fighters.Add(enemy);
                     enemies.Add(enemy);
@@ -212,6 +212,15 @@ namespace Eternia
             Being attacker = heroes.ElementAt(turn);
             Being enemyTarget = fighters.ElementAt(target);
             strategy = new Attack(attacker,enemyTarget);
+            strategy.executeStrategy();
+            waitingAction = false;
+            changeTurn();
+        }
+
+        public void UsingItem(int target, String itemName)
+        {
+            Being targeted = fighters.ElementAt(target);
+            strategy = new Items(targeted, itemName);
             strategy.executeStrategy();
             waitingAction = false;
             changeTurn();

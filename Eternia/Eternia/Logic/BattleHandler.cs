@@ -56,22 +56,7 @@ namespace Eternia
             battleMenu.modelManager.setEnemies(enemies);
             battleMenu.modelManager.setHeros(heroes);
             battleMenu.TimeBar = battle.TimeBar;
-            List<BasicModel> tempModels = new List<BasicModel>();
-            foreach (Being enemy in enemies)
-            {
-                tempModels.Add(battleMenu.modelManager.models[enemy.Name]);
-                Quaternion rotation = Quaternion.Identity; 
-                rotation *= Quaternion.CreateFromAxisAngle(new Vector3(0, -1, 0), -3.0f);
-                tempModels.Last().setPosition(enemy.Position, rotation);
-                Console.WriteLine(tempModels.Last().Position);
-            }
-            foreach (Being hero in heroes)
-            {
-                tempModels.Add(battleMenu.modelManager.models[hero.Name]);
-                tempModels.Last().setPosition(hero.Position, Quaternion.Identity);
-                Console.WriteLine(tempModels.Last().Position);
-            }
-            battleMenu.BattleModels = tempModels;
+            updateModels();
         }
 
         /*
@@ -105,6 +90,8 @@ namespace Eternia
                     case "Items":
                         {
                             //Items stufff
+                            battle.UsingItem(battleMenu.Target, battleMenu.ItemName);
+                            battleMenu.ItemName = "";
                             break;
                         }
                 }
@@ -185,9 +172,29 @@ namespace Eternia
             {
                 infoText = "Enemy defeaded.";
                 battleMenu.modelManager.removeModel(deadEnemy);
+                updateModels();
             }
             battleMenu.casualtiesInfo = new Info(infoText, new Vector2(200, 250), battleMenu.CurrentTime);
         }
 
+        private void updateModels()
+        {
+            List<Being> enemies = battle.Enemies;
+            List<Being> heroes = battle.Heroes;
+            List<BasicModel> tempModels = new List<BasicModel>();
+            foreach (Being enemy in enemies)
+            {
+                tempModels.Add(battleMenu.modelManager.models[enemy.Name]);
+                Quaternion rotation = Quaternion.Identity;
+                rotation *= Quaternion.CreateFromAxisAngle(new Vector3(0, -1, 0), -3.0f);
+                tempModels.Last().setPosition(enemy.Position, rotation);
+            }
+            foreach (Being hero in heroes)
+            {
+                tempModels.Add(battleMenu.modelManager.models[hero.Name]);
+                tempModels.Last().setPosition(hero.Position, Quaternion.Identity);
+            }
+            battleMenu.BattleModels = tempModels;
+        }
     }
 }

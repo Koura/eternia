@@ -82,5 +82,22 @@ namespace Eternia
                 observer.update();
             }
         }
+
+        public bool topScreen(Screen screen)
+        {
+            if (screens.Count != 0)
+            {
+                System.Type type = screen.GetType();
+                Console.WriteLine("manager class to check: " + type);
+                Console.WriteLine("manager class on top: " + screens.Peek().GetType());
+                return (screens.Peek().GetType().Equals(type));
+            }
+            return false;
+        }
+
+        public int numOfScreens()
+        {
+            return screens.Count;
+        }
     }
 }

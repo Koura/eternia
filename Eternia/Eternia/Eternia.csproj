@@ -126,6 +126,7 @@
     <Compile Include="View\BattleOption.cs" />
     <Compile Include="View\IOption.cs" />
     <Compile Include="Logic\LogicManager.cs" />
+    <Compile Include="View\ItemManager.cs" />
     <Compile Include="View\MainMenu.cs" />
     <Compile Include="IObserver.cs" />
     <Compile Include="View\MenuOption.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="View\Options.cs" />
     <Compile Include="View\OverWorld.cs" />
     <Compile Include="View\OverWorldObserver.cs" />
+    <Compile Include="View\PartyMenu.cs" />
     <Compile Include="View\ScreenDelegator.cs" />
     <Compile Include="View\ZeWorld\Being.cs" />
     <Compile Include="View\ZeWorld\Camera.cs" />
@@ -150,6 +152,7 @@
     <Compile Include="View\Screen.cs" />
     <Compile Include="View\ScreenManager.cs" />
     <Compile Include="View\ZeWorld\Iitem.cs" />
+    <Compile Include="View\ZeWorld\Item.cs" />
     <Compile Include="View\ZeWorld\Map.cs" />
   </ItemGroup>
   <ItemGroup>

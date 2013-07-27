@@ -50,6 +50,8 @@ namespace Eternia
             cooldowns.Add("left", 0);
             cooldowns.Add("right", 0);
             cooldowns.Add("accept", 0);
+            cooldowns.Add("decline", 0);
+            cooldowns.Add("menu", 0);
         }
 
         //Does the checkcooldown method for the given key
@@ -60,6 +62,8 @@ namespace Eternia
             CheckCooldown("left", Keys.Left, gameTime);
             CheckCooldown("right", Keys.Right, gameTime);
             CheckCooldown("accept", Keys.A, gameTime);
+            CheckCooldown("decline", Keys.D, gameTime);
+            CheckCooldown("menu", Keys.Enter, gameTime);
         }
 
         //When we have validated that the player has pressed a key we call all the methods subscribed to InputGiven if any.

@@ -32,7 +32,8 @@ namespace Eternia
         public Party()
         {
             heroes = new List<Hero>();
-            position = new Vector3(1400, -515, 1400);
+            items = new Dictionary<String,int>();
+            position = new Vector3(50, 15.25f, -60);
             observers = new List<IObserver>();
         }
 
@@ -55,15 +56,43 @@ namespace Eternia
             get { return heroes; }
             set { heroes = value; }
         }
-        private List<Equipment> inventory;
+        private Dictionary<IEquipment, int> equipment;
 
         //List of all the equipment the party has
-        public List<Equipment> Inventory
+
+        private Dictionary<String, int> items;
+
+        public Dictionary<String, int> getItemList()
         {
-            get { return inventory; }
-            set { inventory = value; }
+            return items;
         }
-        
+
+        public void addItem(String name)
+        {
+            if (items.ContainsKey(name))
+            {
+                items["name"] = items["name"] + 1;
+            }
+            else
+            {
+                items.Add(name, 1);
+            }
+        }
+
+        public void removeItem(String name)
+        {
+            if (items.ContainsKey(name))
+            {
+                if (items["name"] > 1)
+                {
+                    items["name"] = items["name"] - 1;
+                }
+                else
+                {
+                    items.Remove(name);
+                }
+            }
+        }
         //adds a hero/companion/ally in to the party roster
         public void addCompany(Hero hero)
         {

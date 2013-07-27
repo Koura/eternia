@@ -271,7 +271,7 @@ namespace Eternia
             game.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
            
             DrawSkyDome(camera.viewMatrix, camera);
-            DrawTerrain(camera.viewMatrix);           
+            DrawTerrain(camera.viewMatrix, camera);           
         }
 
         //Sets up 2 triangles that cover the whole terrain. Terrain that is lower than the water surface is seen as water.
@@ -293,9 +293,12 @@ namespace Eternia
         }
       
         //Draws the terrain from the indices.
-        private void DrawTerrain(Matrix currentViewMatrix)
+        private void DrawTerrain(Matrix currentViewMatrix, Camera camera)
         {
             effect.CurrentTechnique = effect.Techniques["MultiTextured"];
+            effect.Parameters["xWorld"].SetValue(Matrix.Identity); 
+            effect.Parameters["xView"].SetValue(camera.viewMatrix);
+            effect.Parameters["xProjection"].SetValue(camera.projectionMatrix);
             effect.Parameters["xTexture0"].SetValue(sandTexture);
             effect.Parameters["xTexture1"].SetValue(grassTexture);
             effect.Parameters["xTexture2"].SetValue(rockTexture);
@@ -366,7 +369,7 @@ namespace Eternia
             effect.Parameters["Clipping"].SetValue(true);
             game.GraphicsDevice.SetRenderTarget(refractionRenderTarget);
             game.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
-            DrawTerrain(camera.viewMatrix);
+            DrawTerrain(camera.viewMatrix, camera);
             effect.Parameters["Clipping"].SetValue(false);
 
             refractionMap = refractionRenderTarget;
@@ -380,7 +383,7 @@ namespace Eternia
             effect.Parameters["Clipping"].SetValue(true);
             game.GraphicsDevice.SetRenderTarget(reflectionRenderTarget);
             game.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
-            DrawTerrain(reflectionViewMatrix);
+            DrawTerrain(reflectionViewMatrix,camera);
             DrawSkyDome(reflectionViewMatrix, camera);
 
             effect.Parameters["Clipping"].SetValue(false);

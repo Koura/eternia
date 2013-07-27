@@ -26,8 +26,8 @@ namespace Eternia
 
          public Options(Game game)
             : base(game)
-        {            
-           
+        {
+            base.UtilityScreen = true;
         }
 
         public override void Initialize()
@@ -43,7 +43,7 @@ namespace Eternia
             background = game.Content.Load<Texture2D>("images/background");
             font = game.Content.Load<SpriteFont>("fonts/menufont");
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 80), "End", font, Color.White));
-            arrowposi = new Rectangle(game.GraphicsDevice.Viewport.Width / 3 + 10, game.GraphicsDevice.Viewport.Height / 2 + 59, menuarrow.Width / 16, menuarrow.Height / 16);
+            arrowposi = new Rectangle(game.GraphicsDevice.Viewport.Width / 2 - 122, game.GraphicsDevice.Viewport.Height / 2 + 59, menuarrow.Width / 16, menuarrow.Height / 16);
         }
 
         protected override void UnloadContent()
@@ -71,7 +71,7 @@ namespace Eternia
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(background, new Rectangle(0, 0, 800, 600), Color.SteelBlue);
+            spriteBatch.Draw(background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.SteelBlue);
             spriteBatch.Draw(menuarrow, arrowposi, Color.White);
 
             foreach (MenuOption option in menuoptions)

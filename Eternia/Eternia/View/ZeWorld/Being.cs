@@ -45,7 +45,17 @@ namespace Eternia
         public float CurrentHealth
         {
             get { return currentHealth; }
-            set { currentHealth = value; }
+            set
+            {
+                if (value < maxHealth)
+                {
+                    currentHealth = value;
+                }
+                else
+                {
+                    currentHealth = maxHealth;
+                }
+            }
         }
         private float armor;
 

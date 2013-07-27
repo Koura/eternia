@@ -42,8 +42,8 @@ namespace Eternia
         protected override void Initialize()
         {
             device = graphics.GraphicsDevice;
-            graphics.PreferredBackBufferWidth = 800;
-            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
             // AudioManager is a Iobserver. Give a Isubject as parameter in constructor. 
@@ -72,6 +72,7 @@ namespace Eternia
             audio.addNewSong("Battle", battle);
             audio.addNewSong("Options", menuSong);
             audio.addNewSong("OverWorld", overworld);
+            audio.addNewSong("PartyMenu", overworld);
             // TODO: use this.Content to load your game content here
             audio.playSong(this.gameState.getState());
         }

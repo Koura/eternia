@@ -20,6 +20,13 @@ namespace Eternia
         protected SpriteFont textFont;
         protected SpriteBatch spriteBatch;
         protected Game game;
+        private bool utilityScreen;
+
+        public bool UtilityScreen
+        {
+            get { return utilityScreen; }
+            set { utilityScreen = value; }
+        }
 
         public event StateChangeEventHandler stateChange;
 
@@ -27,6 +34,7 @@ namespace Eternia
             : base(game)
         {
             this.game = game;
+            this.utilityScreen = false;
             //subscribe into inputmanagers Input Event.
             InputManager.instance().InputGiven += new InputEventHandler(OnInput);
         }

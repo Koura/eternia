@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Eternia
 {
-    public interface Equipment
+    public interface IEquipment
     {
         
     }

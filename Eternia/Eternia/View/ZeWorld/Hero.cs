@@ -60,9 +60,9 @@ namespace Eternia
             get { return intelligence; }
             set { intelligence = value; }
         }
-        private List<Equipment> equipment;
+        private List<IEquipment> equipment;
 
-        internal List<Equipment> Equipment
+        internal List<IEquipment> Equipment
         {
             get { return equipment; }
             set { equipment = value; }
@@ -86,7 +86,7 @@ namespace Eternia
             this.contitution = 10;
             this.endurance = 10;
             this.intelligence = 10;
-            this.equipment = new List<Equipment>();
+            this.equipment = new List<IEquipment>();
         }
 
         

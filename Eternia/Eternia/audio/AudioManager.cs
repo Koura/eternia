@@ -50,17 +50,20 @@ namespace Eternia
         public void playSong(String state)
         {
             Song song = null;
+            /* 
             if (music.TryGetValue(state, out song))
             {
                 MediaPlayer.Play(song);
                 
                 this.currentlyPlaying = song;
-            }
+            }*/
+            
             
         }
         public void update()
         {
             Song song = null;
+            /*
             if (music.TryGetValue(this.state.getState(), out song))
             {
                 if (song != currentlyPlaying)
@@ -72,17 +75,19 @@ namespace Eternia
             else
             {
                 MediaPlayer.Stop();
-            }
+            }*/
+            
         }
         public void playSoundEffect(String effectName)
         {
             SoundEffect effect = null;
-
+            /*
             if(soundEffects.TryGetValue(effectName, out effect))
             {
                 SoundEffectInstance effectInstance = effect.CreateInstance();
                 effectInstance.Play();
             }
+            */
         }
     }
 }

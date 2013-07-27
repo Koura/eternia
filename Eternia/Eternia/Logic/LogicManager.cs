@@ -39,22 +39,22 @@ namespace Eternia
         {
             if (update.Equals("moveUp"))
             {
-                Vector3 addVector = Vector3.Transform(new Vector3(0,0, -5), gameState.Party.PartyRotation);
+                Vector3 addVector = Vector3.Transform(new Vector3(0,0, 0.1f), gameState.Party.PartyRotation);
                 gameState.Party.setPosi(addVector);
             }
             if (update.Equals("moveDown"))
             {
-                Vector3 addVector = Vector3.Transform(new Vector3(0, 0, 5), gameState.Party.PartyRotation);
+                Vector3 addVector = Vector3.Transform(new Vector3(0, 0, -0.1f), gameState.Party.PartyRotation);
                 gameState.Party.setPosi(addVector);
             }
             if (update.Equals("moveLeft"))
             {
-                 Quaternion additionalRot = Quaternion.CreateFromAxisAngle(new Vector3(0, -1, 0), 0.5f);
+                 Quaternion additionalRot = Quaternion.CreateFromAxisAngle(new Vector3(0, -1, 0), -0.1f);
                 gameState.Party.setRota(additionalRot);
             }
             if (update.Equals("moveRight"))
             {
-                Quaternion additionalRot = Quaternion.CreateFromAxisAngle(new Vector3(0, -1, 0), -0.5f);
+                Quaternion additionalRot = Quaternion.CreateFromAxisAngle(new Vector3(0, -1, 0), 0.1f);
                 gameState.Party.setRota(additionalRot);
             }
         }

@@ -55,11 +55,11 @@ namespace Eternia
             font = game.Content.Load<SpriteFont>("fonts/menufont");
 
             title = game.Content.Load<Texture2D>("images/menutxt");
-            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2-40), "New Game", font, Color.White));
+            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2-GraphicsDevice.Viewport.Height/15), "New Game", font, Color.White));
             menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2), "Load Game", font, Color.White));
-            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 40), "Options", font, Color.White));
-            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + 80), "Exit Game", font, Color.White));
-            arrowposi = new Rectangle(game.GraphicsDevice.Viewport.Width / 3 + 10, game.GraphicsDevice.Viewport.Height / 2 - 61, menuarrow.Width / 16, menuarrow.Height / 16);
+            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + GraphicsDevice.Viewport.Height / 15), "Options", font, Color.White));
+            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + GraphicsDevice.Viewport.Height / 15*2), "Exit Game", font, Color.White));
+            arrowposi = new Rectangle(game.GraphicsDevice.Viewport.Width / 2 - 122, game.GraphicsDevice.Viewport.Height / 2 - 21 - GraphicsDevice.Viewport.Height / 15, menuarrow.Width / 16, menuarrow.Height / 16);
 
         }
 
@@ -73,7 +73,7 @@ namespace Eternia
             {
                 if (arrowValue>1)
                 {
-                    arrowposi.Y -= 40;
+                    arrowposi.Y -= game.GraphicsDevice.Viewport.Height / 15;
                     arrowValue--;
                 }
             }
@@ -81,7 +81,7 @@ namespace Eternia
             {
                 if (arrowValue < 4)
                 {
-                    arrowposi.Y += 40;
+                    arrowposi.Y += game.GraphicsDevice.Viewport.Height / 15;
                     arrowValue++;
                 }
             }
@@ -124,8 +124,8 @@ namespace Eternia
 
             foreach (MenuOption option in Menuoptions)
 
-            spriteBatch.Draw(background, new Rectangle(0, 0, 800, 600), Color.SteelBlue);
-            spriteBatch.Draw(title, new Rectangle(10,0, title.Width, title.Height), Color.White);
+            spriteBatch.Draw(background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.SteelBlue);
+            spriteBatch.Draw(title, new Rectangle(GraphicsDevice.Viewport.Width/5,0, title.Width, title.Height), Color.White);
             spriteBatch.Draw(menuarrow, arrowposi, Color.White);
             
             foreach (MenuOption option in menuoptions)

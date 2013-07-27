@@ -18,9 +18,10 @@ namespace Eternia
         List<IObserver> observers = new List<IObserver>();
         Texture2D timeBarTexture;
         Texture2D hpBarTexture;
+        Texture2D optionBg;
         Effect effect;
+        float[] optionsYpos;
         float[] optionsXpos;
-        float optionY;
         SpriteFont font;
         int selectionValue = 0;
         List<Being> fighters;
@@ -68,7 +69,14 @@ namespace Eternia
             set { target = value; }
 
         }
+
+        private String itemName;
         
+        public String ItemName
+        {
+            get { return this.itemName; }
+            set { itemName = value; }
+        }
         private bool actionMade;
 
         public bool ActionMade
@@ -118,7 +126,7 @@ namespace Eternia
         {
             modelManager = ModelManager.instance(game);
             camera = new Camera(game.GraphicsDevice);
-            camera.SetUpCamera();
+            camera.SetUpCamera(new Vector3(50, 12.1f, -100), Quaternion.Identity);
             effect = game.Content.Load<Effect>("EterniaEffects");
         }
         /*
@@ -127,12 +135,16 @@ namespace Eternia
          */
         public override void Initialize()
         {
+            optionsYpos = new float[4];
             optionsXpos = new float[4];
-            optionY = game.GraphicsDevice.Viewport.Height / 10 + 500;
-            optionsXpos[0] = game.GraphicsDevice.Viewport.Width / 5 + 100;
-            optionsXpos[1] = game.GraphicsDevice.Viewport.Width / 5 + 250;
-            optionsXpos[2] = game.GraphicsDevice.Viewport.Width / 5 + 400;
-            optionsXpos[3] = game.GraphicsDevice.Viewport.Width / 5 + 550;
+            optionsXpos[0] = game.GraphicsDevice.Viewport.Width / 10 + (game.GraphicsDevice.Viewport.Width / 3 - game.GraphicsDevice.Viewport.Width / 9)/2;
+            optionsXpos[1] = optionsXpos[0] + game.GraphicsDevice.Viewport.Width / 100;
+            optionsXpos[2] = optionsXpos[1] + game.GraphicsDevice.Viewport.Width / 100;
+            optionsXpos[3] = optionsXpos[2] + game.GraphicsDevice.Viewport.Width / 100;
+            optionsYpos[0] = game.GraphicsDevice.Viewport.Height / 10 * 6.25f;
+            optionsYpos[1] = optionsYpos[0] + game.GraphicsDevice.Viewport.Height / 21;
+            optionsYpos[2] = optionsYpos[1] + game.GraphicsDevice.Viewport.Height / 21;
+            optionsYpos[3] = optionsYpos[2] + game.GraphicsDevice.Viewport.Height / 21;
             battleState = "BattleMenu";
             playerTurn = false;
             actionMade = false;
@@ -148,10 +160,11 @@ namespace Eternia
             font = game.Content.Load<SpriteFont>("fonts/menufont");
             timeBarTexture = game.Content.Load<Texture2D>("images/timeBar");
             hpBarTexture = game.Content.Load<Texture2D>("images/hpbar");
-            menuoptions.Add(new MenuOption(new Vector2(optionsXpos[0], optionY), "Attack", font, Color.Black));
-            menuoptions.Add(new MenuOption(new Vector2(optionsXpos[1], optionY), "Magic", font, Color.Black));
-            menuoptions.Add(new MenuOption(new Vector2(optionsXpos[2], optionY), "Skills", font, Color.Black));
-            menuoptions.Add(new MenuOption(new Vector2(optionsXpos[3], optionY), "Items", font, Color.Black));
+            optionBg = game.Content.Load<Texture2D>("images/optionBG");
+            menuoptions.Add(new MenuOption(new Vector2(optionsXpos[0], optionsYpos[0]), "Attack", font, Color.Black));
+            menuoptions.Add(new MenuOption(new Vector2(optionsXpos[1], optionsYpos[1]), "Magic", font, Color.Black));
+            menuoptions.Add(new MenuOption(new Vector2(optionsXpos[2], optionsYpos[2]), "Skills", font, Color.Black));
+            menuoptions.Add(new MenuOption(new Vector2(optionsXpos[3], optionsYpos[3]), "Items", font, Color.Black));
             
         }
 
@@ -169,20 +182,30 @@ namespace Eternia
             map.Draw(gameTime, camera);
             foreach(BasicModel model in battleModels)
             {
-                model.Draw(camera);
+                model.Draw(camera, effect);
             }
             spriteBatch.Begin();
             drawFighterStats();
             drawTimeBars(gameTime);
-            if (playerAction.Equals("Attack"))
+            switch (playerAction)
             {
-                drawTargetSelection();
+                case "Attack":
+                    {
+                        drawTargetSelection();
+                        break;
+                    }
+                case "Item":
+                    {
+                        drawItemSelection();
+                        break;
+                    }
+                default:
+                    {
+                        drawMenuOptions();
+                        break;
+                    }
             }
-            else
-            {
-                drawMenuOptions();
-
-            }
+           
             drawInfo();
             drawInfo(gameTime);
             spriteBatch.End();
@@ -206,21 +229,24 @@ namespace Eternia
             info = new Info("Attack (A)", new Vector2(200, 200), currentTime);
         }
 
+        private void drawItemSelection()
+        {
+        }
         /*
          * Method will draw a message if there is some information to be displayed on screen i.e if any party member has been killed or enemy is defeaded.
          */
         private void drawInfo()
         {
-            if (info.text != null && (info.startTime.TotalMilliseconds + 1200.0f > currentTime.TotalMilliseconds))
+            if (info.text != null && (info.startTime.TotalMilliseconds + 2000.0f > currentTime.TotalMilliseconds))
                 spriteBatch.DrawString(font, info.text, info.position, Color.White);
 
-            if (casualtiesInfo.text != null && (casualtiesInfo.startTime.TotalMilliseconds + 1200.0f > currentTime.TotalMilliseconds))
+            if (casualtiesInfo.text != null && (casualtiesInfo.startTime.TotalMilliseconds + 2000.0f > currentTime.TotalMilliseconds))
                 spriteBatch.DrawString(font, casualtiesInfo.text, casualtiesInfo.position, Color.White);
         }
          
         private void drawInfo(GameTime gameTime)
         {
-            if (info.text != null && (info.startTime.TotalMilliseconds + 1200.0f > gameTime.TotalGameTime.TotalMilliseconds))
+            if (info.text != null && (info.startTime.TotalMilliseconds + 2000.0f > gameTime.TotalGameTime.TotalMilliseconds))
                 spriteBatch.DrawString(font, info.text, info.position, Color.White);
         }
         /*
@@ -314,11 +340,14 @@ namespace Eternia
             {
                 option.Colour = Color.White;
             }
+            int i = 0;
             menuoptions.ElementAt(selectionValue).Colour = Color.Tomato;
             foreach (MenuOption option in menuoptions)
             {
+                spriteBatch.Draw(optionBg, new Rectangle(game.GraphicsDevice.Viewport.Width / 10 + (i*game.GraphicsDevice.Viewport.Width/100), (int)(game.GraphicsDevice.Viewport.Height / 10 * 6 + (i * game.GraphicsDevice.Viewport.Height /21)), game.GraphicsDevice.Viewport.Width / 3 - game.GraphicsDevice.Viewport.Width / 9, game.GraphicsDevice.Viewport.Height / 22), Color.White);
                 spriteBatch.DrawString(option.Font, option.Text, option.Position, option.Colour,
                 option.Rotation, option.Size / 2, option.Scale, SpriteEffects.None, 0);
+                i++;
             }
 
         }
@@ -351,6 +380,11 @@ namespace Eternia
                         ProcessInputInAttack(message);
                         break;
                     }
+                case "Item":
+                    {
+                        ProcessInputInItems(message);
+                        break;
+                    }
             }
             if (message.Equals("accept"))
             {
@@ -377,13 +411,31 @@ namespace Eternia
                     target--;
                 }
             }
+            if (message.Equals("decline"))
+            {
+                battleState = "BattleMenu";
+                playerAction = "";
+            }
+        }
+
+        private void ProcessInputInItems(string message)
+        {
+            switch (message)
+            {
+                case "decline":
+                    {
+                        battleState = "BattleMenu";
+                        playerAction = "";
+                        break;
+                    }
+            }
         }
         /*
          * Process input on battleMenu. Selection value is updated as player moves to left or right.
          */
         private void ProcessInputInBattleMenu(string message)
         {
-            if (message.Equals("left"))
+            if (message.Equals("up"))
             {
                 if (selectionValue > 0)
                 {
@@ -391,7 +443,7 @@ namespace Eternia
                     
                 }
             }
-            if (message.Equals("right"))
+            if (message.Equals("down"))
             {
                 if (selectionValue < 3)
                 {
@@ -420,6 +472,10 @@ namespace Eternia
                     {
                         // interpret players action in attack. Who's player targeting.
                         interpretAccecptInAttackOption();
+                        break;
+                    }
+                case "Item":
+                    {
                         break;
                     }
             }
@@ -454,6 +510,10 @@ namespace Eternia
             {
                 actionMade = true;
             }
+            if (selectionValue == 3)
+            {
+                usingItem();
+            }
         }
         /*
          * Method will set battle state and playerAction on "attack".
@@ -466,6 +526,11 @@ namespace Eternia
             info = new Info("Select target", new Vector2(200, 200), currentTime);
         }
 
+        private void usingItem()
+        {
+            playerAction = "Item";
+            battleState = "Item";
+        }
         public void attachObserver(IObserver observer)
         {
             observers.Add(observer);

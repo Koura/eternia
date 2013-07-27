@@ -27,6 +27,7 @@ namespace Eternia
             : base(game)
         {
            models = new Dictionary<String,BasicModel>();
+           effect = game.Content.Load<Effect>("EterniaEffects");
            LoadContent();
         }
 
@@ -53,7 +54,21 @@ namespace Eternia
         protected override void LoadContent()
         {
              heroModel = Game.Content.Load<Model>(@"models/fighter");
+             foreach (ModelMesh mesh in heroModel.Meshes)
+             {
+                 foreach (ModelMeshPart meshPart in mesh.MeshParts)
+                 {
+                     meshPart.Effect = effect.Clone();
+                 }
+             }
             enemyModel = Game.Content.Load<Model>(@"models/enemy");
+            foreach (ModelMesh mesh in enemyModel.Meshes)
+            {
+                foreach (ModelMeshPart meshPart in mesh.MeshParts)
+                {
+                    meshPart.Effect = effect.Clone();
+                }
+            }
             base.LoadContent();
         }
         /// <summary>

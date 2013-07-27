@@ -20,19 +20,6 @@ namespace Eternia
         public Matrix projectionMatrix { get; set; }
         public Vector3 cameraPos { get; set; }
         private List<IObserver> observers;
-        private Vector3 target;
-        private Quaternion targetrot;
-
-        public Quaternion Targetrot
-        {
-            get { return targetrot; }
-            set { targetrot = value; }
-        }
-        public Vector3 Target
-        {
-            get { return target; }
-            set { target = value; }
-        }
         private GraphicsDevice device;
         #endregion
 
@@ -70,22 +57,24 @@ namespace Eternia
             this.device = device;
         }
 
-        public void SetUpCamera()
+        public void SetUpCamera(Vector3 target, Quaternion rotation)
         {
-            cameraPos = new Vector3(70, 30, -100);
-            viewMatrix = Matrix.CreateLookAt(cameraPos, new Vector3(0, 0, 0), new Vector3(0, 1, 0));
+            cameraPos = new Vector3(0, 0.7f, -2f);
+            cameraPos = Vector3.Transform(cameraPos, Matrix.CreateFromQuaternion(rotation));
+            cameraPos += target;
+            Vector3 camup = new Vector3(0, 1, 0);
+            camup = Vector3.Transform(camup, Matrix.CreateFromQuaternion(rotation));
+            viewMatrix = Matrix.CreateLookAt(cameraPos, target, camup);
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, nearClip, farClip);
         }
 
-        //Currently not used because it is bugged. It should move the camera to follow hero movement.
         public void moveCamPos(Vector3 moveVector, Quaternion rotation)
         {
-            Vector3 cameraPos = new Vector3(70.0f, 30.0f, -100.0f);
+            cameraPos = new Vector3(0, 0.7f, -2f);
             cameraPos = Vector3.Transform(cameraPos, Matrix.CreateFromQuaternion(rotation));
-            targetrot = rotation;
+            cameraPos += moveVector;
             Vector3 camup = new Vector3(0, 1, 0);
             camup = Vector3.Transform(camup, Matrix.CreateFromQuaternion(rotation));
-            target = moveVector;
             viewMatrix = Matrix.CreateLookAt(cameraPos, moveVector, camup);
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, nearClip, farClip);
             notify();
@@ -93,9 +82,7 @@ namespace Eternia
  
         public void Draw(Effect effect)
         {
-            effect.Parameters["xView"].SetValue(viewMatrix);
-            effect.Parameters["xProjection"].SetValue(projectionMatrix);
-            effect.Parameters["xWorld"].SetValue(Matrix.Identity);
+           
 
         }
 
