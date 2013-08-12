@@ -16,6 +16,13 @@ namespace Eternia
         private List<IObserver> observers;
         private Vector3 position;
         private Quaternion partyRotation = Quaternion.Identity;
+        private int gold;
+
+        public int Gold
+        {
+            get { return gold; }
+            set { gold += value; }
+        }
 
         public Quaternion PartyRotation
         {
@@ -71,7 +78,7 @@ namespace Eternia
         {
             if (items.ContainsKey(name))
             {
-                items["name"] = items["name"] + 1;
+                items[name] = items[name] + 1;
             }
             else
             {
@@ -83,9 +90,9 @@ namespace Eternia
         {
             if (items.ContainsKey(name))
             {
-                if (items["name"] > 1)
+                if (items[name] > 1)
                 {
-                    items["name"] = items["name"] - 1;
+                    items[name] = items[name] - 1;
                 }
                 else
                 {
@@ -119,6 +126,17 @@ namespace Eternia
             foreach (IObserver observer in observers)
             {
                 observer.update();
+            }
+        }
+
+        public void distributeXp(int amount)
+        {
+            foreach (Hero hero in heroes)
+            {
+                if (hero.CurrentHealth > 0)
+                {
+                    hero.Experience = amount;
+                }
             }
         }
     }

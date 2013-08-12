@@ -124,6 +124,7 @@
     <Compile Include="View\BasicModel.cs" />
     <Compile Include="View\BattleMenu.cs" />
     <Compile Include="View\BattleOption.cs" />
+    <Compile Include="View\Defeated.cs" />
     <Compile Include="View\IOption.cs" />
     <Compile Include="Logic\LogicManager.cs" />
     <Compile Include="View\ItemManager.cs" />

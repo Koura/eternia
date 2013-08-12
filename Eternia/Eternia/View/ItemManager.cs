@@ -37,6 +37,8 @@ namespace Eternia
             items.Add(itemAdded.getName(), itemAdded);
             itemAdded = new Item("Elixir", 50, "mp");
             items.Add(itemAdded.getName(), itemAdded);
+            itemAdded = new Item("Grenade", -50, "hp");
+            items.Add(itemAdded.getName(), itemAdded);
         }
 
         internal Iitem getItem(String name)

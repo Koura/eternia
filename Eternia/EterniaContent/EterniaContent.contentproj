@@ -83,13 +83,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="images\battleImg1.png">
-      <Name>battleImg1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="images\timeBar.png">
       <Name>timeBar</Name>
     </Compile>

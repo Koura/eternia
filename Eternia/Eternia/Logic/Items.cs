@@ -17,7 +17,8 @@ namespace Eternia
         }
         public void executeStrategy()
         {
-            target.CurrentHealth = ItemManager.instance().getItem(itemName).getValue();
+            float newHealth = target.CurrentHealth + ItemManager.instance().getItem(itemName).getValue();
+            target.CurrentHealth = newHealth;
         }
     }
 }

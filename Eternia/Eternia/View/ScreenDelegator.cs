@@ -42,6 +42,8 @@ namespace Eternia
                     return new BattleHandler(this.gameState,new Battle(), new BattleMenu(game)).BattleMenu;
                 case "PartyMenu" :
                     return new PartyMenu(game, this.gameState);
+                case "Defeated" :
+                    return new Defeated(game);
             }
             return null;
         }

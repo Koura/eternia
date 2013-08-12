@@ -69,7 +69,9 @@ namespace Eternia
             party = new Party();
             party.addCompany(hero1);
             party.attachObserver(new CameraObserver(this));
-            party.addItem("Potion");         
+            party.addItem("Potion");
+            party.addItem("Ether");
+            party.addItem("Grenade");
             setModels();
             worldModel = ModelManager.instance(game).models["Taistelu Jaska"];
             worldModel.setPosition(party.Position, party.PartyRotation);

@@ -17,6 +17,9 @@ namespace Eternia
      */
     class BattleHandler: IObserver
     {
+        private int expReward;
+        private int goldReward;
+        private Dictionary<String, int> itemRewards;
         private Battle battle;
         public Battle Battle
         {
@@ -38,6 +41,7 @@ namespace Eternia
             this.battle = battle;
             this.battleMenu = battleMenu;
             this.battleMenu.attachObserver(this);
+            itemRewards = new Dictionary<string, int>();
             initializeBattle();
             
         }
@@ -57,6 +61,7 @@ namespace Eternia
             battleMenu.modelManager.setHeros(heroes);
             battleMenu.TimeBar = battle.TimeBar;
             updateModels();
+            updateItemsInCombat();
         }
 
         /*
@@ -65,43 +70,50 @@ namespace Eternia
          */
         void IObserver.update()
         {
-            battleMenu.PlayerTurn = battle.heroesTurn();
-
-            if (battle.heroesTurn() && battleMenu.ActionMade)
+            if (!battleMenu.battleState.Equals("Result"))
             {
-                switch (battleMenu.PlayerAction)
-                {
-                    case "Attack":
-                        {
-                            battle.Attacking(battleMenu.Target);
-                            battleMenu.Target = 0;
-                            break;
-                        }
-                    case "Magic":
-                        {
-                            // magic stuff
-                            break;
-                        }
-                    case "Skills":
-                        {
-                            // skills stuff
-                            break;
-                        }
-                    case "Items":
-                        {
-                            //Items stufff
-                            battle.UsingItem(battleMenu.Target, battleMenu.ItemName);
-                            battleMenu.ItemName = "";
-                            break;
-                        }
-                }
-                
-                resetPlayerAction();
-            }
+                battleMenu.PlayerTurn = battle.heroesTurn();
 
-            battle.fight();
-            battleMenu.HeroCount = battle.Heroes.Count;
-            checkCasualties();
+                if (battle.heroesTurn() && battleMenu.ActionMade)
+                {
+                    switch (battleMenu.PlayerAction)
+                    {
+                        case "Attack":
+                            {
+                                battle.Attacking(battleMenu.Target);
+                                battleMenu.Target = 0;
+                                break;
+                            }
+                        case "Magic":
+                            {
+                                // magic stuff
+                                break;
+                            }
+                        case "Skills":
+                            {
+                                // skills stuff
+                                break;
+                            }
+                        case "Item":
+                            {
+                                //Items stufff
+                                battle.UsingItem(battleMenu.Target, battleMenu.ItemName);
+                                gameState.Party.removeItem(battleMenu.ItemName);
+                                updateItemsInCombat();
+                                battleMenu.ItemName = "";
+                                battleMenu.Target = 0;
+                                break;
+                            }
+                    }
+
+                    resetPlayerAction();
+                }
+
+                battle.fight();
+                battleMenu.HeroCount = battle.Heroes.Count;
+
+                checkCasualties();
+            }
         }
         /*
          * Method will reset player's previous actions in menu, so that same choise won't be executed again.
@@ -123,7 +135,7 @@ namespace Eternia
             if (!heroesAlive)
             {
                 // exit to mainMenu
-                gameState.setState("MainMenu");
+                gameState.setState("Defeated");
             }
             else
             {
@@ -135,7 +147,12 @@ namespace Eternia
             {
                 // Continue quest in overWorld
                 gameState.WorldModel.setPosition(gameState.Party.Position, gameState.Party.PartyRotation);
-                gameState.setState("OverWorld");            
+                gameState.Party.distributeXp(expReward);
+                gameState.Party.Gold = goldReward;
+                battleMenu.xp = expReward;
+                battleMenu.gold = goldReward;
+                battleMenu.battleState = "Result";
+                battleMenu.PlayerTurn = true;
             }
             else
             {
@@ -144,6 +161,12 @@ namespace Eternia
                 
             
             
+        }
+
+        private void updateItemsInCombat()
+        {
+            battleMenu.ItemNames = new List<string>(gameState.Party.getItemList().Keys);
+            battleMenu.ItemQuantity = new List<int>(gameState.Party.getItemList().Values);
         }
         /*
          * method will check if any party members has been killed and creates a new information to be displayed to player if so,
@@ -172,6 +195,8 @@ namespace Eternia
             {
                 infoText = "Enemy defeaded.";
                 battleMenu.modelManager.removeModel(deadEnemy);
+                expReward += deadEnemy.Experience;
+                goldReward += ((Enemy)deadEnemy).getGold();
                 updateModels();
             }
             battleMenu.casualtiesInfo = new Info(infoText, new Vector2(200, 250), battleMenu.CurrentTime);

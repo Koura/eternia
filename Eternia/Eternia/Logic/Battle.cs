@@ -129,14 +129,14 @@ namespace Eternia
 
                 if (next < 0.31)
                 {
-                    Enemy enemy = EnemyFactory.createBoss("Thief mastermind " + i, new Vector3((48 + i*1), 12.1f, -98), 50, 10, 20);
+                    Enemy enemy = EnemyFactory.createBoss("Thief mastermind " + i, new Vector3((48 + i*1), 12.1f, -98), 50, 10, 20, 10, 4);
                     fighters.Add(enemy);
                     enemies.Add(enemy);
                     timeBar.Add(enemy.Name, 0);
                 }
                 else
                 {
-                    Enemy enemy = EnemyFactory.createSoldier("Thief " + i, new Vector3((48 + i * 1), 12.1f, -98), 40, 0, 10);
+                    Enemy enemy = EnemyFactory.createSoldier("Thief " + i, new Vector3((48 + i * 1), 12.1f, -98), 40, 0, 10, 6,2);
                     enemy.Speed = randomizer.Next(10, 20);
                     fighters.Add(enemy);
                     enemies.Add(enemy);

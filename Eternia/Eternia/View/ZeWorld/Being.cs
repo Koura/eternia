@@ -81,12 +81,12 @@ namespace Eternia
             set { damage = value; }
         }
 
-        private float experience;
+        private int experience;
 
-        public float Experience
+        public int Experience
         {
             get { return experience; }
-            set { experience = value; }
+            set { experience += value; }
         }
         
         // ice, water, lightning, wind, physical, magic and values
@@ -132,7 +132,7 @@ namespace Eternia
             VulnerabilityCalc();
         }
 
-        public Being(String name, Vector3 position, float maxHealth, float armor, float damage)
+        public Being(String name, Vector3 position, float maxHealth, float armor, float damage, int xp)
         {
             this.name = name;
             this.position = position;
@@ -146,6 +146,7 @@ namespace Eternia
             this.damageType = "physical";
             this.speed = 30;
             this.magicResist = 0;
+            this.experience = xp;
             VulnerabilityCalc();
         }
         public void VulnerabilityCalc()

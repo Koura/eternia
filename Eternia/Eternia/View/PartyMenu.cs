@@ -196,7 +196,7 @@ namespace Eternia
             foreach(Hero hero in this.gameState.Party.Heroes)
             {
                 spriteBatch.Draw(avatars[i], new Rectangle(game.GraphicsDevice.Viewport.Width / 5 * 2, GraphicsDevice.Viewport.Height / 5 + (i*(game.GraphicsDevice.Viewport.Height/6+10)), game.GraphicsDevice.Viewport.Width/7, game.GraphicsDevice.Viewport.Height/6), Color.White);
-                spriteBatch.DrawString(font, hero.Name + "\nHP:    " + hero.CurrentHealth + "  /  " + hero.MaxHealth + "\nMP:    " + hero.CurrentMana + "  /  " + hero.MaxMana ,
+                spriteBatch.DrawString(font, hero.Name + "\nHP:    " + hero.CurrentHealth + "  /  " + hero.MaxHealth + "\nMP:    " + hero.CurrentMana + "  /  " + hero.MaxMana + "\nEXP:    " + hero.Experience,
                     new Vector2(game.GraphicsDevice.Viewport.Width/5*2+game.GraphicsDevice.Viewport.Width/8*1.5f, game.GraphicsDevice.Viewport.Height/5), Color.White, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
                 i++;
             }
@@ -207,7 +207,7 @@ namespace Eternia
             int i = 0;
             foreach (KeyValuePair<String, int> entry in this.gameState.Party.getItemList())
             {
-                spriteBatch.DrawString(font, entry.Key + "   x   " + entry.Value, new Vector2(game.GraphicsDevice.Viewport.Width / 5 * 2, GraphicsDevice.Viewport.Height / 5 + (i * (game.GraphicsDevice.Viewport.Height / 6 + 10))), Color.White, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
+                spriteBatch.DrawString(font, entry.Key + "   x   " + entry.Value, new Vector2(game.GraphicsDevice.Viewport.Width / 5 * 2, GraphicsDevice.Viewport.Height / 5 + (i * (game.GraphicsDevice.Viewport.Height / 15))), Color.White, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
                 i++;
             }
         }

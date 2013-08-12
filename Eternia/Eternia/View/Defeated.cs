@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -8,34 +9,18 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Eternia.View;
-
 
 namespace Eternia
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
-    public class MainMenu : Screen
+    public class Defeated : Screen
     {
 
-        Rectangle arrowposi;
-        Texture2D menuarrow;
-        Texture2D background;
-        Texture2D title;
+        private Texture2D menuarrow;
+        private List<MenuOption> menuoptions = new List<MenuOption>();
         SpriteFont font;
-
-        internal List<MenuOption> Menuoptions
-        {
-            get { return menuoptions; }
-            set { menuoptions = value; }
-        }
-
+        Rectangle arrowposi;
         int arrowValue = 1;
-      
-        private List<MenuOption> menuoptions = new List<MenuOption>();      
-
-        public MainMenu(Game game)
+        public Defeated(Game game)
             : base(game)
         {
         }
@@ -51,14 +36,9 @@ namespace Eternia
         {
             base.LoadContent();
             menuarrow = game.Content.Load<Texture2D>("images/menuarrow");
-            background = game.Content.Load<Texture2D>("images/background");
             font = game.Content.Load<SpriteFont>("fonts/menufont");
-
-            title = game.Content.Load<Texture2D>("images/menutxt");
-            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2-GraphicsDevice.Viewport.Height/15), "New Game", font, Color.White));
-            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2), "Load Game", font, Color.White));
-            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + GraphicsDevice.Viewport.Height / 15), "Options", font, Color.White));
-            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2 + GraphicsDevice.Viewport.Height / 15*2), "Exit Game", font, Color.White));
+            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2-GraphicsDevice.Viewport.Height/15), "Load Game", font, Color.White));
+            menuoptions.Add(new MenuOption(new Vector2(game.GraphicsDevice.Viewport.Width/2, game.GraphicsDevice.Viewport.Height/2), "Exit", font, Color.White));
             arrowposi = new Rectangle(game.GraphicsDevice.Viewport.Width / 2 - 122, game.GraphicsDevice.Viewport.Height / 2 - 21 - GraphicsDevice.Viewport.Height / 15, menuarrow.Width / 16, menuarrow.Height / 16);
 
         }
@@ -79,7 +59,7 @@ namespace Eternia
             }
             if (message.Equals("down"))
             {
-                if (arrowValue < 4)
+                if (arrowValue < 2)
                 {
                     arrowposi.Y += game.GraphicsDevice.Viewport.Height / 15;
                     arrowValue++;
@@ -94,37 +74,23 @@ namespace Eternia
         //Determines how to react to pressing A button in a given situation
         private void interpretAccept()
         {
-            //starting new game
             if (arrowValue == 1)
             {
-                StateChanged("newGame");
             }
-            //loading a previous game
             if (arrowValue == 2)
             {
-                //insert loading here
+                StateChanged("MainMenu");
             }
-            //pressed A at options
-            if (arrowValue == 3)
-            {
-                StateChanged("Options");
-            }
-            //A was pressed at Exit game
-            if (arrowValue == 4)
-            {
-                game.Exit();
-            }
+            
         }      
 
         //Draws the menu. Nothing peculiar in here.
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-
-            spriteBatch.Draw(background, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.SteelBlue);
-            spriteBatch.Draw(title, new Rectangle(GraphicsDevice.Viewport.Width/5,0, title.Width, title.Height), Color.White);
             spriteBatch.Draw(menuarrow, arrowposi, Color.White);
-            
+            spriteBatch.DrawString(font, "You were defeated.", new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 7), Color.Magenta,
+                0.0f, font.MeasureString("You were defeated.") / 2, 2.5f, SpriteEffects.None, 0);
             foreach (MenuOption option in menuoptions)
             {
                 spriteBatch.DrawString(option.Font, option.Text, option.Position, option.Colour,

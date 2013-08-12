@@ -19,6 +19,7 @@ namespace Eternia
         Texture2D timeBarTexture;
         Texture2D hpBarTexture;
         Texture2D optionBg;
+        Texture2D resultBg;
         Effect effect;
         float[] optionsYpos;
         float[] optionsXpos;
@@ -32,7 +33,22 @@ namespace Eternia
         Camera camera;
         List<BasicModel> battleModels;
         Map map;
+        List<String> itemNames;
+        List<int> itemQuantity;
+        public int xp;
+        public int gold;
 
+        public List<String> ItemNames
+        {
+            get { return itemNames; }
+            set { itemNames = value; }
+        }
+
+        public List<int> ItemQuantity
+        {
+            get { return itemQuantity; }
+            set { itemQuantity = value; }
+        }
         public List<BasicModel> BattleModels
         {
             get { return battleModels; }
@@ -55,8 +71,8 @@ namespace Eternia
         {
             get { return this.currentTime; }
         }
-        String battleState;
-        int target = 0;
+        public String battleState;
+        private int target = 0;
         private int heroCount;
         public int HeroCount
         {
@@ -161,6 +177,7 @@ namespace Eternia
             timeBarTexture = game.Content.Load<Texture2D>("images/timeBar");
             hpBarTexture = game.Content.Load<Texture2D>("images/hpbar");
             optionBg = game.Content.Load<Texture2D>("images/optionBG");
+            resultBg = game.Content.Load<Texture2D>("images/partyBG");
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[0], optionsYpos[0]), "Attack", font, Color.Black));
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[1], optionsYpos[1]), "Magic", font, Color.Black));
             menuoptions.Add(new MenuOption(new Vector2(optionsXpos[2], optionsYpos[2]), "Skills", font, Color.Black));
@@ -187,9 +204,14 @@ namespace Eternia
             spriteBatch.Begin();
             drawFighterStats();
             drawTimeBars(gameTime);
-            switch (playerAction)
+            if (!battleState.Equals("Result"))
             {
-                case "Attack":
+                drawInfo();
+                drawInfo(gameTime);
+            }
+            switch (battleState)
+            {
+                case "Target":
                     {
                         drawTargetSelection();
                         break;
@@ -199,15 +221,17 @@ namespace Eternia
                         drawItemSelection();
                         break;
                     }
+                case "Result":
+                    {
+                        drawResult();
+                        break;
+                    }
                 default:
                     {
                         drawMenuOptions();
                         break;
                     }
-            }
-           
-            drawInfo();
-            drawInfo(gameTime);
+            }                   
             spriteBatch.End();
             base.Draw(gameTime);
 
@@ -231,6 +255,23 @@ namespace Eternia
 
         private void drawItemSelection()
         {
+            spriteBatch.Draw(optionBg, new Rectangle(game.GraphicsDevice.Viewport.Width / 10, (int)(game.GraphicsDevice.Viewport.Height / 10 * 6), game.GraphicsDevice.Viewport.Width / 3 - game.GraphicsDevice.Viewport.Width / 7, game.GraphicsDevice.Viewport.Height / 22*5), Color.White);
+            String text;
+            for (int i = 0; i < itemNames.Count(); i++)
+            {
+                text = itemNames[i] + " x " + itemQuantity[i];
+                if (selectionValue == i)
+                {
+                    spriteBatch.DrawString(font, text, new Vector2(optionsXpos[0] - game.GraphicsDevice.Viewport.Width / 30, game.GraphicsDevice.Viewport.Height / 10 * 6.5f + i * game.GraphicsDevice.Viewport.Height / 21), Color.Tomato,
+                0.0f, font.MeasureString(text) / 2, 1.0f, SpriteEffects.None, 0);
+                }
+                else
+                {
+                    spriteBatch.DrawString(font, text, new Vector2(optionsXpos[0] - game.GraphicsDevice.Viewport.Width / 30, game.GraphicsDevice.Viewport.Height / 10 * 6.5f + i * game.GraphicsDevice.Viewport.Height / 21), Color.White,
+                    0.0f, font.MeasureString(text) / 2, 1.0f, SpriteEffects.None, 0);
+                }
+            }
+
         }
         /*
          * Method will draw a message if there is some information to be displayed on screen i.e if any party member has been killed or enemy is defeaded.
@@ -352,8 +393,16 @@ namespace Eternia
 
         }
 
-        
-
+        private void drawResult()
+        {
+            String text = "Battle result:";
+            spriteBatch.Draw(resultBg, new Rectangle(0, 0, game.GraphicsDevice.Viewport.Width, game.GraphicsDevice.Viewport.Height), Color.White);
+            spriteBatch.DrawString(font, text, new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 8), Color.White,
+                0.0f, font.MeasureString(text) / 2, 2.0f, SpriteEffects.None, 0);
+            text = "Experience gained: " + xp + "\nGold gained: " + gold;
+            spriteBatch.DrawString(font, text, new Vector2(game.GraphicsDevice.Viewport.Width / 3, game.GraphicsDevice.Viewport.Height /2), Color.White,
+                0.0f, font.MeasureString(text) / 2, 1.0f, SpriteEffects.None, 0);
+        }
         public override void Update(GameTime gameTime)
         {
             notify();
@@ -375,9 +424,9 @@ namespace Eternia
                         ProcessInputInBattleMenu(message);
                         break;
                     }
-                case "Attack":
+                case "Target":
                     {
-                        ProcessInputInAttack(message);
+                        ProcessInputInTarget(message);
                         break;
                     }
                 case "Item":
@@ -385,7 +434,7 @@ namespace Eternia
                         ProcessInputInItems(message);
                         break;
                     }
-            }
+                }
             if (message.Equals("accept"))
             {
                 interpretAccept();
@@ -395,7 +444,7 @@ namespace Eternia
          * Process input on attack state. Target is selected by moving "target" font on the side of timebars by icreasing or decreasing the
          * value of target.
          */
-        private void ProcessInputInAttack(string message)
+        private void ProcessInputInTarget(string message)
         {
             if (message.Equals("down"))
             {
@@ -415,6 +464,7 @@ namespace Eternia
             {
                 battleState = "BattleMenu";
                 playerAction = "";
+                selectionValue = 0;
             }
         }
 
@@ -422,10 +472,27 @@ namespace Eternia
         {
             switch (message)
             {
+                case "down":
+                    {
+                        if (selectionValue < itemNames.Count - 1)
+                        {
+                            selectionValue++;
+                        }
+                        break;
+                    }
+                case "up":
+                    {
+                        if (selectionValue > 0)
+                        {
+                            selectionValue--;
+                        }
+                        break;
+                    }
                 case "decline":
                     {
                         battleState = "BattleMenu";
                         playerAction = "";
+                        selectionValue = 0;
                         break;
                     }
             }
@@ -457,39 +524,50 @@ namespace Eternia
          */
         private void interpretAccept()
         {
-            switch (battleState)
-            {
-                case "BattleMenu":
-                    {
-                        /*
-                         * iterpret what player is choosing in main battle menu
-                         * | attack | magic | skills | items
-                         */
-                        interpretAccecptInBattleMenu();
-                        break;
-                    }
-                case "Attack":
-                    {
-                        // interpret players action in attack. Who's player targeting.
-                        interpretAccecptInAttackOption();
-                        break;
-                    }
-                case "Item":
-                    {
-                        break;
-                    }
-            }
-
+            Console.WriteLine(battleState);
+                switch (battleState)
+                {
+                    case "BattleMenu":
+                        {
+                            /*
+                             * iterpret what player is choosing in main battle menu
+                             * | attack | magic | skills | items
+                             */
+                            interpretAccecptInBattleMenu();
+                            break;
+                        }
+                    case "Target":
+                        {
+                            interpretAccecptInTargetOption();
+                            break;
+                        }
+                    case "Item":
+                        {
+                            interpretAcceptInItem();
+                            break;
+                        }
+                    case "Result":
+                        {
+                            StateChanged("OverWorld");
+                            break;
+                        }
+                }
             
         }
         /*
          * Method will interpret player action on attack state.
          */
-        private void interpretAccecptInAttackOption()
+        private void interpretAccecptInTargetOption()
         {
             info = new Info("Attacking!", new Vector2(200, 200), currentTime);
             actionMade = true;
             battleState = "BattleMenu";
+        }
+
+        private void interpretAcceptInItem()
+        {
+            itemName = itemNames[selectionValue];
+            battleState = "Target";
         }
         /*
          Method will interpret player action on battle menu state*/
@@ -498,20 +576,24 @@ namespace Eternia
             // if selectionValue is 0 player is about to attack
             if (selectionValue == 0)
             {
+                selectionValue = 0;
                 playerAttacking();
             }
             // if selectionValue is 1 players is about use magic
             if (selectionValue == 1)
             {
+                selectionValue = 0;
                 actionMade = true;
             }
             // if selectionValue is 2 player is about to check items
             if (selectionValue == 2)
             {
+                selectionValue = 0;
                 actionMade = true;
             }
             if (selectionValue == 3)
             {
+                selectionValue = 0;
                 usingItem();
             }
         }
@@ -522,7 +604,7 @@ namespace Eternia
         private void playerAttacking()
         {
             playerAction = "Attack";
-            battleState = "Attack";
+            battleState = "Target";
             info = new Info("Select target", new Vector2(200, 200), currentTime);
         }
 

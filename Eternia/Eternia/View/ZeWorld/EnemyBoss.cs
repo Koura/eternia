@@ -14,10 +14,16 @@ namespace Eternia
 {
     class EnemyBoss : Enemy
     {
-        public EnemyBoss(String name,Vector3 position, float maxHealth, float armor, float damage)
-        : base(name,position, maxHealth, armor, damage)
+        private int gold;
+        public EnemyBoss(String name,Vector3 position, float maxHealth, float armor, float damage, int xp, int gold)
+        : base(name,position, maxHealth, armor, damage, xp)
         {
+            this.gold = gold;
+        }
 
+        public override int getGold()
+        {
+            return this.gold;
         }
     }
 }

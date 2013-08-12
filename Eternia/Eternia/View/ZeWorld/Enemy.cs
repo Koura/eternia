@@ -14,10 +14,12 @@ namespace Eternia
 {
     abstract class Enemy : Being
     {
-        public Enemy(String name, Vector3 position, float maxHealth, float armor, float damage)
-            : base(name, position, maxHealth, armor, damage)
+        public Enemy(String name, Vector3 position, float maxHealth, float armor, float damage, int xp)
+            : base(name, position, maxHealth, armor, damage, xp)
         {
 
         }
+
+        public abstract int getGold();
     }
 }
